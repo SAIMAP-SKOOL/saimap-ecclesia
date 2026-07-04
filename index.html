@@ -895,40 +895,43 @@
         <section id="panel-altar" class="section-panel active">
             <div class="altar-grid">
                 
-                <div class="card" style="max-height: 700px; overflow-y: auto;">
-                    <div class="card-header-liturgy" style="position: sticky; top: 0; background: var(--bg-card); z-index: 10; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem;">
+                <div class="card" style="max-height: 700px; display: flex; flex-direction: column;">
+                    <div class="card-header-liturgy" style="padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem;">
                         <span class="rubric-tag">Liturgia de la Palabra</span>
                         <div class="calendar-controls">
                             <input type="date" id="liturgical-date" class="calendar-date-picker" onchange="loadEvangelioForDate(this.value)">
                         </div>
                     </div>
-                    <div class="liturgical-season-info" id="liturgical-season-info-el" style="margin-bottom: 1.5rem;">Cargando temporada...</div>
                     
-                    <!-- PRIMERA LECTURA -->
-                    <div id="lectura-seccion" style="margin-bottom: 1.5rem;">
-                        <span class="rubric-tag" style="font-size: 0.65rem; color: var(--rubric-red); display: block; margin-bottom: 0.2rem; letter-spacing: 0.05em;">Primera Lectura</span>
-                        <h3 class="font-solemn" id="lectura-cita-el" style="font-size: 1.15rem; color: var(--text-dark); margin: 0 0 0.5rem 0; font-family: 'Playfair Display', serif;">Cargando...</h3>
-                        <div class="sacred-text" id="lectura-texto-el" style="font-size: 1.1rem; line-height: 1.6; text-align: justify; font-family: 'EB Garamond', serif;">Cargando lectura...</div>
-                    </div>
+                    <div class="liturgical-scroll-content" style="flex: 1; overflow-y: auto; padding-right: 0.5rem;">
+                        <div class="liturgical-season-info" id="liturgical-season-info-el" style="margin-bottom: 1.5rem;">Cargando temporada...</div>
+                        
+                        <!-- PRIMERA LECTURA -->
+                        <div id="lectura-seccion" style="margin-bottom: 1.5rem;">
+                            <span class="rubric-tag" style="font-size: 0.65rem; color: var(--rubric-red); display: block; margin-bottom: 0.2rem; letter-spacing: 0.05em;">Primera Lectura</span>
+                            <h3 class="font-solemn" id="lectura-cita-el" style="font-size: 1.15rem; color: var(--text-dark); margin: 0 0 0.5rem 0; font-family: 'Playfair Display', serif;">Cargando...</h3>
+                            <div class="sacred-text" id="lectura-texto-el" style="font-size: 1.1rem; line-height: 1.6; text-align: justify; font-family: 'EB Garamond', serif;">Cargando lectura...</div>
+                        </div>
 
-                    <!-- DIVISOR 1 -->
-                    <div id="divisor-lectura-salmo" style="border-top: 1px dashed var(--border-color); margin: 1.5rem 0; text-align: center; color: var(--accent-gold); font-size: 0.9rem;">⚜</div>
+                        <!-- DIVISOR 1 -->
+                        <div id="divisor-lectura-salmo" style="border-top: 1px dashed var(--border-color); margin: 1.5rem 0; text-align: center; color: var(--accent-gold); font-size: 0.9rem;">⚜</div>
 
-                    <!-- SALMO RESPONSORIAL -->
-                    <div id="salmo-seccion" style="margin-bottom: 1.5rem;">
-                        <span class="rubric-tag" style="font-size: 0.65rem; color: var(--rubric-red); display: block; margin-bottom: 0.2rem; letter-spacing: 0.05em;">Salmo Responsorial</span>
-                        <h3 class="font-solemn" id="salmo-cita-el" style="font-size: 1.15rem; color: var(--text-dark); margin: 0 0 0.5rem 0; font-family: 'Playfair Display', serif;">Cargando...</h3>
-                        <div class="sacred-text" id="salmo-texto-el" style="font-size: 1.1rem; line-height: 1.6; text-align: justify; font-family: 'EB Garamond', serif; white-space: pre-line;">Cargando salmo...</div>
-                    </div>
+                        <!-- SALMO RESPONSORIAL -->
+                        <div id="salmo-seccion" style="margin-bottom: 1.5rem;">
+                            <span class="rubric-tag" style="font-size: 0.65rem; color: var(--rubric-red); display: block; margin-bottom: 0.2rem; letter-spacing: 0.05em;">Salmo Responsorial</span>
+                            <h3 class="font-solemn" id="salmo-cita-el" style="font-size: 1.15rem; color: var(--text-dark); margin: 0 0 0.5rem 0; font-family: 'Playfair Display', serif;">Cargando...</h3>
+                            <div class="sacred-text" id="salmo-texto-el" style="font-size: 1.1rem; line-height: 1.6; text-align: justify; font-family: 'EB Garamond', serif; white-space: pre-line;">Cargando salmo...</div>
+                        </div>
 
-                    <!-- DIVISOR 2 -->
-                    <div id="divisor-salmo-evangelio" style="border-top: 1px dashed var(--border-color); margin: 1.5rem 0; text-align: center; color: var(--accent-gold); font-size: 0.9rem;">⚜</div>
+                        <!-- DIVISOR 2 -->
+                        <div id="divisor-salmo-evangelio" style="border-top: 1px dashed var(--border-color); margin: 1.5rem 0; text-align: center; color: var(--accent-gold); font-size: 0.9rem;">⚜</div>
 
-                    <!-- EVANGELIO -->
-                    <div id="evangelio-seccion">
-                        <span class="rubric-tag" style="font-size: 0.65rem; color: var(--rubric-red); display: block; margin-bottom: 0.2rem; letter-spacing: 0.05em;">Santo Evangelio</span>
-                        <h3 class="font-solemn" id="evangelio-cita-el" style="font-size: 1.15rem; color: var(--text-dark); margin: 0 0 0.5rem 0; font-family: 'Playfair Display', serif;">Cargando...</h3>
-                        <div class="sacred-text" id="evangelio-texto-el" style="font-size: 1.1rem; line-height: 1.6; text-align: justify; font-family: 'EB Garamond', serif;">Cargando evangelio...</div>
+                        <!-- EVANGELIO -->
+                        <div id="evangelio-seccion">
+                            <span class="rubric-tag" style="font-size: 0.65rem; color: var(--rubric-red); display: block; margin-bottom: 0.2rem; letter-spacing: 0.05em;">Santo Evangelio</span>
+                            <h3 class="font-solemn" id="evangelio-cita-el" style="font-size: 1.15rem; color: var(--text-dark); margin: 0 0 0.5rem 0; font-family: 'Playfair Display', serif;">Cargando...</h3>
+                            <div class="sacred-text" id="evangelio-texto-el" style="font-size: 1.1rem; line-height: 1.6; text-align: justify; font-family: 'EB Garamond', serif;">Cargando evangelio...</div>
+                        </div>
                     </div>
                 </div>
 
