@@ -173,12 +173,55 @@
             display: grid;
             grid-template-columns: 1fr;
             gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
-        @media (min-width: 800px) {
-            .altar-grid {
-                grid-template-columns: 1.6fr 1fr;
-            }
+        .altar-subtabs {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.8rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.3rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .altar-subtab-btn {
+            background: none;
+            border: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            padding: 0.5rem 1.2rem;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .altar-subtab-btn:hover {
+            color: var(--rubric-red);
+        }
+
+        .altar-subtab-btn.active {
+            color: var(--rubric-red);
+        }
+
+        .altar-subtab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.4rem;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: var(--rubric-red);
+            border-radius: 2px;
+            animation: lineExpand 0.25s ease forwards;
         }
 
         /* Estilos generales de tarjetas */
@@ -893,11 +936,18 @@
         
         <!-- 1. SECCIÓN: EL ALTAR DIARIO -->
         <section id="panel-altar" class="section-panel active">
+            <!-- Sub-navegación para unificar pantallas y optimizar en móvil -->
+            <div class="altar-subtabs">
+                <button class="altar-subtab-btn active" onclick="switchAltarSubTab('palabra')">Liturgia del día</button>
+                <button class="altar-subtab-btn" onclick="switchAltarSubTab('horas')">Liturgia de las horas</button>
+            </div>
+
             <div class="altar-grid">
                 
-                <div class="card" style="max-height: 700px; display: flex; flex-direction: column;">
+                <!-- Tarjeta 1: Liturgia de la Palabra / Liturgia del día -->
+                <div id="altar-card-palabra" class="card" style="max-height: 700px; display: flex; flex-direction: column;">
                     <div class="card-header-liturgy" style="padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem;">
-                        <span class="rubric-tag">Liturgia de la Palabra</span>
+                        <span class="rubric-tag">Liturgia del Día (Lecturas)</span>
                         <div class="calendar-controls">
                             <input type="date" id="liturgical-date" class="calendar-date-picker" onchange="loadEvangelioForDate(this.value)">
                         </div>
@@ -935,30 +985,36 @@
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-header-liturgy">
+                <!-- Tarjeta 2: Liturgia de las Horas -->
+                <div id="altar-card-horas" class="card" style="display: none; max-height: 700px; flex-direction: column;">
+                    <div class="card-header-liturgy" style="padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem;">
                         <span class="rubric-tag">Liturgia de las Horas</span>
                     </div>
                     
-                    <div class="liturgy-tabs">
+                    <div class="liturgy-tabs" style="margin-bottom: 1rem;">
                         <button class="liturgy-tab-btn active" onclick="switchLiturgy('laudes')">Laudes</button>
                         <button class="liturgy-tab-btn" onclick="switchLiturgy('visperas')">Vísperas</button>
                         <button class="liturgy-tab-btn" onclick="switchLiturgy('completas')">Completas</button>
                     </div>
 
-                    <div id="liturgy-content">
-                        <!-- Carga dinámica por JS -->
-                        <h3 class="font-solemn" style="font-size: 1.1rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Himno de la Mañana</h3>
-                        <p style="font-style: italic; line-height: 1.6; margin-bottom: 1.2rem; white-space: pre-line;">
-                            Alegre la mañana que nos habla de ti,
-                            alegre la mañana.
-                            En el nombre del Padre, del Hijo y del Espíritu,
-                            salimos a la luz de la mañana.
-                        </p>
-                        <h3 class="font-solemn" style="font-size: 1.1rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Antífona</h3>
-                        <p style="font-size: 1.05rem; line-height: 1.5;">Señor, abre mis labios, y mi boca proclamará tu alabanza. ¡Aleluya!</p>
+                    <div class="liturgical-scroll-content" style="flex: 1; overflow-y: auto; padding-right: 0.5rem;">
+                        <div id="liturgy-content">
+                            <!-- Carga dinámica por JS -->
+                            <h3 class="font-solemn" style="font-size: 1.1rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Himno de la Mañana</h3>
+                            <p style="font-style: italic; line-height: 1.6; margin-bottom: 1.2rem; white-space: pre-line;">
+                                Alegre la mañana que nos habla de ti,
+                                alegre la mañana.
+                                En el nombre del Padre, del Hijo y del Espíritu,
+                                salimos a la luz de la mañana.
+                            </p>
+                            <h3 class="font-solemn" style="font-size: 1.1rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Antífona</h3>
+                            <p style="font-size: 1.05rem; line-height: 1.5;">Señor, abre mis labios, y mi boca proclamará tu alabanza. ¡Aleluya!</p>
+                        </div>
                     </div>
                 </div>
+
+            </div>
+        </section>
 
             </div>
         </section>
@@ -2021,6 +2077,25 @@
             // Buscar el botón correspondiente
             const btn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.innerText.toLowerCase().includes(tabId.substring(0,3)));
             if (btn) btn.classList.add('active');
+        }
+
+        // --- SISTEMA DE SUB-PESTAÑAS DEL ALTAR ---
+        function switchAltarSubTab(subTabId) {
+            document.querySelectorAll('.altar-subtab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            const targetBtn = Array.from(document.querySelectorAll('.altar-subtab-btn')).find(btn => btn.getAttribute('onclick').includes(subTabId));
+            if (targetBtn) targetBtn.classList.add('active');
+            
+            const palabraCard = document.getElementById('altar-card-palabra');
+            const horasCard = document.getElementById('altar-card-horas');
+            
+            if (subTabId === 'palabra') {
+                palabraCard.style.display = 'flex';
+                horasCard.style.display = 'none';
+            } else {
+                palabraCard.style.display = 'none';
+                horasCard.style.display = 'flex';
+            }
         }
 
         // --- INTERACTIVIDAD DEL ALTAR ---
