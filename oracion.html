@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oratorio Solemne - SAIMAP Ecclesia</title>
+    <meta name="description" content="Visor devocional solemne para el rezo y la meditación cristiana de SAIMAP Ecclesia.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Modo Sepia Pergamino por defecto */
+            --bg-page: #f5f0e6;
+            --bg-paper: #ebdcb9;
+            --border-color: #d1bf9a;
+            --text-dark: #2a2015;
+            --text-muted: #5e4c39;
+            --rubric-red: #8c2525;
+            --accent-gold: #c29b38;
+            --shadow-soft: 0 4px 20px rgba(42, 32, 21, 0.08);
+            --font-size-multiplier: 1;
+        }
+
+        /* Modo Oscuro Nocturno (Cálido) */
+        body.dark-mode {
+            --bg-page: #1a1510;
+            --bg-paper: #282018;
+            --border-color: #423528;
+            --text-dark: #e8dfd3;
+            --text-muted: #bdae9c;
+            --rubric-red: #d95252;
+            --accent-gold: #e6bf65;
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'EB Garamond', serif;
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.015'/%3E%3C/svg%3E");
+        }
+
+        /* BARRA DE CONTROLES SUPERIOR */
+        .control-bar {
+            max-width: 700px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 0.75rem 1.2rem;
+            background-color: var(--bg-paper);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(5px);
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+
+        .back-link {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--rubric-red);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .control-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:hover {
+            border-color: var(--rubric-red);
+            color: var(--rubric-red);
+            background: rgba(140, 37, 37, 0.05);
+        }
+
+        /* LIENZO DE LECTURA SOLEMNE */
+        .prayer-códice {
+            max-width: 700px;
+            width: 100%;
+            background-color: var(--bg-paper);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+
+        /* Adorno interior estilo misal */
+        .prayer-códice::before {
+            content: '';
+            position: absolute;
+            top: 6px;
+            bottom: 6px;
+            left: 6px;
+            right: 6px;
+            border: 1px solid rgba(42, 32, 21, 0.06);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        body.dark-mode .prayer-códice::before {
+            border-color: rgba(232, 223, 211, 0.04);
+        }
+
+        .liturgical-ornament {
+            margin-bottom: 2rem;
+            color: var(--accent-gold);
+            display: flex;
+            justify-content: center;
+        }
+
+        .rubric-category {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--rubric-red);
+            letter-spacing: 0.15em;
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+
+        .prayer-title {
+            font-family: 'Cinzel', serif;
+            font-size: calc(2.4rem * var(--font-size-multiplier));
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+            line-height: 1.2;
+            max-width: 90%;
+        }
+
+        .prayer-text-container {
+            width: 100%;
+            font-size: calc(1.35rem * var(--font-size-multiplier));
+            line-height: 1.8;
+            text-align: justify;
+            color: var(--text-dark);
+            white-space: pre-line;
+            margin-bottom: 2.5rem;
+            padding: 0 1rem;
+        }
+
+        /* Estilización de la primera letra del texto (Letra Capital) */
+        .prayer-text-container.has-dropcap::first-letter {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            float: left;
+            margin-right: 0.6rem;
+            line-height: 0.85;
+            color: var(--rubric-red);
+            font-weight: 700;
+            margin-top: 0.15rem;
+        }
+
+        .prayer-author {
+            font-family: 'Cinzel', serif;
+            font-size: calc(1.05rem * var(--font-size-multiplier));
+            font-weight: 600;
+            font-style: italic;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            width: 80%;
+            text-align: center;
+            padding-top: 1.5rem;
+            margin-top: auto;
+        }
+
+        /* MENSAJE DE CARGA O ERROR */
+        .loading-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .loading-spinner {
+            font-size: 2rem;
+            color: var(--rubric-red);
+            margin-bottom: 1rem;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        @media (max-width: 600px) {
+            .prayer-códice {
+                padding: 2rem 1rem;
+            }
+            .prayer-text-container {
+                padding: 0 0.2rem;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DE CONTROLES -->
+    <div class="control-bar">
+        <a href="index.html" class="back-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            <span>Volver</span>
+        </a>
+        
+        <div class="btn-group">
+            <!-- Aumentar/Disminuir Fuente -->
+            <button class="control-btn" onclick="adjustFontSize(-0.1)" title="Disminuir letra" aria-label="Disminuir tamaño de letra">A-</button>
+            <button class="control-btn" onclick="adjustFontSize(0.1)" title="Aumentar letra" aria-label="Aumentar tamaño de letra">A+</button>
+            
+            <!-- Modo Lectura Nocturna -->
+            <button class="control-btn" onclick="toggleDarkMode()" title="Modo Nocturno" aria-label="Alternar modo lectura nocturna">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            </button>
+            
+            <!-- Imprimir -->
+            <button class="control-btn" onclick="window.print()" title="Imprimir oración" aria-label="Imprimir oración">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- PÁGINA DEL CÓDICE -->
+    <div class="prayer-códice" id="prayer-codice-el">
+        <div class="loading-state" id="loading-el">
+            <div class="loading-spinner">⚜</div>
+            <p style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--text-muted);">Cargando texto sagrado...</p>
+        </div>
+        
+        <!-- El contenido se inyecta dinámicamente -->
+    </div>
+
+    <script>
+        let fontSizeMultiplier = 1.0;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Comprobar modo oscuro guardado
+            if (localStorage.getItem('dark-mode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+            }
+            
+            // Cargar tamaño de fuente previo
+            const savedSize = localStorage.getItem('font-size-multiplier');
+            if (savedSize) {
+                fontSizeMultiplier = parseFloat(savedSize);
+                document.documentElement.style.setProperty('--font-size-multiplier', fontSizeMultiplier);
+            }
+
+            loadOracion();
+        });
+
+        // Obtener el ID de la oración e importarla desde el JSON
+        async function loadOracion() {
+            // Analizar parámetros URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const prayerId = parseInt(urlParams.get('id'));
+
+            const codiceEl = document.getElementById('prayer-codice-el');
+
+            if (!prayerId) {
+                showError("Oración no especificada", "Por favor, regrese al oratorio y seleccione una oración válida.");
+                return;
+            }
+
+            try {
+                const response = await fetch('data/oraciones.json');
+                if (!response.ok) {
+                    throw new Error("No se pudo cargar la base de datos.");
+                }
+                const data = await response.json();
+                
+                const oracion = data.find(o => o.id === prayerId);
+                
+                if (!oracion) {
+                    showError("Oración no encontrada", "El texto sagrado solicitado no existe en nuestros archivos.");
+                    return;
+                }
+
+                // Inyectar contenido en el Códice
+                codiceEl.innerHTML = `
+                    <!-- Adorno superior SVG -->
+                    <div class="liturgical-ornament">
+                        <svg width="48" height="48" viewBox="0 0 100 100" fill="currentColor">
+                            <path d="M50 10 C52 35, 75 48, 90 50 C75 52, 52 65, 50 90 C48 65, 25 52, 10 50 C25 48, 48 35, 50 10 Z" />
+                            <circle cx="50" cy="50" r="6" fill="var(--rubric-red)"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="rubric-category">${oracion.categoryLabel}</div>
+                    <h1 class="prayer-title">${oracion.title}</h1>
+                    
+                    <div class="prayer-text-container has-dropcap" id="prayer-text-el"></div>
+                    
+                    <div class="prayer-author">Autor: ${oracion.author}</div>
+                `;
+
+                // Inyectar el texto para activar el dropcap limpiamente
+                document.getElementById('prayer-text-el').innerText = oracion.text.trim();
+                
+                // Actualizar el título de la página web
+                document.title = `${oracion.title} - SAIMAP Ecclesia`;
+
+            } catch (e) {
+                console.error(e);
+                showError("Error del Portal", "Hubo un problema al conectar con la base de datos del oratorio. Inténtelo más tarde.");
+            }
+        }
+
+        function showError(title, message) {
+            const codiceEl = document.getElementById('prayer-codice-el');
+            codiceEl.innerHTML = `
+                <div class="liturgical-ornament" style="color: var(--rubric-red);">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>
+                    </svg>
+                </div>
+                <div class="rubric-category" style="color: var(--rubric-red);">Atención</div>
+                <h1 class="prayer-title" style="font-size: 1.8rem; margin-bottom: 1rem;">${title}</h1>
+                <p style="font-size: 1.25rem; text-align: center; color: var(--text-muted); max-width: 80%; line-height: 1.6; margin-bottom: 2rem;">${message}</p>
+                <a href="index.html" class="back-link" style="border: 1px solid var(--border-color); padding: 0.5rem 1rem; border-radius: 6px; background-color: var(--bg-page);">
+                    <span>Volver al Portal</span>
+                </a>
+            `;
+        }
+
+        // CONTROLES DE INTERFAZ
+        function adjustFontSize(delta) {
+            fontSizeMultiplier = Math.max(0.8, Math.min(1.8, fontSizeMultiplier + delta));
+            document.documentElement.style.setProperty('--font-size-multiplier', fontSizeMultiplier);
+            localStorage.setItem('font-size-multiplier', fontSizeMultiplier);
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('dark-mode', 'enabled');
+            } else {
+                localStorage.setItem('dark-mode', 'disabled');
+            }
+        }
+    </script>
+</body>
+</html>

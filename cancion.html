@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atril Litúrgico - SAIMAP Ecclesia</title>
+    <meta name="description" content="Visor de cantos interactivo con acordes transpositables y tutoriales de YouTube de SAIMAP Ecclesia.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Modo Sepia Pergamino */
+            --bg-page: #f5f0e6;
+            --bg-paper: #ebdcb9;
+            --border-color: #d1bf9a;
+            --text-dark: #2a2015;
+            --text-muted: #5e4c39;
+            --rubric-red: #8c2525;
+            --rubric-red-hover: #b23a3a;
+            --accent-gold: #c29b38;
+            --shadow-soft: 0 4px 20px rgba(42, 32, 21, 0.08);
+            --shadow-hover: 0 8px 30px rgba(42, 32, 21, 0.15);
+        }
+
+        body.dark-mode {
+            --bg-page: #15120e;
+            --bg-paper: #231c15;
+            --border-color: #3d2f23;
+            --text-dark: #e6dfd5;
+            --text-muted: #a89a8a;
+            --rubric-red: #d95252;
+            --rubric-red-hover: #ff6b6b;
+            --accent-gold: #e6bf65;
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'EB Garamond', serif;
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.015'/%3E%3C/svg%3E");
+        }
+
+        .container {
+            max-width: 1050px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 850px) {
+            .container {
+                grid-template-columns: 1fr 320px;
+            }
+            .full-width-top {
+                grid-column: span 2;
+            }
+        }
+
+        /* BARRA DE CONTROLES SUPERIOR */
+        .control-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.2rem;
+            background-color: var(--bg-paper);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(5px);
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+
+        .back-link {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--rubric-red);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .control-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:hover {
+            border-color: var(--rubric-red);
+            color: var(--rubric-red);
+            background: rgba(140, 37, 37, 0.05);
+        }
+
+        /* 1. ATRIL: LADO IZQUIERDO (LETRA Y ACORDES) */
+        .atril-paper {
+            background-color: var(--bg-paper);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+
+        .atril-paper::before {
+            content: '';
+            position: absolute;
+            top: 6px;
+            bottom: 6px;
+            left: 6px;
+            right: 6px;
+            border: 1px solid rgba(42, 32, 21, 0.05);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        body.dark-mode .atril-paper::before {
+            border-color: rgba(232, 223, 211, 0.03);
+        }
+
+        .song-title-header {
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .song-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .song-meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--rubric-red);
+            letter-spacing: 0.05em;
+            margin-top: 0.25rem;
+        }
+
+        .song-lyrics {
+            font-size: 1.25rem;
+            line-height: 2.8; /* Aumentado para dar espacio a los acordes flotantes */
+            white-space: pre-wrap;
+            color: var(--text-dark);
+            padding: 0.5rem 1rem;
+        }
+
+        /* Acordes absolutos con ancho físico cero (Evita romper palabras) */
+        .chord-line {
+            position: relative;
+            display: inline-block;
+            width: 0;
+            height: 0;
+            vertical-align: baseline;
+        }
+
+        .chord {
+            position: absolute;
+            bottom: 1.15em; /* Posiciona el acorde exactamente arriba de su letra base */
+            left: 0;
+            transform: translateX(-10%); /* Ligero ajuste para centrar visualmente */
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--rubric-red);
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 1px dotted var(--rubric-red);
+            line-height: 1;
+            padding: 0 1px;
+            transition: color 0.2s ease, border-bottom-color 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .chord:hover {
+            color: var(--accent-gold);
+            border-bottom-color: var(--accent-gold);
+        }
+
+        /* 2. BARRA LATERAL (YOUTUBE Y AJUSTES) */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .panel-card {
+            background-color: var(--bg-paper);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+
+        .panel-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            color: var(--rubric-red);
+        }
+
+        /* Video de YouTube */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Controles de transporte */
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .control-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .instrument-selector {
+            display: flex;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            background: var(--bg-page);
+        }
+
+        .inst-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+        }
+
+        .inst-btn.active {
+            background-color: var(--rubric-red);
+            color: var(--bg-page);
+        }
+
+        .transpose-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .transpose-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-page);
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .transpose-btn:hover {
+            border-color: var(--rubric-red);
+            color: var(--rubric-red);
+        }
+
+        .transpose-value {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            width: 40px;
+            text-align: center;
+        }
+
+        /* Caja de acorde interactivo */
+        .chord-diagram-box {
+            background-color: var(--bg-page);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+
+        .chord-name-display {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--rubric-red);
+            margin-bottom: 0.5rem;
+        }
+
+        .guitar-svg-diagram {
+            width: 100px;
+            height: 110px;
+        }
+
+        .piano-svg-diagram {
+            width: 180px;
+            height: 80px;
+        }
+
+        /* MENSAJE DE CARGA O ERROR */
+        .loading-state {
+            text-align: center;
+            padding: 6rem 2rem;
+            grid-column: span 2;
+        }
+
+        .loading-spinner {
+            font-size: 2.5rem;
+            color: var(--rubric-red);
+            margin-bottom: 1rem;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--bg-paper);
+            border-left: 4px solid var(--rubric-red);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-hover);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 1000;
+            transform: translateY(150%);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--border-color);
+            border-left-width: 4px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+
+        .toast-icon {
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 850px) {
+            .song-lyrics {
+                font-size: 1.15rem;
+                line-height: 2.2;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="container" id="atril-container-el">
+        <div class="loading-state" id="loading-el">
+            <div class="loading-spinner">⚜</div>
+            <p style="font-family: 'Inter', sans-serif; font-size: 1rem; color: var(--text-muted);">Abriendo atril litúrgico y afinando instrumentos...</p>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast-el">
+        <span class="toast-icon" id="toast-icon">⚜</span>
+<span id="toast-message" style="font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 500;">Mensaje</span>
+    </div>
+
+    <script>
+        // CONFIGURACIÓN DE TRANSPOSICIÓN Y GRÁFICOS
+        const chordsScale = ["Do", "Do#", "Re", "Re#", "Mi", "Fa", "Fa#", "Sol", "Sol#", "La", "La#", "Si"];
+        
+        const chordDiagrams = {
+            guitar: {
+                "Do": `<svg class="guitar-svg-diagram" viewBox="0 0 100 110"><rect x="20" y="10" width="60" height="80" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="26" x2="80" y2="26" stroke="currentColor" stroke-width="1"/><line x1="20" y1="42" x2="80" y2="42" stroke="currentColor" stroke-width="1"/><line x1="20" y1="58" x2="80" y2="58" stroke="currentColor" stroke-width="1"/><line x1="20" y1="74" x2="80" y2="74" stroke="currentColor" stroke-width="1"/><line x1="32" y1="10" x2="32" y2="90" stroke="currentColor" stroke-width="1"/><line x1="44" y1="10" x2="44" y2="90" stroke="currentColor" stroke-width="1"/><line x1="56" y1="10" x2="56" y2="90" stroke="currentColor" stroke-width="1"/><line x1="68" y1="10" x2="68" y2="90" stroke="currentColor" stroke-width="1"/><circle cx="68" cy="18" r="4" fill="var(--rubric-red)"/><circle cx="44" cy="34" r="4" fill="var(--rubric-red)"/><circle cx="32" cy="50" r="4" fill="var(--rubric-red)"/><text x="50" y="102" font-family="Inter" font-size="9" fill="currentColor" text-anchor="middle">Trastes 1-3</text></svg>`,
+                "Re": `<svg class="guitar-svg-diagram" viewBox="0 0 100 110"><rect x="20" y="10" width="60" height="80" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="26" x2="80" y2="26" stroke="currentColor" stroke-width="1"/><line x1="20" y1="42" x2="80" y2="42" stroke="currentColor" stroke-width="1"/><line x1="20" y1="58" x2="80" y2="58" stroke="currentColor" stroke-width="1"/><line x1="20" y1="74" x2="80" y2="74" stroke="currentColor" stroke-width="1"/><line x1="32" y1="10" x2="32" y2="90" stroke="currentColor" stroke-width="1"/><line x1="44" y1="10" x2="44" y2="90" stroke="currentColor" stroke-width="1"/><line x1="56" y1="10" x2="56" y2="90" stroke="currentColor" stroke-width="1"/><line x1="68" y1="10" x2="68" y2="90" stroke="currentColor" stroke-width="1"/><circle cx="56" cy="34" r="4" fill="var(--rubric-red)"/><circle cx="80" cy="34" r="4" fill="var(--rubric-red)"/><circle cx="68" cy="50" r="4" fill="var(--rubric-red)"/><text x="50" y="102" font-family="Inter" font-size="9" fill="currentColor" text-anchor="middle">Trastes 1-3</text></svg>`,
+                "La": `<svg class="guitar-svg-diagram" viewBox="0 0 100 110"><rect x="20" y="10" width="60" height="80" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="26" x2="80" y2="26" stroke="currentColor" stroke-width="1"/><line x1="20" y1="42" x2="80" y2="42" stroke="currentColor" stroke-width="1"/><line x1="20" y1="58" x2="80" y2="58" stroke="currentColor" stroke-width="1"/><line x1="20" y1="74" x2="80" y2="74" stroke="currentColor" stroke-width="1"/><line x1="32" y1="10" x2="32" y2="90" stroke="currentColor" stroke-width="1"/><line x1="44" y1="10" x2="44" y2="90" stroke="currentColor" stroke-width="1"/><line x1="56" y1="10" x2="56" y2="90" stroke="currentColor" stroke-width="1"/><line x1="68" y1="10" x2="68" y2="90" stroke="currentColor" stroke-width="1"/><circle cx="44" cy="34" r="4" fill="var(--rubric-red)"/><circle cx="56" cy="34" r="4" fill="var(--rubric-red)"/><circle cx="68" cy="34" r="4" fill="var(--rubric-red)"/><text x="50" y="102" font-family="Inter" font-size="9" fill="currentColor" text-anchor="middle">Trastes 1-3</text></svg>`,
+                "Sim": `<svg class="guitar-svg-diagram" viewBox="0 0 100 110"><rect x="20" y="10" width="60" height="80" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="26" x2="80" y2="26" stroke="currentColor" stroke-width="1"/><line x1="20" y1="42" x2="80" y2="42" stroke="currentColor" stroke-width="1"/><line x1="20" y1="58" x2="80" y2="58" stroke="currentColor" stroke-width="1"/><line x1="20" y1="74" x2="80" y2="74" stroke="currentColor" stroke-width="1"/><line x1="32" y1="10" x2="32" y2="90" stroke="currentColor" stroke-width="1"/><line x1="44" y1="10" x2="44" y2="90" stroke="currentColor" stroke-width="1"/><line x1="56" y1="10" x2="56" y2="90" stroke="currentColor" stroke-width="1"/><line x1="68" y1="10" x2="68" y2="90" stroke="currentColor" stroke-width="1"/><line x1="20" y1="34" x2="80" y2="34" stroke="var(--rubric-red)" stroke-width="2.5" /><circle cx="56" cy="50" r="4" fill="var(--rubric-red)"/><circle cx="44" cy="66" r="4" fill="var(--rubric-red)"/><circle cx="68" cy="66" r="4" fill="var(--rubric-red)"/><text x="50" y="102" font-family="Inter" font-size="9" fill="currentColor" text-anchor="middle">Cejilla Traste 2</text></svg>`,
+                "Sol": `<svg class="guitar-svg-diagram" viewBox="0 0 100 110"><rect x="20" y="10" width="60" height="80" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="26" x2="80" y2="26" stroke="currentColor" stroke-width="1"/><line x1="20" y1="42" x2="80" y2="42" stroke="currentColor" stroke-width="1"/><line x1="20" y1="58" x2="80" y2="58" stroke="currentColor" stroke-width="1"/><line x1="20" y1="74" x2="80" y2="74" stroke="currentColor" stroke-width="1"/><line x1="32" y1="10" x2="32" y2="90" stroke="currentColor" stroke-width="1"/><line x1="44" y1="10" x2="44" y2="90" stroke="currentColor" stroke-width="1"/><line x1="56" y1="10" x2="56" y2="90" stroke="currentColor" stroke-width="1"/><line x1="68" y1="10" x2="68" y2="90" stroke="currentColor" stroke-width="1"/><circle cx="32" cy="34" r="4" fill="var(--rubric-red)"/><circle cx="20" cy="50" r="4" fill="var(--rubric-red)"/><circle cx="80" cy="50" r="4" fill="var(--rubric-red)"/><text x="50" y="102" font-family="Inter" font-size="9" fill="currentColor" text-anchor="middle">Trastes 1-3</text></svg>`,
+                "Mim": `<svg class="guitar-svg-diagram" viewBox="0 0 100 110"><rect x="20" y="10" width="60" height="80" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="26" x2="80" y2="26" stroke="currentColor" stroke-width="1"/><line x1="20" y1="42" x2="80" y2="42" stroke="currentColor" stroke-width="1"/><line x1="20" y1="58" x2="80" y2="58" stroke="currentColor" stroke-width="1"/><line x1="20" y1="74" x2="80" y2="74" stroke="currentColor" stroke-width="1"/><line x1="32" y1="10" x2="32" y2="90" stroke="currentColor" stroke-width="1"/><line x1="44" y1="10" x2="44" y2="90" stroke="currentColor" stroke-width="1"/><line x1="56" y1="10" x2="56" y2="90" stroke="currentColor" stroke-width="1"/><line x1="68" y1="10" x2="68" y2="90" stroke="currentColor" stroke-width="1"/><circle cx="32" cy="34" r="4" fill="var(--rubric-red)"/><circle cx="44" cy="34" r="4" fill="var(--rubric-red)"/><text x="50" y="102" font-family="Inter" font-size="9" fill="currentColor" text-anchor="middle">Trastes 1-3</text></svg>`,
+                "La7": `<svg class="guitar-svg-diagram" viewBox="0 0 100 110"><rect x="20" y="10" width="60" height="80" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="26" x2="80" y2="26" stroke="currentColor" stroke-width="1"/><line x1="20" y1="42" x2="80" y2="42" stroke="currentColor" stroke-width="1"/><line x1="20" y1="58" x2="80" y2="58" stroke="currentColor" stroke-width="1"/><line x1="20" y1="74" x2="80" y2="74" stroke="currentColor" stroke-width="1"/><line x1="32" y1="10" x2="32" y2="90" stroke="currentColor" stroke-width="1"/><line x1="44" y1="10" x2="44" y2="90" stroke="currentColor" stroke-width="1"/><line x1="56" y1="10" x2="56" y2="90" stroke="currentColor" stroke-width="1"/><line x1="68" y1="10" x2="68" y2="90" stroke="currentColor" stroke-width="1"/><circle cx="44" cy="34" r="4" fill="var(--rubric-red)"/><circle cx="68" cy="34" r="4" fill="var(--rubric-red)"/><text x="50" y="102" font-family="Inter" font-size="9" fill="currentColor" text-anchor="middle">Trastes 1-3</text></svg>`,
+                "Fa": `<svg class="guitar-svg-diagram" viewBox="0 0 100 110"><rect x="20" y="10" width="60" height="80" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="26" x2="80" y2="26" stroke="currentColor" stroke-width="1"/><line x1="20" y1="42" x2="80" y2="42" stroke="currentColor" stroke-width="1"/><line x1="20" y1="58" x2="80" y2="58" stroke="currentColor" stroke-width="1"/><line x1="20" y1="74" x2="80" y2="74" stroke="currentColor" stroke-width="1"/><line x1="32" y1="10" x2="32" y2="90" stroke="currentColor" stroke-width="1"/><line x1="44" y1="10" x2="44" y2="90" stroke="currentColor" stroke-width="1"/><line x1="56" y1="10" x2="56" y2="90" stroke="currentColor" stroke-width="1"/><line x1="68" y1="10" x2="68" y2="90" stroke="currentColor" stroke-width="1"/><line x1="20" y1="18" x2="80" y2="18" stroke="var(--rubric-red)" stroke-width="2.5" /><circle cx="44" cy="34" r="4" fill="var(--rubric-red)"/><circle cx="32" cy="50" r="4" fill="var(--rubric-red)"/><circle cx="56" cy="50" r="4" fill="var(--rubric-red)"/><text x="50" y="102" font-family="Inter" font-size="9" fill="currentColor" text-anchor="middle">Cejilla Traste 1</text></svg>`,
+                "Re7": `<svg class="guitar-svg-diagram" viewBox="0 0 100 110"><rect x="20" y="10" width="60" height="80" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="26" x2="80" y2="26" stroke="currentColor" stroke-width="1"/><line x1="20" y1="42" x2="80" y2="42" stroke="currentColor" stroke-width="1"/><line x1="20" y1="58" x2="80" y2="58" stroke="currentColor" stroke-width="1"/><line x1="20" y1="74" x2="80" y2="74" stroke="currentColor" stroke-width="1"/><line x1="32" y1="10" x2="32" y2="90" stroke="currentColor" stroke-width="1"/><line x1="44" y1="10" x2="44" y2="90" stroke="currentColor" stroke-width="1"/><line x1="56" y1="10" x2="56" y2="90" stroke="currentColor" stroke-width="1"/><line x1="68" y1="10" x2="68" y2="90" stroke="currentColor" stroke-width="1"/><circle cx="68" cy="18" r="4" fill="var(--rubric-red)"/><circle cx="80" cy="18" r="4" fill="var(--rubric-red)"/><circle cx="56" cy="34" r="4" fill="var(--rubric-red)"/><text x="50" y="102" font-family="Inter" font-size="9" fill="currentColor" text-anchor="middle">Trastes 1-3</text></svg>`,
+                "Lam": `<svg class="guitar-svg-diagram" viewBox="0 0 100 110"><rect x="20" y="10" width="60" height="80" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="26" x2="80" y2="26" stroke="currentColor" stroke-width="1"/><line x1="20" y1="42" x2="80" y2="42" stroke="currentColor" stroke-width="1"/><line x1="20" y1="58" x2="80" y2="58" stroke="currentColor" stroke-width="1"/><line x1="20" y1="74" x2="80" y2="74" stroke="currentColor" stroke-width="1"/><line x1="32" y1="10" x2="32" y2="90" stroke="currentColor" stroke-width="1"/><line x1="44" y1="10" x2="44" y2="90" stroke="currentColor" stroke-width="1"/><line x1="56" y1="10" x2="56" y2="90" stroke="currentColor" stroke-width="1"/><line x1="68" y1="10" x2="68" y2="90" stroke="currentColor" stroke-width="1"/><circle cx="68" cy="18" r="4" fill="var(--rubric-red)"/><circle cx="44" cy="34" r="4" fill="var(--rubric-red)"/><circle cx="56" cy="34" r="4" fill="var(--rubric-red)"/><text x="50" y="102" font-family="Inter" font-size="9" fill="currentColor" text-anchor="middle">Trastes 1-3</text></svg>`,
+                "Rem": `<svg class="guitar-svg-diagram" viewBox="0 0 100 110"><rect x="20" y="10" width="60" height="80" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="26" x2="80" y2="26" stroke="currentColor" stroke-width="1"/><line x1="20" y1="42" x2="80" y2="42" stroke="currentColor" stroke-width="1"/><line x1="20" y1="58" x2="80" y2="58" stroke="currentColor" stroke-width="1"/><line x1="20" y1="74" x2="80" y2="74" stroke="currentColor" stroke-width="1"/><line x1="32" y1="10" x2="32" y2="90" stroke="currentColor" stroke-width="1"/><line x1="44" y1="10" x2="44" y2="90" stroke="currentColor" stroke-width="1"/><line x1="56" y1="10" x2="56" y2="90" stroke="currentColor" stroke-width="1"/><line x1="68" y1="10" x2="68" y2="90" stroke="currentColor" stroke-width="1"/><circle cx="80" cy="18" r="4" fill="var(--rubric-red)"/><circle cx="56" cy="34" r="4" fill="var(--rubric-red)"/><circle cx="68" cy="50" r="4" fill="var(--rubric-red)"/><text x="50" y="102" font-family="Inter" font-size="9" fill="currentColor" text-anchor="middle">Trastes 1-3</text></svg>`,
+                "Mi": `<svg class="guitar-svg-diagram" viewBox="0 0 100 110"><rect x="20" y="10" width="60" height="80" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="26" x2="80" y2="26" stroke="currentColor" stroke-width="1"/><line x1="20" y1="42" x2="80" y2="42" stroke="currentColor" stroke-width="1"/><line x1="20" y1="58" x2="80" y2="58" stroke="currentColor" stroke-width="1"/><line x1="20" y1="74" x2="80" y2="74" stroke="currentColor" stroke-width="1"/><line x1="32" y1="10" x2="32" y2="90" stroke="currentColor" stroke-width="1"/><line x1="44" y1="10" x2="44" y2="90" stroke="currentColor" stroke-width="1"/><line x1="56" y1="10" x2="56" y2="90" stroke="currentColor" stroke-width="1"/><line x1="68" y1="10" x2="68" y2="90" stroke="currentColor" stroke-width="1"/><circle cx="56" cy="18" r="4" fill="var(--rubric-red)"/><circle cx="32" cy="34" r="4" fill="var(--rubric-red)"/><circle cx="44" cy="34" r="4" fill="var(--rubric-red)"/><text x="50" y="102" font-family="Inter" font-size="9" fill="currentColor" text-anchor="middle">Trastes 1-3</text></svg>`,
+                "Solm": `<svg class="guitar-svg-diagram" viewBox="0 0 100 110"><rect x="20" y="10" width="60" height="80" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="26" x2="80" y2="26" stroke="currentColor" stroke-width="1"/><line x1="20" y1="42" x2="80" y2="42" stroke="currentColor" stroke-width="1"/><line x1="20" y1="58" x2="80" y2="58" stroke="currentColor" stroke-width="1"/><line x1="20" y1="74" x2="80" y2="74" stroke="currentColor" stroke-width="1"/><line x1="32" y1="10" x2="32" y2="90" stroke="currentColor" stroke-width="1"/><line x1="44" y1="10" x2="44" y2="90" stroke="currentColor" stroke-width="1"/><line x1="56" y1="10" x2="56" y2="90" stroke="currentColor" stroke-width="1"/><line x1="68" y1="10" x2="68" y2="90" stroke="currentColor" stroke-width="1"/><line x1="20" y1="50" x2="80" y2="50" stroke="var(--rubric-red)" stroke-width="2.5" /><circle cx="32" cy="82" r="4" fill="var(--rubric-red)"/><circle cx="44" cy="82" r="4" fill="var(--rubric-red)"/><text x="50" y="102" font-family="Inter" font-size="9" fill="currentColor" text-anchor="middle">Cejilla Traste 3</text></svg>`,
+                "Sol7": `<svg class="guitar-svg-diagram" viewBox="0 0 100 110"><rect x="20" y="10" width="60" height="80" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="26" x2="80" y2="26" stroke="currentColor" stroke-width="1"/><line x1="20" y1="42" x2="80" y2="42" stroke="currentColor" stroke-width="1"/><line x1="20" y1="58" x2="80" y2="58" stroke="currentColor" stroke-width="1"/><line x1="20" y1="74" x2="80" y2="74" stroke="currentColor" stroke-width="1"/><line x1="32" y1="10" x2="32" y2="90" stroke="currentColor" stroke-width="1"/><line x1="44" y1="10" x2="44" y2="90" stroke="currentColor" stroke-width="1"/><line x1="56" y1="10" x2="56" y2="90" stroke="currentColor" stroke-width="1"/><line x1="68" y1="10" x2="68" y2="90" stroke="currentColor" stroke-width="1"/><circle cx="80" cy="18" r="4" fill="var(--rubric-red)"/><circle cx="32" cy="34" r="4" fill="var(--rubric-red)"/><circle cx="20" cy="50" r="4" fill="var(--rubric-red)"/><text x="50" y="102" font-family="Inter" font-size="9" fill="currentColor" text-anchor="middle">Trastes 1-3</text></svg>`,
+                "Do7": `<svg class="guitar-svg-diagram" viewBox="0 0 100 110"><rect x="20" y="10" width="60" height="80" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="26" x2="80" y2="26" stroke="currentColor" stroke-width="1"/><line x1="20" y1="42" x2="80" y2="42" stroke="currentColor" stroke-width="1"/><line x1="20" y1="58" x2="80" y2="58" stroke="currentColor" stroke-width="1"/><line x1="20" y1="74" x2="80" y2="74" stroke="currentColor" stroke-width="1"/><line x1="32" y1="10" x2="32" y2="90" stroke="currentColor" stroke-width="1"/><line x1="44" y1="10" x2="44" y2="90" stroke="currentColor" stroke-width="1"/><line x1="56" y1="10" x2="56" y2="90" stroke="currentColor" stroke-width="1"/><line x1="68" y1="10" x2="68" y2="90" stroke="currentColor" stroke-width="1"/><circle cx="68" cy="18" r="4" fill="var(--rubric-red)"/><circle cx="44" cy="34" r="4" fill="var(--rubric-red)"/><circle cx="56" cy="50" r="4" fill="var(--rubric-red)"/><circle cx="32" cy="50" r="4" fill="var(--rubric-red)"/><text x="50" y="102" font-family="Inter" font-size="9" fill="currentColor" text-anchor="middle">Trastes 1-3</text></svg>`
+            },
+            piano: {
+                "Do": `<svg class="piano-svg-diagram" viewBox="0 0 120 60"><rect x="0" y="0" width="120" height="50" fill="#ffffff" stroke="currentColor"/><rect x="0" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="34" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="68" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="10" y="0" width="14" height="30" fill="#000000"/><rect x="28" y="0" width="14" height="30" fill="#000000"/><rect x="61" y="0" width="14" height="30" fill="#000000"/><rect x="79" y="0" width="14" height="30" fill="#000000"/><rect x="96" y="0" width="14" height="30" fill="#000000"/><text x="60" y="58" font-family="Inter" font-size="8" fill="currentColor" text-anchor="middle">Do - Mi - Sol</text></svg>`,
+                "Re": `<svg class="piano-svg-diagram" viewBox="0 0 120 60"><rect x="0" y="0" width="120" height="50" fill="#ffffff" stroke="currentColor"/><rect x="17" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="85" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="10" y="0" width="14" height="30" fill="#000000"/><rect x="28" y="0" width="14" height="30" fill="#000000"/><rect x="61" y="0" width="14" height="30" fill="var(--rubric-red)" stroke="currentColor"/><rect x="79" y="0" width="14" height="30" fill="#000000"/><rect x="96" y="0" width="14" height="30" fill="#000000"/><text x="60" y="58" font-family="Inter" font-size="8" fill="currentColor" text-anchor="middle">Re - Fa# - La</text></svg>`,
+                "La": `<svg class="piano-svg-diagram" viewBox="0 0 120 60"><rect x="0" y="0" width="120" height="50" fill="#ffffff" stroke="currentColor"/><rect x="85" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="34" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="10" y="0" width="14" height="30" fill="var(--rubric-red)" stroke="currentColor"/><rect x="28" y="0" width="14" height="30" fill="#000000"/><rect x="61" y="0" width="14" height="30" fill="#000000"/><rect x="79" y="0" width="14" height="30" fill="#000000"/><rect x="96" y="0" width="14" height="30" fill="#000000"/><text x="60" y="58" font-family="Inter" font-size="8" fill="currentColor" text-anchor="middle">La - Do# - Mi</text></svg>`,
+                "Sim": `<svg class="piano-svg-diagram" viewBox="0 0 120 60"><rect x="0" y="0" width="120" height="50" fill="#ffffff" stroke="currentColor"/><rect x="102" y="0" width="18" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="17" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="10" y="0" width="14" height="30" fill="#000000"/><rect x="28" y="0" width="14" height="30" fill="#000000"/><rect x="61" y="0" width="14" height="30" fill="var(--rubric-red)" stroke="currentColor"/><rect x="79" y="0" width="14" height="30" fill="#000000"/><rect x="96" y="0" width="14" height="30" fill="#000000"/><text x="60" y="58" font-family="Inter" font-size="8" fill="currentColor" text-anchor="middle">Si - Re - Fa#</text></svg>`,
+                "Sol": `<svg class="piano-svg-diagram" viewBox="0 0 120 60"><rect x="0" y="0" width="120" height="50" fill="#ffffff" stroke="currentColor"/><rect x="68" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="102" y="0" width="18" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="17" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="10" y="0" width="14" height="30" fill="#000000"/><rect x="28" y="0" width="14" height="30" fill="#000000"/><rect x="61" y="0" width="14" height="30" fill="#000000"/><rect x="79" y="0" width="14" height="30" fill="#000000"/><rect x="96" y="0" width="14" height="30" fill="#000000"/><text x="60" y="58" font-family="Inter" font-size="8" fill="currentColor" text-anchor="middle">Sol - Si - Re</text></svg>`,
+                "Mim": `<svg class="piano-svg-diagram" viewBox="0 0 120 60"><rect x="0" y="0" width="120" height="50" fill="#ffffff" stroke="currentColor"/><rect x="34" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="68" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="102" y="0" width="18" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="10" y="0" width="14" height="30" fill="#000000"/><rect x="28" y="0" width="14" height="30" fill="#000000"/><rect x="61" y="0" width="14" height="30" fill="#000000"/><rect x="79" y="0" width="14" height="30" fill="#000000"/><rect x="96" y="0" width="14" height="30" fill="#000000"/><text x="60" y="58" font-family="Inter" font-size="8" fill="currentColor" text-anchor="middle">Mi - Sol - Si</text></svg>`,
+                "La7": `<svg class="piano-svg-diagram" viewBox="0 0 120 60"><rect x="0" y="0" width="120" height="50" fill="#ffffff" stroke="currentColor"/><rect x="85" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="34" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="68" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="10" y="0" width="14" height="30" fill="var(--rubric-red)" stroke="currentColor"/><rect x="28" y="0" width="14" height="30" fill="#000000"/><rect x="61" y="0" width="14" height="30" fill="#000000"/><rect x="79" y="0" width="14" height="30" fill="#000000"/><rect x="96" y="0" width="14" height="30" fill="#000000"/><text x="60" y="58" font-family="Inter" font-size="8" fill="currentColor" text-anchor="middle">La - Do# - Mi - Sol</text></svg>`,
+                "Fa": `<svg class="piano-svg-diagram" viewBox="0 0 120 60"><rect x="0" y="0" width="120" height="50" fill="#ffffff" stroke="currentColor"/><rect x="51" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="85" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="0" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="10" y="0" width="14" height="30" fill="#000000"/><rect x="28" y="0" width="14" height="30" fill="#000000"/><rect x="61" y="0" width="14" height="30" fill="#000000"/><rect x="79" y="0" width="14" height="30" fill="#000000"/><rect x="96" y="0" width="14" height="30" fill="#000000"/><text x="60" y="58" font-family="Inter" font-size="8" fill="currentColor" text-anchor="middle">Fa - La - Do</text></svg>`,
+                "Re7": `<svg class="piano-svg-diagram" viewBox="0 0 120 60"><rect x="0" y="0" width="120" height="50" fill="#ffffff" stroke="currentColor"/><rect x="17" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="85" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="0" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="10" y="0" width="14" height="30" fill="#000000"/><rect x="28" y="0" width="14" height="30" fill="#000000"/><rect x="61" y="0" width="14" height="30" fill="var(--rubric-red)" stroke="currentColor"/><rect x="79" y="0" width="14" height="30" fill="#000000"/><rect x="96" y="0" width="14" height="30" fill="#000000"/><text x="60" y="58" font-family="Inter" font-size="8" fill="currentColor" text-anchor="middle">Re - Fa# - La - Do</text></svg>`,
+                "Lam": `<svg class="piano-svg-diagram" viewBox="0 0 120 60"><rect x="0" y="0" width="120" height="50" fill="#ffffff" stroke="currentColor"/><rect x="85" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="0" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="34" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="10" y="0" width="14" height="30" fill="#000000"/><rect x="28" y="0" width="14" height="30" fill="#000000"/><rect x="61" y="0" width="14" height="30" fill="#000000"/><rect x="79" y="0" width="14" height="30" fill="#000000"/><rect x="96" y="0" width="14" height="30" fill="#000000"/><text x="60" y="58" font-family="Inter" font-size="8" fill="currentColor" text-anchor="middle">La - Do - Mi</text></svg>`,
+                "Rem": `<svg class="piano-svg-diagram" viewBox="0 0 120 60"><rect x="0" y="0" width="120" height="50" fill="#ffffff" stroke="currentColor"/><rect x="17" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="51" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="85" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="10" y="0" width="14" height="30" fill="#000000"/><rect x="28" y="0" width="14" height="30" fill="#000000"/><rect x="61" y="0" width="14" height="30" fill="#000000"/><rect x="79" y="0" width="14" height="30" fill="#000000"/><rect x="96" y="0" width="14" height="30" fill="#000000"/><text x="60" y="58" font-family="Inter" font-size="8" fill="currentColor" text-anchor="middle">Re - Fa - La</text></svg>`,
+                "Mi": `<svg class="piano-svg-diagram" viewBox="0 0 120 60"><rect x="0" y="0" width="120" height="50" fill="#ffffff" stroke="currentColor"/><rect x="34" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="102" y="0" width="18" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="10" y="0" width="14" height="30" fill="#000000"/><rect x="28" y="0" width="14" height="30" fill="#000000"/><rect x="61" y="0" width="14" height="30" fill="#000000"/><rect x="79" y="0" width="14" height="30" fill="var(--rubric-red)" stroke="currentColor"/><rect x="96" y="0" width="14" height="30" fill="#000000"/><text x="60" y="58" font-family="Inter" font-size="8" fill="currentColor" text-anchor="middle">Mi - Sol# - Si</text></svg>`,
+                "Solm": `<svg class="piano-svg-diagram" viewBox="0 0 120 60"><rect x="0" y="0" width="120" height="50" fill="#ffffff" stroke="currentColor"/><rect x="68" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="17" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="10" y="0" width="14" height="30" fill="#000000"/><rect x="28" y="0" width="14" height="30" fill="#000000"/><rect x="61" y="0" width="14" height="30" fill="#000000"/><rect x="79" y="0" width="14" height="30" fill="#000000"/><rect x="96" y="0" width="14" height="30" fill="var(--rubric-red)" stroke="currentColor"/><text x="60" y="58" font-family="Inter" font-size="8" fill="currentColor" text-anchor="middle">Sol - Sib - Re</text></svg>`,
+                "Sol7": `<svg class="piano-svg-diagram" viewBox="0 0 120 60"><rect x="0" y="0" width="120" height="50" fill="#ffffff" stroke="currentColor"/><rect x="68" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="102" y="0" width="18" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="17" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="51" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="10" y="0" width="14" height="30" fill="#000000"/><rect x="28" y="0" width="14" height="30" fill="#000000"/><rect x="61" y="0" width="14" height="30" fill="#000000"/><rect x="79" y="0" width="14" height="30" fill="#000000"/><rect x="96" y="0" width="14" height="30" fill="#000000"/><text x="60" y="58" font-family="Inter" font-size="8" fill="currentColor" text-anchor="middle">Sol - Si - Re - Fa</text></svg>`,
+                "Do7": `<svg class="piano-svg-diagram" viewBox="0 0 120 60"><rect x="0" y="0" width="120" height="50" fill="#ffffff" stroke="currentColor"/><rect x="0" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="34" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="68" y="0" width="17" height="50" fill="var(--rubric-red)" stroke="currentColor"/><rect x="10" y="0" width="14" height="30" fill="#000000"/><rect x="28" y="0" width="14" height="30" fill="#000000"/><rect x="61" y="0" width="14" height="30" fill="#000000"/><rect x="79" y="0" width="14" height="30" fill="#000000"/><rect x="96" y="0" width="14" height="30" fill="var(--rubric-red)" stroke="currentColor"/><text x="60" y="58" font-family="Inter" font-size="8" fill="currentColor" text-anchor="middle">Do - Mi - Sol - Sib</text></svg>`
+            }
+        };
+
+        let currentTranspose = 0;
+        let selectedInstrument = 'guitar';
+        let currentSong = null;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Cargar configuración guardada
+            if (localStorage.getItem('dark-mode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+            }
+            
+            const savedInst = localStorage.getItem('selected-instrument');
+            if (savedInst) {
+                selectedInstrument = savedInst;
+            }
+
+            loadSong();
+        });
+
+        // Recuperar la canción desde canciones.json usando el ID de la URL
+        async function loadSong() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const songId = urlParams.get('id');
+            const container = document.getElementById('atril-container-el');
+
+            if (!songId) {
+                showError("Canto no especificado", "Por favor, regrese al portal principal y seleccione una canción de la lista.");
+                return;
+            }
+
+            try {
+                const response = await fetch('data/canciones.json');
+                if (!response.ok) throw new Error("No se pudo cargar la base de datos de canciones.");
+                const data = await response.json();
+                
+                currentSong = data.find(c => c.id === songId);
+                
+                if (!currentSong) {
+                    showError("Canto no encontrado", "La canción solicitada no existe en el cancionero parroquial.");
+                    return;
+                }
+
+                // Inyectar la maqueta del atril interactivo
+                container.innerHTML = `
+                    <!-- 1. CONTROLES SUPERIORES (ANCHO COMPLETO) -->
+                    <div class="control-bar full-width-top">
+                        <a href="index.html" class="back-link">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                            <span>Volver al Portal</span>
+                        </a>
+                        <div class="btn-group">
+                            <!-- Modo Nocturno -->
+                            <button class="control-btn" onclick="toggleDarkMode()" title="Modo Nocturno (Atril)">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                            </button>
+                            <!-- Imprimir -->
+                            <button class="control-btn" onclick="window.print()" title="Imprimir acordes">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 2. ATRILES DE LETRA -->
+                    <div class="atril-paper">
+                        <div class="song-title-header">
+                            <h1 class="song-title">${currentSong.title}</h1>
+                            <div class="song-meta">Autor: ${currentSong.author} • Tono Original: ${currentSong.originalKey} • ${currentSong.categoryLabel}</div>
+                        </div>
+                        <div class="song-lyrics" id="lyrics-sheet-el"></div>
+                    </div>
+
+                    <!-- 3. SIDEBAR DE CONTROLES Y MULTIMEDIA -->
+                    <div class="sidebar">
+                        <!-- Video Incrustado de YouTube -->
+                        <div class="panel-card">
+                            <h3 class="panel-title">Video & Melodía</h3>
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/${currentSong.youtubeId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <div style="margin-top: 1rem; text-align: center;">
+                                <a href="https://www.youtube.com/watch?v=${currentSong.youtubeId}" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; background-color: var(--rubric-red); color: #fff; padding: 0.6rem 1rem; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='var(--rubric-red-hover)'" onmouseout="this.style.backgroundColor='var(--rubric-red)'">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.108C19.53 3.5 12 3.5 12 3.5s-7.53 0-9.388.555A3.003 3.003 0 0 0 .502 6.163C0 8.07 0 12 0 12s0 3.93.502 5.837a3.003 3.003 0 0 0 2.11 2.108C4.47 20.5 12 20.5 12 20.5s7.53 0 9.388-.555a3.003 3.003 0 0 0 2.11-2.108C24 15.93 24 12 24 12s0-3.93-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                                    <span>Ver en YouTube</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Transpositor e Instrumento -->
+                        <div class="panel-card">
+                            <h3 class="panel-title">Acompañamiento</h3>
+                            
+                            <div class="control-group">
+                                <span class="control-label">Instrumento</span>
+                                <div class="instrument-selector">
+                                    <button class="inst-btn ${selectedInstrument === 'guitar' ? 'active' : ''}" id="btn-inst-guitar" onclick="setInstrument('guitar')">Guitarra</button>
+                                    <button class="inst-btn ${selectedInstrument === 'piano' ? 'active' : ''}" id="btn-inst-piano" onclick="setInstrument('piano')">Piano</button>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <span class="control-label">Transportar Tono</span>
+                                <div class="transpose-wrapper">
+                                    <button class="transpose-btn" onclick="adjustTranspose(-1)">-</button>
+                                    <span class="transpose-value" id="transpose-val-el">0</span>
+                                    <button class="transpose-btn" onclick="adjustTranspose(1)">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Panel de Diagrama -->
+                        <div class="panel-card">
+                            <h3 class="panel-title">Posición del Acorde</h3>
+                            <div class="chord-diagram-box" id="chord-diagram-box-el">
+                                <span style="color: var(--text-muted); font-size: 0.9rem; font-style: italic;">Pasa el cursor o pulsa sobre un acorde en la letra para ver su posición aquí</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.title = `${currentSong.title} (Acordes) - SAIMAP Ecclesia`;
+                renderLyrics();
+
+            } catch (e) {
+                console.error(e);
+                showError("Error de Conexión", "No se pudo cargar la canción solicitada desde la base de datos.");
+            }
+        }
+
+        // Renderizar y parsear la letra de la canción
+        function renderLyrics() {
+            const sheet = document.getElementById('lyrics-sheet-el');
+            
+            // Reemplazar patrones de acordes [Acorde] por marcadores absolutos de ancho cero
+            let parsedHtml = currentSong.lyricsTemplate.replace(/\[([^\]]+)\]/g, (match, chordName) => {
+                let transposed = transposeChord(chordName, currentTranspose);
+                return `<span class="chord-line"><span class="chord" onmouseover="showChordDiagram('${transposed}')" onclick="showChordDiagram('${transposed}')">${transposed}</span></span>`;
+            });
+            
+            sheet.innerHTML = parsedHtml;
+        }
+
+        // Algoritmo de Transposición de Acordes
+        function transposeChord(chordStr, semitones) {
+            if (semitones === 0) return chordStr;
+            
+            let root = "";
+            let modifier = "";
+            let matchedRoot = "";
+            let matchedIndex = -1;
+            
+            // Buscar nota base en la escala
+            for (let i = 0; i < chordsScale.length; i++) {
+                let note = chordsScale[i];
+                if (chordStr.startsWith(note)) {
+                    if (note.length > matchedRoot.length) {
+                        matchedRoot = note;
+                        matchedIndex = i;
+                    }
+                }
+            }
+            
+            if (matchedIndex === -1) return chordStr;
+            
+            root = matchedRoot;
+            modifier = chordStr.substring(matchedRoot.length);
+            
+            let newIndex = (matchedIndex + semitones) % 12;
+            if (newIndex < 0) newIndex += 12;
+            
+            return chordsScale[newIndex] + modifier;
+        }
+
+        function adjustTranspose(semitones) {
+            currentTranspose += semitones;
+            document.getElementById('transpose-val-el').innerText = (currentTranspose > 0 ? "+" : "") + currentTranspose;
+            renderLyrics();
+            
+            // Limpiar cuadro de diagrama al transportar
+            document.getElementById('chord-diagram-box-el').innerHTML = `
+                <span style="color: var(--text-muted); font-size: 0.9rem; font-style: italic;">Pasa el cursor o pulsa sobre un acorde en la letra para ver su posición aquí</span>
+            `;
+            showToast(`Tono ajustado: ${currentTranspose > 0 ? "+" : ""}${currentTranspose} semitonos`, "info");
+        }
+
+        function setInstrument(instrument) {
+            selectedInstrument = instrument;
+            localStorage.setItem('selected-instrument', instrument);
+            
+            document.getElementById('btn-inst-guitar').classList.remove('active');
+            document.getElementById('btn-inst-piano').classList.remove('active');
+            document.getElementById(`btn-inst-${instrument}`).classList.add('active');
+            
+            // Limpiar diagrama previo
+            document.getElementById('chord-diagram-box-el').innerHTML = `
+                <span style="color: var(--text-muted); font-size: 0.9rem; font-style: italic;">Pasa el cursor o pulsa sobre un acorde en la letra para ver su posición aquí</span>
+            `;
+            showToast(`Acompañamiento cambiado a: ${instrument === 'guitar' ? 'Guitarra' : 'Piano'}`, "info");
+        }
+
+        // Renderizar el gráfico SVG del acorde seleccionado
+        function showChordDiagram(chordName) {
+            const box = document.getElementById('chord-diagram-box-el');
+            
+            let svgDiagram = "";
+            
+            // 1. Intentar coincidencia exacta primero (ej. "Mim", "Sim", "La7")
+            if (chordDiagrams[selectedInstrument][chordName]) {
+                svgDiagram = chordDiagrams[selectedInstrument][chordName];
+            } else {
+                // 2. Si no hay coincidencia exacta, normalizar el acorde para el fallback semántico
+                // Buscamos cuál nota de la escala es la raíz del acorde
+                let matchedRoot = "";
+                for (let i = 0; i < chordsScale.length; i++) {
+                    let note = chordsScale[i];
+                    if (chordName.startsWith(note)) {
+                        if (note.length > matchedRoot.length) {
+                            matchedRoot = note;
+                        }
+                    }
+                }
+                
+                if (matchedRoot) {
+                    let modifier = chordName.substring(matchedRoot.length);
+                    
+                    // Normalizar modificador
+                    let cleanModifier = "";
+                    if (modifier.includes('m') || modifier.includes('im')) {
+                        cleanModifier = 'm';
+                    } else if (modifier.includes('7')) {
+                        cleanModifier = '7';
+                    }
+                    
+                    let simplifiedChord = matchedRoot + cleanModifier;
+                    
+                    // Buscar acorde simplificado (ej. "Fam" -> "Fam")
+                    if (chordDiagrams[selectedInstrument][simplifiedChord]) {
+                        svgDiagram = chordDiagrams[selectedInstrument][simplifiedChord];
+                    } else {
+                        // Fallback final: buscar la nota raíz pura (ej. "Do#7" -> "Do")
+                        let rootBase = matchedRoot.replace('#', '');
+                        let finalFallback = rootBase + cleanModifier;
+                        
+                        if (chordDiagrams[selectedInstrument][finalFallback]) {
+                            svgDiagram = chordDiagrams[selectedInstrument][finalFallback];
+                        } else if (chordDiagrams[selectedInstrument][rootBase]) {
+                            svgDiagram = chordDiagrams[selectedInstrument][rootBase];
+                        } else {
+                            svgDiagram = `<span style="color: var(--text-muted); font-size: 0.85rem;">Esquema visual no disponible para ${chordName}</span>`;
+                        }
+                    }
+                } else {
+                    svgDiagram = `<span style="color: var(--text-muted); font-size: 0.85rem;">Esquema visual no disponible para ${chordName}</span>`;
+                }
+            }
+
+            box.innerHTML = `
+                <div class="chord-name-display">${chordName}</div>
+                <div style="margin-top: 0.5rem; display: flex; justify-content: center; align-items: center; width: 100%;">
+                    ${svgDiagram}
+                </div>
+            `;
+        }
+
+        function showError(title, message) {
+            const container = document.getElementById('atril-container-el');
+            container.innerHTML = `
+                <div class="loading-state" style="grid-column: span 2;">
+                    <div style="font-size: 2.5rem; color: var(--rubric-red); margin-bottom: 1rem;">⚠️</div>
+                    <h1 class="song-title" style="font-size: 2rem; margin-bottom: 1rem; text-align: center;">${title}</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem; text-align: center; max-width: 600px; margin-left: auto; margin-right: auto;">${message}</p>
+                    <a href="index.html" class="back-link" style="border: 1px solid var(--border-color); padding: 0.5rem 1.2rem; border-radius: 6px; background-color: var(--bg-paper); display: inline-flex;">
+                        <span>Volver al Portal</span>
+                    </a>
+                </div>
+            `;
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('dark-mode', 'enabled');
+            } else {
+                localStorage.setItem('dark-mode', 'disabled');
+            }
+        }
+
+        function showToast(message, type = "info") {
+            const toast = document.getElementById('toast-el');
+            const messageEl = document.getElementById('toast-message');
+            const iconEl = document.getElementById('toast-icon');
+
+            messageEl.innerText = message;
+            
+            if (type === "success") {
+                iconEl.innerText = "✨";
+                toast.style.borderLeftColor = "var(--accent-gold)";
+            } else {
+                iconEl.innerText = "⚜";
+                toast.style.borderLeftColor = "var(--rubric-red)";
+            }
+
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

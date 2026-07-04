@@ -1,0 +1,452 @@
+[
+    {
+        "id": 1,
+        "title": "Padre Nuestro",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Jesucristo (Mateo 6, 9-13)",
+        "snippet": "Padre nuestro que estás en el cielo, santificado sea tu Nombre; venga a nosotros tu Reino; hágase tu voluntad...",
+        "text": "Padre nuestro que estás en el cielo,\nsantificado sea tu Nombre;\nvenga a nosotros tu Reino;\nhágase tu voluntad en la tierra como en el cielo.\n\nDanos hoy nuestro pan de cada día;\nperdona nuestras ofensas,\ncomo también nosotros perdonamos a los que nos ofenden;\nno nos dejes caer en la tentación,\ny líbranos del mal. Amén."
+    },
+    {
+        "id": 2,
+        "title": "Ave María",
+        "category": "marianas",
+        "categoryLabel": "Marianas",
+        "author": "Arcángel Gabriel / Santa Isabel (Lucas 1)",
+        "snippet": "Dios te salve, María, llena eres de gracia; el Señor es contigo. Bendita tú eres entre todas las mujeres...",
+        "text": "Dios te salve, María, llena eres de gracia;\nel Señor es contigo.\nBendita tú eres entre todas las mujeres,\ny bendito es el fruto de tu vientre, Jesús.\n\nSanta María, Madre de Dios,\nruega por nosotros, pecadores,\nahora y en la hora de nuestra muerte. Amén."
+    },
+    {
+        "id": 3,
+        "title": "Gloria al Padre",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Tradición eclesial",
+        "snippet": "Gloria al Padre, y al Hijo, y al Espíritu Santo. Como era en el principio, ahora y siempre...",
+        "text": "Gloria al Padre, y al Hijo, y al Espíritu Santo.\n\nComo era en el principio,\nahora y siempre,\npor los siglos de los siglos. Amén."
+    },
+    {
+        "id": 4,
+        "title": "Credo de los Apóstoles",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Símbolo de la Fe (S. II)",
+        "snippet": "Creo en Dios, Padre todopoderoso, Creador del cielo y de la tierra. Creo en Jesucristo, su único Hijo...",
+        "text": "Creo en Dios, Padre todopoderoso, Creador del cielo y de la tierra.\n\nCreo en Jesucristo, su único Hijo, nuestro Señor, que fue concebido por obra y gracia del Espíritu Santo, nació de santa María Virgen, padeció bajo el poder de Poncio Pilato, fue crucificado, muerto y sepultado, descendió a los infiernos, al tercer día resucitó de entre los muertos, subió a los cielos y está sentado a la derecha de Dios, Padre todopoderoso. Desde allí ha de venir a juzgar a vivos y muertos.\n\nCreo en el Espíritu Santo, la santa Iglesia Católica, la comunión de los santos, el perdón de los pecados, la resurrección de la carne y la vida eterna. Amén."
+    },
+    {
+        "id": 5,
+        "title": "Salve Regina",
+        "category": "marianas",
+        "categoryLabel": "Marianas",
+        "author": "Hermann de Reichenau (S. XI)",
+        "snippet": "Dios te salve, Reina y Madre de misericordia, vida, dulzura y esperanza nuestra. Dios te salve. A ti clamamos...",
+        "text": "Dios te salve, Reina y Madre de misericordia, vida, dulzura y esperanza nuestra. Dios te salve.\n\nA ti clamamos los desterrados hijos de Eva;\na ti suspiramos, gimiendo y llorando en este valle de lágrimas.\n\nEa, pues, Señora, abogada nuestra, vuelve a nosotros esos tus ojos misericordiosos;\ny después de este destierro, muéstranos a Jesús, fruto bendito de tu vientre.\n\n¡Oh clemente, oh piadosa, oh dulce Virgen María!\n\nRuega por nosotros, Santa Madre de Dios, para que seamos dignos de alcanzar las promesas de Nuestro Señor Jesucristo. Amén."
+    },
+    {
+        "id": 6,
+        "title": "Alma de Cristo (Anima Christi)",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Oración tradicional (S. XIV)",
+        "snippet": "Alma de Cristo, santifícame. Cuerpo de Cristo, sálvame. Sangre de Cristo, embriágame. Agua del costado...",
+        "text": "Alma de Cristo, santifícame.\nCuerpo de Cristo, sálvame.\nSangre de Cristo, embriágame.\nAgua del costado de Cristo, lávame.\nPasión de Cristo, confórtame.\n¡Oh, buen Jesús!, óyeme.\nDentro de tus llagas, escóndeme.\nNo permitas que me aparte de Ti.\nDel maligno enemigo, defiéndeme.\nEn la hora de mi muerte, llámame.\nY mándame ir a Ti,\npara que con tus santos te alabe,\npor los siglos de los siglos. Amén."
+    },
+    {
+        "id": 7,
+        "title": "Hazme un Instrumento de tu Paz",
+        "category": "dificultad",
+        "categoryLabel": "Dificultad y Paz",
+        "author": "San Francisco de Asís",
+        "snippet": "Señor, hazme un instrumento de tu paz: donde haya odio, ponga yo amor; donde haya ofensa, ponga yo perdón...",
+        "text": "Señor, hazme un instrumento de tu paz:\ndonde haya odio, ponga yo amor;\ndonde haya ofensa, ponga yo perdón;\ndonde haya discordia, ponga yo unión;\ndonde haya error, ponga yo verdad;\ndonde haya duda, ponga yo la fe;\ndonde haya desesperación, ponga yo esperanza;\ndonde haya tinieblas, ponga yo vuestra luz;\ndonde haya tristeza, ponga yo alegría.\n\nOh Maestro, que no busque yo tanto\nser consolado como consolar;\nser comprendido como comprender;\nser amado como amar.\nPorque dando se recibe,\nolvidándose de sí se encuentra uno a sí mismo,\nperdonando se es perdonado,\ny muriendo se resucita a la vida eterna."
+    },
+    {
+        "id": 8,
+        "title": "Oración por la Sabiduría",
+        "category": "patres",
+        "categoryLabel": "Santos Padres",
+        "author": "Santo Tomás de Aquino",
+        "snippet": "Creador inefable, que de los tesoros de tu sabiduría constituiste tres jerarquías de ángeles y las colocaste con orden...",
+        "text": "Creador inefable, que de los tesoros de tu sabiduría constituiste tres jerarquías de ángeles y las colocaste con orden admirable sobre el cielo empíreo, y distribuiste las partes del universo con suma elegancia.\n\nTú, que eres llamado verdadera fuente de luz y de sabiduría, y principio supereminente, dígnate infundir sobre las tinieblas de mi entendimiento el rayo de tu claridad, removiendo de mí las dos clases de tinieblas en que he nacido: el pecado y la ignorancia.\n\nTú, que haces elocuentes las lenguas de los niños, instruye mi lengua e infunde en mis labios la gracia de tu bendición.\n\nDame agudeza para entender, capacidad para retener, método y facilidad para aprender, sutileza para interpretar, y gracia abundante para hablar.\n\nPrescribe el comienzo, dirige el progreso y completa el término. Tú que eres verdadero Dios y Hombre, que vives y reinas por los siglos de los siglos. Amén."
+    },
+    {
+        "id": 9,
+        "title": "Bajo tu Amparo (Sub tuum praesidium)",
+        "category": "marianas",
+        "categoryLabel": "Marianas",
+        "author": "Oración Mariana más antigua (S. III)",
+        "snippet": "Bajo tu amparo nos acogemos, Santa Madre de Dios; no deseches las súplicas que te dirigimos en nuestras necesidades...",
+        "text": "Bajo tu amparo nos acogemos,\nSanta Madre de Dios;\nno deseches las súplicas\nque te dirigimos en nuestras necesidades,\nantes bien, líbranos de todo peligro,\n¡oh Virgen gloriosa y bendita!\nAmén."
+    },
+    {
+        "id": 10,
+        "title": "Oración de Abandono",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "San Carlos de Foucauld",
+        "snippet": "Padre mío, me abandono a Ti. Haz de mí lo que quieras. Lo que hagas conmigo te lo agradezco. Estoy dispuesto a todo...",
+        "text": "Padre mío, me abandono a Ti.\nHaz de mí lo que quieras.\nLo que hagas de mí te lo agradezco.\nEstoy dispuesto a todo, lo acepto todo,\ncon tal que tu voluntad se haga en mí\ny en todas tus criaturas.\nNo deseo nada más, Dios mío.\n\nPongo mi alma en tus manos,\nte la doy, Dios mío,\ncon todo el amor de mi corazón,\nporque te amo,\ny es para mí una necesidad de amor darme,\nponerme en tus manos sin medida,\ncon una infinita confianza,\nporque Tú eres mi Padre."
+    },
+    {
+        "id": 11,
+        "title": "Nada te turbe",
+        "category": "dificultad",
+        "categoryLabel": "Dificultad y Paz",
+        "author": "Santa Teresa de Jesús",
+        "snippet": "Nada te turbe, nada te espante, todo se pasa, Dios no se muda; la paciencia todo lo alcanza; quien a Dios tiene nada le falta...",
+        "text": "Nada te turbe,\nnada te espante,\ntodo se pasa,\nDios no se muda;\nla paciencia\ntodo lo alcanza;\nquien a Dios tiene\nnada le falta:\nSolo Dios basta."
+    },
+    {
+        "id": 12,
+        "title": "Oración al Espíritu Santo",
+        "category": "patres",
+        "categoryLabel": "Santos Padres",
+        "author": "San Agustín",
+        "snippet": "Espíritu Santo, inspírame para que piense santamente. Espíritu Santo, empújame para que actúe santamente. Espíritu Santo...",
+        "text": "Espíritu Santo, inspírame para que piense santamente.\nEspíritu Santo, empújame para que actúe santamente.\nEspíritu Santo, atráeme para que ame santamente.\nEspíritu Santo, fortaléceme para que defienda las cosas santas.\nEspíritu Santo, guárdame para que nunca pierda la santidad. Amén."
+    },
+    {
+        "id": 13,
+        "title": "Oración de Ofrecimiento (Suscipe)",
+        "category": "patres",
+        "categoryLabel": "Santos Padres",
+        "author": "San Ignacio de Loyola",
+        "snippet": "Toma, Señor, y recibe toda mi libertad, mi memoria, mi entendimiento y toda mi voluntad, todo mi haber y mi poseer...",
+        "text": "Toma, Señor, y recibe toda mi libertad,\nmi memoria, mi entendimiento y toda mi voluntad,\ntodo mi haber y mi poseer.\n\nTú me lo diste; a ti, Señor, lo torno.\nTodo es tuyo; dispón de ello según tu voluntad.\nDame tu amor y gracia, que esto me basta. Amén."
+    },
+    {
+        "id": 14,
+        "title": "Acto de Contrición",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Fórmula tradicional",
+        "snippet": "Señor mío Jesucristo, Dios y Hombre verdadero, Creador, Padre y Redentor mío; por ser Vos quien sois, Bondad infinita...",
+        "text": "Señor mío Jesucristo, Dios y Hombre verdadero, Creador, Padre y Redentor mío; por ser Vos quien sois, Bondad infinita, y porque os amo sobre todas las cosas, me pesa de todo corazón de haberos ofendido; también me pesa porque podéis castigarme con las penas del infierno.\n\nPropongo firmemente nunca más pecar, confesarme y cumplir la penitencia que me fuere impuesta.\n\nOfrezco mi vida, obras y trabajos en satisfacción de todos mis pecados. Así como os lo suplico, así confío en vuestra bondad y misericordia infinita, que me los perdonaréis por los méritos de vuestra preciosísima sangre, pasión y muerte, y me daréis gracia para enmendarme y perseverar en vuestro santo servicio hasta el fin de mi vida. Amén."
+    },
+    {
+        "id": 15,
+        "title": "Oración a San Miguel Arcángel",
+        "category": "dificultad",
+        "categoryLabel": "Dificultad y Paz",
+        "author": "Papa León XIII",
+        "snippet": "San Miguel Arcángel, defiéndenos en la lucha. Sé nuestro amparo contra la perversidad y acechanzas del demonio...",
+        "text": "San Miguel Arcángel, defiéndenos en la lucha.\nSé nuestro amparo contra la perversidad y acechanzas del demonio.\n\nQue Dios manifieste su poder sobre él, es nuestra humilde súplica;\ny tú, oh Príncipe de la Milicia Celestial, con el poder que Dios te ha conferido, arroja al infierno a Satanás y a los demás espíritus malignos que vagan por el mundo para la perdición de las almas. Amén."
+    },
+    {
+        "id": 16,
+        "title": "Te Deum (A ti, Dios, te alabamos)",
+        "category": "patres",
+        "categoryLabel": "Santos Padres",
+        "author": "San Ambrosio y San Agustín",
+        "snippet": "A ti, Dios, te alabamos; a ti, Señor, te reconocemos. A ti, eterno Padre, te venera toda la creación. A ti todos los ángeles...",
+        "text": "A ti, Dios, te alabamos; a ti, Señor, te reconocemos.\nA ti, eterno Padre, te venera toda la creación.\nA ti todos los ángeles, a ti los cielos y todas las potestades.\nA ti los querubines y serafines te cantan sin cesar:\n\nSanto, Santo, Santo es el Señor, Dios del universo.\nLlenos están los cielos y la tierra de la majestad de tu gloria.\nA ti te alaba el glorioso coro de los apóstoles,\nla cohorte admirable de los profetas,\nel blanco ejército de los mártires.\nA ti la Iglesia santa, extendida por el orbe, te proclama:\nPadre de inmensa majestad;\nHijo único y verdadero, digno de adoración;\nEspíritu Santo, Defensor.\n\nTú eres el Rey de la gloria, Cristo.\nTú eres el Hijo sempiterno del Padre.\nTú, para liberar al hombre, no te desdenaste de tomar el vientre de la Virgen.\nTú, vencido el aguijón de la muerte, abriste a los creyentes el reino de los cielos.\nTú estás sentado a la derecha de Dios en la gloria del Padre.\nCreemos que has de venir como juez.\nTe rogamos, pues, que socorras a tus siervos, a quienes redimiste con tu preciosa sangre.\nHaz que seamos contados con tus santos en la gloria eterna."
+    },
+    {
+        "id": 17,
+        "title": "El Ángelus",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Tradición Mariana",
+        "snippet": "El Ángel del Señor anunció a María. Y concibió por obra del Espíritu Santo. Dios te salve, María... He aquí la esclava...",
+        "text": "V. El Ángel del Señor anunció a María.\nR. Y concibió por obra del Espíritu Santo.\n\n(Se reza un Avemaría)\n\nV. He aquí la esclava del Señor.\nR. Hágase en mí según tu palabra.\n\n(Se reza un Avemaría)\n\nV. Y el Verbo se hizo carne.\nR. Y habitó entre nosotros.\n\n(Se reza un Avemaría)\n\nV. Riega por nosotros, Santa Madre de Dios.\nR. Para que seamos dignos de alcanzar las promesas de Nuestro Señor Jesucristo.\n\nOración:\nTe suplicamos, Señor, que infundas tu gracia en nuestras almas, para que los que hemos conocido, por el anuncio del Ángel, la Encarnación de tu Hijo Jesucristo, por su Pasión y su Cruz seamos llevados a la gloria de su Resurrección. Por el mismo Jesucristo nuestro Señor. Amén."
+    },
+    {
+        "id": 18,
+        "title": "Regina Caeli (Reina del Cielo)",
+        "category": "marianas",
+        "categoryLabel": "Marianas",
+        "author": "Liturgia de Pascua (S. XII)",
+        "snippet": "Reina del cielo, alégrate, aleluya. Porque el Señor, a quien mereciste llevar en tu seno, aleluya. Resucitó según su palabra...",
+        "text": "Reina del cielo, alégrate, aleluya.\nPorque el Señor, a quien mereciste llevar en tu seno, aleluya.\nResucitó según su palabra, aleluya.\nRuega al Señor por nosotros, aleluya.\n\nV. Alégrate y gózate, Virgen María, aleluya.\nR. Porque verdaderamente ha resucitado el Señor, aleluya.\n\nOración:\nOh Dios, que por la resurrección de tu Hijo, nuestro Señor Jesucristo, te has dignado llenar de alegría al mundo; concédenos, por intercesión de su Madre, la Virgen María, llegar a alcanzar los gozos de la vida eterna. Por el mismo Jesucristo nuestro Señor. Amén."
+    },
+    {
+        "id": 19,
+        "title": "Traspasa, dulcísimo Señor",
+        "category": "patres",
+        "categoryLabel": "Santos Padres",
+        "author": "San Buenaventura",
+        "snippet": "Traspasa, dulcísimo Señor Jesús, los tuétanos y entrañas de mi alma con el suavísimo y saludabilísimo dardo de tu amor...",
+        "text": "Traspasa, dulcísimo Señor Jesús, los tuétanos y entrañas de mi alma con el suavísimo y saludabilísimo dardo de tu amor, con una verdadera, serena y apostólica caridad, para que mi alma languidezca y se derrita siempre de amor y deseo de ti, que te anhele y desfallezca por tus atrios, y que desee ser desatada para estar contigo.\n\nHaz que mi alma tenga hambre de ti, Pan de los ángeles, alimento de las almas santas, pan nuestro de cada día, lleno de fuerza, de dulzura y de toda delicia suave.\n\nQue mi corazón tenga siempre sed de ti, fuente de vida, fuente de sabiduría y de ciencia, torrente de delicias divinas, plenitud de la casa de Dios.\n\nQue te busque siempre, te encuentre, corra hacia ti, llegue a ti, medite en ti, hable de ti y lo haga todo para alabanza y gloria de tu santo nombre, con humildad y discreción, con amor y deleite, con facilidad y afecto, con perseverancia hasta el fin. Amén."
+    },
+    {
+        "id": 20,
+        "title": "Oración de Cuaresma",
+        "category": "patres",
+        "categoryLabel": "Santos Padres",
+        "author": "San Efrén de Siria",
+        "snippet": "Señor y Dueño de mi vida, no me des espíritu de pereza, de desánimo, de ambición o de vana locución. En cambio...",
+        "text": "Señor y Dueño de mi vida,\nno me des espíritu de pereza, de desánimo, de ambición o de vana locución.\n\nEn cambio, otórgame a mí, tu siervo, un espíritu de templanza, de humildad, de paciencia y de amor.\n\nSí, Señor y Rey, concédeme ver mis propias faltas y no juzgar a mi hermano, porque tú eres bendito por los siglos de los siglos. Amén."
+    },
+    {
+        "id": 21,
+        "title": "El Magnificat",
+        "category": "marianas",
+        "categoryLabel": "Marianas",
+        "author": "La Virgen María (Lucas 1, 46-55)",
+        "snippet": "Proclama mi alma la grandeza del Señor, se alegra mi espíritu en Dios, mi salvador; porque ha mirado la humillación...",
+        "text": "Proclama mi alma la grandeza del Señor,\nse alegra mi espíritu en Dios, mi salvador;\nporque ha mirado la humillación de su esclava.\n\nDesde ahora me felicitarán todas las generaciones,\nporque el Poderoso ha hecho obras grandes por mí:\nsu nombre es santo,\ny su misericordia llega a sus fieles\nde generación en generación.\n\nÉl hace proezas con su brazo:\ndispersa a los soberbios de corazón,\nderriba del trono a los poderosos\ny enaltece a los humildes;\na los hambrientos los colma de bienes\ny a los ricos los despide vacíos.\n\nAcoge a Israel, su siervo,\nacordándose de la misericordia\ncomo lo había prometido a nuestros padres,\nen favor de Abrahán y su descendencia por siempre."
+    },
+    {
+        "id": 22,
+        "title": "Quédate con nosotros, Señor",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Lucas 24, 29 / Tradición litúrgica",
+        "snippet": "Quédate con nosotros, Señor, porque atardece y el día ya va de caída. Sé nuestro compañero en el camino...",
+        "text": "Quédate con nosotros, Señor, porque atardece y el día ya va de caída.\nSé nuestro compañero en el camino, enciende nuestros corazones y alienta nuestra esperanza, para que, junto con nuestros hermanos, te reconozcamos en las Escrituras y en la fracción del Pan.\n\nTú que vives y reinas por los siglos de los siglos. Amén."
+    },
+    {
+        "id": 23,
+        "title": "Bendición de los Alimentos",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Fórmula tradicional de la Mesa",
+        "snippet": "Bendícenos, Señor, y bendice estos alimentos que por tu bondad vamos a tomar. Concede pan a los que tienen hambre...",
+        "text": "Bendícenos, Señor, y bendice estos alimentos que por tu bondad vamos a tomar.\n\nConcede pan a los que tienen hambre, y hambre de ti a los que tenemos pan.\n\nPor Jesucristo nuestro Señor. Amén.\n\n(Al finalizar de comer):\nTe damos gracias, Señor, por todos tus beneficios. Tú que vives y reinas por los siglos de los siglos. Amén."
+    },
+    {
+        "id": 24,
+        "title": "Oración de Confianza ante la Enfermedad",
+        "category": "dificultad",
+        "categoryLabel": "Dificultad y Paz",
+        "author": "San Pío de Pietrelcina (Padre Pío)",
+        "snippet": "Quédate conmigo, Señor, porque es necesario tenerte presente para no olvidarte. Ya sabes con qué facilidad te abandono...",
+        "text": "Quédate conmigo, Señor, porque es necesario tenerte presente para no olvidarte. Ya sabes con qué facilidad te abandono.\n\nQuédate conmigo, Señor, porque soy débil y necesito tu fuerza para no caer tantas veces.\n\nQuédate conmigo, Señor, porque tú eres mi vida, y sin ti carezco de fervor.\n\nQuédate conmigo, Señor, porque tú eres mi luz, y sin ti estoy en tinieblas.\n\nQuédate conmigo, Señor, para mostrarme tu voluntad. Que oiga tu voz y la siga.\n\nQuédate conmigo, Señor, porque deseo amarte mucho y estar siempre en tu compañía.\n\nQuédate conmigo, Señor, si quieres que te sea fiel. Concede a mi alma un refugio de amor y consuelo. Amén."
+    },
+    {
+        "id": 25,
+        "title": "Oración por la Familia",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "San Juan Pablo II",
+        "snippet": "Oh Dios, de quien procede toda paternidad en el cielo y en la tierra, haz que cada familia humana sobre la tierra se convierta...",
+        "text": "Oh Dios, de quien procede toda paternidad en el cielo y en la tierra, Padre, que eres amor y vida, haz que cada familia humana sobre la tierra se convierta, por medio de tu Hijo Jesús, nacido de mujer, y del Espíritu Santo, fuente de caridad divina, en verdadero santuario de la vida y del amor para las generaciones que se renuevan incesantemente.\n\nHaz que tu gracia guíe los pensamientos y las obras de los esposos hacia el bien de sus familias y de todas las familias del mundo.\n\nHaz que las jóvenes generaciones encuentren en la familia un fuerte apoyo para su humanidad y su crecimiento en la verdad y en el amor.\n\nHaz que el amor, reforzado por la gracia del sacramento del matrimonio, se manifieste más fuerte que cualquier debilidad y cualquier crisis, por las que a veces pasan nuestras familias. Amén."
+    },
+    {
+        "id": 26,
+        "title": "Acordaos (Memorare)",
+        "category": "marianas",
+        "categoryLabel": "Marianas",
+        "author": "San Bernardo de Claraval",
+        "snippet": "Acordaos, oh piadosísima Virgen María, que jamás se ha oído decir que ninguno de los que han acudido a vuestro amparo...",
+        "text": "Acordaos, oh piadosísima Virgen María,\nque jamás se ha oído decir\nque ninguno de los que han acudido a vuestro amparo,\nimplorado vuestra asistencia\no reclamado vuestro socorro,\nhaya sido abandonado de Vos.\n\nAnimado por esta confianza, a Vos también acudo, oh Madre, Virgen de las vírgenes,\ny gimiendo bajo el peso de mis pecados, me atrevo a comparecer ante vuestra presencia soberana.\n\nOh Madre de Dios, no desechéis mis súplicas, antes bien, escuchadlas y acogedlas benignamente. Amén."
+    },
+    {
+        "id": 27,
+        "title": "Oración de la Mañana",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Tradicional",
+        "snippet": "Señor, en el silencio de este día que comienza, vengo a pedirte paz, sabiduría y fortaleza. Hoy quiero mirar el mundo...",
+        "text": "Señor, en el silencio de este día que comienza,\nvengo a pedirte paz, sabiduría y fortaleza.\n\nHoy quiero mirar el mundo con ojos llenos de amor;\nser paciente, comprensivo, humilde y bueno;\nver a tus hijos más allá de las apariencias,\ncomo Tú mismo los ves, para no mirar más que el bien en cada uno de ellos.\n\nCierra mis oídos a toda murmuración,\nguarda mi lengua de toda maledicencia,\nque solo los pensamientos que bendigan permanezcan en mí.\n\nQue sea tan bienintencionado y alegre\nque todos los que se acerquen a mí sientan tu presencia.\nRevísteme de tu bondad, Señor, y que a lo largo de este día yo te irradie. Amén."
+    },
+    {
+        "id": 28,
+        "title": "La Coraza de San Patricio",
+        "category": "dificultad",
+        "categoryLabel": "Dificultad y Paz",
+        "author": "San Patricio de Irlanda",
+        "snippet": "Cristo conmigo, Cristo delante de mí, Cristo detrás de mí, Cristo en mí, Cristo debajo de mí, Cristo sobre mí...",
+        "text": "Me levanto hoy\npor medio de una fuerza poderosa, la invocación de la Trinidad,\npor medio de la fe en las Tres Personas,\npor la confesión de la unidad del Creador de la creación.\n\nCristo conmigo, Cristo delante de mí, Cristo detrás de mí,\nCristo en mí, Cristo debajo de mí, Cristo sobre mí,\nCristo a mi derecha, Cristo a mi izquierda,\nCristo al acostarme, Cristo al sentarme, Cristo al levantarme,\nCristo en el corazón de todo hombre que piense en mí,\nCristo en la boca de todo hombre que hable de mí,\nCristo en todo ojo que me vea,\nCristo en todo oído que me escuche.\n\nMe levanto hoy\npor medio de una fuerza poderosa, la invocación de la Trinidad. Amén."
+    },
+    {
+        "id": 29,
+        "title": "Oración por los Difuntos (Requiem)",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Liturgia de Difuntos",
+        "snippet": "Dales, Señor, el descanso eterno, y brille para ellos la luz perpetua. Que las almas de los fieles difuntos...",
+        "text": "Dales, Señor, el descanso eterno,\ny brille para ellos la luz perpetua.\n\nQue las almas de los fieles difuntos, por la misericordia de Dios, descansen en paz. Amén."
+    },
+    {
+        "id": 30,
+        "title": "Oración por la Paz",
+        "category": "dificultad",
+        "categoryLabel": "Dificultad y Paz",
+        "author": "San Juan XXIII",
+        "snippet": "Señor Jesucristo, que eres llamado Príncipe de la Paz, que eres Tú mismo nuestra paz y nuestra reconciliación...",
+        "text": "Señor Jesucristo, que eres llamado Príncipe de la Paz, que eres Tú mismo nuestra paz y nuestra reconciliación, mira con benevolencia a los hombres de nuestro tiempo y derrama sobre ellos tu Espíritu de paz.\n\nDestierra de los corazones todo lo que pueda poner en peligro la paz: la ambición, la desconfianza, el egoísmo y el odio.\n\nHaz de todos los hombres un solo pueblo de hermanos, unidos en el amor y en el servicio a la justicia. Que tu paz reine en nuestras almas, en nuestras familias y en todas las naciones del mundo. Amén."
+    },
+    {
+        "id": 31,
+        "title": "Acto de Fe",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Fórmula de Catequesis",
+        "snippet": "Dios mío, creo firmemente todo lo que la Santa Iglesia Católica propone para creer, porque Tú lo has revelado...",
+        "text": "Dios mío, creo firmemente todo lo que la Santa Iglesia Católica propone para creer, porque Tú, Verdad infalible, lo has revelado.\n\nCreo en Dios Padre, en Dios Hijo y en Dios Espíritu Santo.\nCreo en la vida eterna, en el perdón de los pecados y en la resurrección de los muertos.\n\nEn esta fe quiero vivir y morir. Amén."
+    },
+    {
+        "id": 32,
+        "title": "Acto de Esperanza",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Fórmula de Catequesis",
+        "snippet": "Dios mío, espero con firme confianza que me concederás la vida eterna y las gracias necesarias para merecerla...",
+        "text": "Dios mío, espero con firme confianza que me concederás, por los méritos de Jesucristo, la vida eterna y las gracias necesarias para merecerla, porque Tú lo has prometido y eres infinitamente fiel y poderoso.\n\nEn ti, Señor, he puesto mi esperanza; no quede yo defraudado para siempre. Amén."
+    },
+    {
+        "id": 33,
+        "title": "Acto de Caridad",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Fórmula de Catequesis",
+        "snippet": "Dios mío, te amo sobre todas las cosas y con todo mi corazón, porque eres infinitamente bueno y digno de ser amado...",
+        "text": "Dios mío, te amo sobre todas las cosas y con todo mi corazón, porque eres infinitamente bueno y digno de ser amado.\n\nPor amor a ti, amo a mi prójimo como a mí mismo y perdono de corazón todas las ofensas que he recibido.\n\nSeñor, haz que te ame cada día más. Amén."
+    },
+    {
+        "id": 34,
+        "title": "Oración de la Serenidad",
+        "category": "dificultad",
+        "categoryLabel": "Dificultad y Paz",
+        "author": "Reinhold Niebuhr",
+        "snippet": "Dios, concédeme la serenidad para aceptar las cosas que no puedo cambiar, el valor para cambiar las cosas que puedo cambiar...",
+        "text": "Dios, concédeme la serenidad\npara aceptar las cosas que no puedo cambiar;\nel valor para cambiar las cosas que puedo cambiar;\ny la sabiduría para conocer la diferencia.\n\nViviendo un día a la vez;\ndisfrutando un momento a la vez;\naceptando las dificultades como el sendero hacia la paz;\ntomando, como Jesús lo hizo, este mundo pecador tal y como es, no como yo quisiera que fuera;\nconfiando en que Tú harás todas las cosas bien si me entrego a tu voluntad;\npara que sea razonablemente feliz en esta vida y supremamente feliz contigo para siempre en la eternidad. Amén."
+    },
+    {
+        "id": 35,
+        "title": "Oración a San José",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Papa León XIII",
+        "snippet": "A ti, bienaventurado San José, acudimos en nuestra tribulación, y después de implorar el auxilio de tu santísima Esposa...",
+        "text": "A ti, bienaventurado San José, acudimos en nuestra tribulación, y después de implorar el auxilio de tu santísima Esposa, solicitamos también confiadamente tu patrocinio.\n\nPor aquella caridad que te unió con la Virgen Inmaculada, Madre de Dios, y por el amor paternal con que abrazaste al Niño Jesús, te suplicamos que vuelvas los ojos misericordiosos a la herencia que Jesucristo conquistó con su sangre, y socorras nuestras necesidades con tu poder y auxilio.\n\nDefiende, oh custodio providente de la divina Familia, la descendencia escogida de Jesucristo; aparta de nosotros toda mancha de error y de corrompimiento; asístenos propicio desde el cielo, en esta lucha contra el poder de las tinieblas; y así como en otro tiempo libraste de la muerte la vida amenazada del Niño Jesús, defiende ahora a la santa Iglesia de Dios de las acechanzas de sus enemigos y de toda adversidad. Amén."
+    },
+    {
+        "id": 36,
+        "title": "Oración por las Vocaciones",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Papa San Pablo VI",
+        "snippet": "Oh Jesús, Divino Pastor de las almas, que llamaste a los apóstoles para hacerlos pescadores de hombres...",
+        "text": "Oh Jesús, Divino Pastor de las almas, que llamaste a los apóstoles para hacerlos pescadores de hombres, atrae hacia ti las almas ardientes y generosas de los jóvenes, para hacerlos tus seguidores y tus ministros.\n\nHazlos partícipes de tu sed de redención universal, por la cual renuevas sobre tus altares tu sacrificio redentor.\n\nTú, Señor, que vives para interceder por nosotros, ábreles los horizontes del mundo entero, donde la muda súplica de tantos hermanos pide luz de verdad y calor de amor; para que, respondiendo a tu llamada, prolonguen aquí en la tierra tu misión, edifiquen tu Cuerpo Místico, que es la Iglesia, y sean sal de la tierra y luz del mundo. Amén."
+    },
+    {
+        "id": 37,
+        "title": "Mira la Estrella, invoca a María",
+        "category": "patres",
+        "categoryLabel": "Santos Padres",
+        "author": "San Bernardo de Claraval",
+        "snippet": "Si se levantan los vientos de la tentación, si tropiezas con los escollos de la tribulación, mira a la estrella, invoca a María...",
+        "text": "Si se levantan los vientos de la tentación,\nsi tropiezas con los escollos de la tribulación,\nmira a la estrella, invoca a María.\n\nSi eres sacudido por las olas de la soberbia, de la ambición, de la murmuración, de la envidia,\nmira a la estrella, invoca a María.\n\nSi la ira, la avaricia o los deleites de la carne sacuden la barquilla de tu alma,\nmira a la estrella, invoca a María.\n\nSi, turbado por la memoria de la enormidad de tus pecados, confuso ante la fealdad de tu conciencia, temeroso ante la idea del juicio, comienzas a hundirte en la sima de la tristeza o en el abismo de la desesperación,\npiensa en María.\n\nEn los peligros, en las angustias, en las dudas,\npiensa en María, invoca a María.\nQue no se aparte de tu boca, que no se aparte de tu corazón.\nY para conseguir su intercesión, no te desvíes de su ejemplo.\nSiguiéndola, no te extraviarás; rogándole, no desesperarás; pensando en ella, no te perderás. Amén."
+    },
+    {
+        "id": 38,
+        "title": "Oración ante Jesús Crucificado",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Tradicional",
+        "snippet": "Mírame, oh mi amado y buen Jesús, postrado en tu presencia. Te ruego con el mayor fervor que imprimas en mi corazón...",
+        "text": "Mírame, oh mi amado y buen Jesús, postrado en tu presencia. Te ruego con el mayor fervor que imprimas en mi corazón los más vivos sentimientos de fe, esperanza y caridad, de verdadero dolor de mis pecados y de propósito firme de enmienda.\n\nMientras yo, con gran amor y compasión, voy contemplando tus cinco llagas, teniendo presente lo que de ti dijo el profeta David: «Han taladrado mis manos y mis pies, puedo contar todos mis huesos». Amén."
+    },
+    {
+        "id": 39,
+        "title": "Oración antes de Comulgar",
+        "category": "patres",
+        "categoryLabel": "Santos Padres",
+        "author": "Santo Tomás de Aquino",
+        "snippet": "Omnipotente y eterno Dios, heme aquí que me acerco al sacramento de tu unigénito Hijo, nuestro Señor Jesucristo...",
+        "text": "Omnipotente y eterno Dios, heme aquí que me acerco al sacramento de tu unigénito Hijo, nuestro Señor Jesucristo.\n\nMe acerco como enfermo al médico de la vida, como inmundo a la fuente de la misericordia, como ciego a la luz de la claridad eterna, como pobre y necesitado al Señor del cielo y de la tierra.\n\nRuego, pues, a tu infinita bondad que te dignes curar mi enfermedad, lavar mi suciedad, iluminar mi ceguera, enriquecer mi pobreza y vestir mi desnudez, para que pueda recibir el Pan de los ángeles, al Rey de los reyes y Señor de los señores, con tanta reverencia y humildad, con tanta contrición y devoción, con tanta pureza y fe, y con tal propósito y la intención que conviene para la salvación de mi alma. Amén."
+    },
+    {
+        "id": 40,
+        "title": "Visita al Santísimo Sacramento",
+        "category": "patres",
+        "categoryLabel": "Santos Padres",
+        "author": "San Alfonso María de Ligorio",
+        "snippet": "Señor mío Jesucristo, que por amor a los hombres permaneces día y noche en este sacramento, lleno de misericordia y de amor...",
+        "text": "Señor mío Jesucristo, que por amor a los hombres permaneces día y noche en este sacramento, lleno de misericordia y de amor, esperando, llamando y acogiendo a todos los que vienen a visitarte;\nyo creo que estás presente en el Santísimo Sacramento del Altar.\n\nTe adoro desde el abismo de mi nada, y te doy gracias por todos los beneficios que me has hecho, especialmente por haberte dado a mí en este sacramento, por haberme concedido como abogada a tu santísima Madre María, y por haberme llamado a visitarte en este templo.\n\nConsagro hoy a ti todo mi corazón, mis deseos y mi voluntad. De ahora en adelante, haz de mí lo que te agrade; solo te pido y deseo tu santo amor, la perseverancia final y el perfecto cumplimiento de tu voluntad. Amén."
+    },
+    {
+        "id": 41,
+        "title": "Oración del Peregrino",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Bendición de Santiago de Compostela",
+        "snippet": "Señor Dios, que sacaste a tu siervo Abrahán de la ciudad de Ur de los Caldeos, protegiéndole en todas sus peregrinaciones...",
+        "text": "Señor Dios, que sacaste a tu siervo Abrahán de la ciudad de Ur de los Caldeos, protegiéndole en todas sus peregrinaciones, y que fuiste el guía del pueblo de Israel a través del desierto;\nte suplicamos que te dignes guardar a estos siervos tuyos que, por amor a tu nombre, peregrinan hacia Santiago.\n\nSé para ellos compañero en la marcha, guía en las dificultades, sombra protectora contra el calor del día, luz en la oscuridad, consuelo en los desalientos y fortaleza en las fatigas;\npara que, guiados por ti, lleguen felizmente al término de su camino y, enriquecidos de gracias y virtudes, retornen sanos y salvos a sus hogares. Por Jesucristo nuestro Señor. Amén."
+    },
+    {
+        "id": 42,
+        "title": "Alma de la Virgen (Anima Mariae)",
+        "category": "marianas",
+        "categoryLabel": "Marianas",
+        "author": "Devoción tradicional",
+        "snippet": "Alma de María, santifícame. Corazón de María, inflámame. Manos de María, sosténme. Pies de María, dirígeme...",
+        "text": "Alma de María, santifícame.\nCorazón de María, inflámame.\nManos de María, sosténme.\nPies de María, dirígeme.\nOjos de María, mírame.\nLabios de María, háblame.\nDolores de María, confórtenme.\n¡Oh dulce María!, óyeme.\nEn el manto de tu protección, escóndeme.\nNo permitas que me aparte de ti.\nDe mis enemigos espirituales, defiéndeme.\nEn la hora de mi muerte, llámame.\nY mándame ir a ti,\npara que con los ángeles y santos te alabe,\npor los siglos de los siglos. Amén."
+    },
+    {
+        "id": 43,
+        "title": "Oración por el Trabajo",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "A San José Obrero",
+        "snippet": "Glorioso San José, modelo de todos los que se dedican al trabajo, obtenme la gracia de trabajar con espíritu de penitencia...",
+        "text": "Glorioso San José, modelo de todos los que se dedican al trabajo, obtenme la gracia de trabajar con espíritu de penitencia para la expiación de mis numerosos pecados;\nde trabajar a conciencia, poniendo el cumplimiento de mi deber por encima de mis inclinaciones naturales;\nde trabajar con agradecimiento y alegría, considerando un honor emplear y desarrollar mediante el trabajo los dones recibidos de Dios;\nde trabajar con orden, paz, moderación y paciencia, sin retroceder jamás ante el cansancio o las dificultades.\n\nObtenme, sobre todo, la gracia de trabajar con pureza de intención y desprendimiento de mí mismo, teniendo siempre ante mis ojos la muerte y la cuenta que deberé rendir del tiempo perdido, de los talentos inutilizados, del bien omitido y de la vana complacencia en el éxito, tan contraria a la obra de Dios.\n\nTodo por Jesús, todo por María, todo a imitación tuya, oh patriarca San José. Esta será mi consigna en la vida y en la muerte. Amén."
+    },
+    {
+        "id": 44,
+        "title": "Oración para antes de Estudiar",
+        "category": "patres",
+        "categoryLabel": "Santos Padres",
+        "author": "Santo Tomás de Aquino",
+        "snippet": "Dame, Señor, agudeza para entender, capacidad para retener, método y facilidad para aprender, sutileza para interpretar...",
+        "text": "Señor Dios, fuente de toda luz y sabiduría, infunde sobre mi entendimiento el rayo de tu claridad.\n\nDame agudeza para entender, capacidad para retener, método y facilidad para aprender, sutileza para interpretar, y gracia abundante para hablar.\n\nPrescribe el comienzo, dirige el progreso y completa el término, Tú que eres verdadero Dios y Hombre, y que vives y reinas por los siglos de los siglos. Amén."
+    },
+    {
+        "id": 45,
+        "title": "Acción de Gracias después de Comulgar",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "San Buenaventura / Tradicional",
+        "snippet": "Te doy gracias, Señor, Padre santo, Dios todopoderoso y eterno, porque te has dignado alimentar a este pecador...",
+        "text": "Te doy gracias, Señor, Padre santo, Dios todopoderoso y eterno, porque sin mérito alguno de mi parte, sino por tu sola misericordia, te has dignado alimentar a este pecador con el cuerpo y la sangre preciosísima de tu Hijo, nuestro Señor Jesucristo.\n\nTe ruego que esta sagrada comunión no sea para mí motivo de castigo, sino prenda de salvación y de perdón. Sea para mí armadura de fe y escudo de buena voluntad; sea liberación de mis vicios, destrucción de mis concupiscencias y aumento de mi caridad y paciencia, de mi humildad y obediencia, y de todas las virtudes.\n\nSea defensa firme contra las acechanzas de todos mis enemigos, tanto visibles como invisibles; sea pacificación perfecta de todos mis impulsos carnales y espirituales; sea unión íntima contigo, único y verdadero Dios, y sello feliz de mi muerte. Amén."
+    },
+    {
+        "id": 46,
+        "title": "Oración por la Santa Iglesia",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Litúrgica",
+        "snippet": "Señor, protege a tu Iglesia con tu constante amor, y puesto que sin ti el hombre cae por su debilidad, manténla siempre...",
+        "text": "Señor, protege a tu Iglesia con tu constante amor, y puesto que sin ti el hombre cae por su debilidad, manténla siempre bajo tu guía y protección, líbrala de todo mal y condúcela por el camino de la salvación.\n\nConcede al Papa, a los obispos, sacerdotes y a todos los fieles la fuerza de tu Espíritu Santo, para que den testimonio de tu amor y de tu verdad en medio del mundo, y edifiquen el Reino de justicia, amor y paz que Tú nos has prometido. Por Jesucristo nuestro Señor. Amén."
+    },
+    {
+        "id": 47,
+        "title": "Oración a la Santísima Trinidad",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Santa Isabel de la Trinidad",
+        "snippet": "¡Oh Dios mío, Trinidad a quien adoro! Ayúdame a olvidarme enteramente de mí para establecerme en ti, inmóvil y pacífica...",
+        "text": "¡Oh Dios mío, Trinidad a quien adoro! Ayúdame a olvidarme enteramente de mí para establecerme en ti, inmóvil y pacífica como si mi alma estuviera ya en la eternidad.\n\nQue nada pueda turbar mi paz, ni hacerme salir de ti, mi Dios inmutable, sino que cada minuto me lleve más adentro en la profundidad de tu Misterio.\n\nPacifica mi alma, haz de ella tu cielo, tu morada predilecta y el lugar de tu descanso. Que nunca te deje allí solo, sino que esté allí enteramente presente, despierta en mi fe, adorándote y entregada por completo a tu acción creadora. Amén."
+    },
+    {
+        "id": 48,
+        "title": "Estación al Santísimo Sacramento",
+        "category": "diarias",
+        "categoryLabel": "Oración Diaria",
+        "author": "Fórmula de Adoración",
+        "snippet": "Alabado sea el Santísimo Sacramento del Altar, y la Virgen concebida sin pecado original. Padre nuestro, Ave María y Gloria...",
+        "text": "V. Alabado sea el Santísimo Sacramento del Altar.\nR. Y la Virgen concebida sin pecado original.\n\nPadre nuestro, Ave María y Gloria al Padre.\n\n(Se repite tres veces en adoración y reparación por las ofensas cometidas contra la Eucaristía, y se concluye con la comunión espiritual):\n\nJesús mío, creo que estás realmente presente en el Santísimo Sacramento del Altar. Te amo sobre todas las cosas y deseo recibirte en mi alma. Pero no pudiendo hacerlo ahora sacramentalmente, ven al menos espiritualmente a mi corazón. Y como si ya te hubiese recibido, te abrazo y me uno del todo a ti. No permitas, Señor, que jamás me separe de ti. Amén."
+    },
+    {
+        "id": 49,
+        "title": "Oración por las Misiones",
+        "category": "patres",
+        "categoryLabel": "Santos Padres",
+        "author": "San Francisco Javier",
+        "snippet": "Eterno Dios, Creador de todas las cosas, acuérdate de las almas de los infieles, que son obra de tus manos, creadas a tu imagen...",
+        "text": "Eterno Dios, Creador de todas las cosas, acuérdate de las almas de los hombres, que son obra de tus manos, creadas a tu imagen y semejanza.\n\nMira, Señor, cómo en tu deshonra el infierno se llena de ellas; acuérdate de que tu Hijo Jesús padeció por ellas una muerte dolorosa. No permitas, Señor, que tu Hijo sea por más tiempo despreciado de ellos; antes bien, déjate aplacar por las oraciones de tus santos y de la Iglesia, y acuérdate de tu misericordia.\n\nOlvidando su idolatría e infidelidad, haz que reconozcan a Jesucristo, a quien enviaste, que es nuestra salud, vida y resurrección, por quien fuimos libres y salvados, a quien sea la gloria por los siglos de los siglos. Amén."
+    },
+    {
+        "id": 50,
+        "title": "El Señor es mi Pastor",
+        "category": "dificultad",
+        "categoryLabel": "Dificultad y Paz",
+        "author": "Rey David (Salmo 23)",
+        "snippet": "El Señor es mi pastor, nada me falta: en verdes praderas me hace recostar; me conduce hacia fuentes tranquilas y repara mis fuerzas...",
+        "text": "El Señor es mi pastor, nada me falta:\nen verdes praderas me hace recostar;\nme conduce hacia fuentes tranquilas\ny repara mis fuerzas.\n\nMe guía por el sendero justo,\npor el honor de su nombre.\nAunque camine por cañadas oscuras,\nnada temo, porque tú vas conmigo:\ntu vara y tu cayado me sosiegan.\n\nPreparas una mesa ante mí\nenfrente de mis enemigos;\nme unges la cabeza con perfume,\ny mi copa rebosa.\n\nTu bondad y tu misericordia me acompañan\ntodos los días de mi vida;\ny habitaré en la casa del Señor\npor años sin término."
+    }
+]

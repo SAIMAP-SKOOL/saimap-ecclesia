@@ -1,0 +1,2648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAIMAP Ecclesia - Portal Práctico de Vida Cristiana</title>
+    <meta name="description" content="Demo de la plataforma SAIMAP Ecclesia. Oracional, Cancionero Litúrgico Interactivo y Altar Diario con estética sepia y solemne.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Paleta Sepia Litúrgica / Pergamino */
+            --bg-page: #f5f0e6;       /* Pergamino claro */
+            --bg-card: #ebdcb9;       /* Papel antiguo ligeramente más oscuro */
+            --bg-card-hover: #e3d2aa; /* Hover del papel antiguo */
+            --border-color: #d1bf9a;  /* Tono cuero para bordes */
+            --text-dark: #2a2015;     /* Tinta marrón muy oscura */
+            --text-muted: #5e4c39;    /* Tinta difuminada */
+            --rubric-red: #8c2525;    /* Rojo litúrgico para títulos y acentos */
+            --rubric-red-hover: #b23a3a;
+            --accent-gold: #c29b38;   /* Dorado antiguo */
+            --shadow-soft: 0 4px 15px rgba(42, 32, 21, 0.08);
+            --shadow-hover: 0 8px 25px rgba(42, 32, 21, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'EB Garamond', serif;
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 80%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.015'/%3E%3C/svg%3E");
+        }
+
+        /* Tipografías base */
+        h1, h2, h3, h4, .font-solemn {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.05em;
+        }
+
+        /* NAVEGACIÓN Y CABECERA */
+        header {
+            border-bottom: 2px solid var(--border-color);
+            background-color: var(--bg-page);
+            padding: 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .header-container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+        .logo-block {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--rubric-red);
+        }
+
+        .logo-symbol {
+            font-size: 2rem;
+            font-weight: 900;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .logo-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(42, 32, 21, 0.05);
+            padding: 0.3rem;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .nav-btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            color: var(--rubric-red);
+        }
+
+        .nav-btn.active {
+            background-color: var(--rubric-red);
+            color: var(--bg-page);
+            box-shadow: 0 4px 10px rgba(140, 37, 37, 0.25);
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        main {
+            flex: 1;
+            max-width: 1100px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-panel {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+
+        .section-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ------------------ SECCIÓN 1: EL ALTAR DIARIO ------------------ */
+        .altar-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 800px) {
+            .altar-grid {
+                grid-template-columns: 1.6fr 1fr;
+            }
+        }
+
+        /* Estilos generales de tarjetas */
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            left: 4px;
+            right: 4px;
+            border: 1px solid rgba(42, 32, 21, 0.05);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        .card-header-liturgy {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rubric-tag {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--rubric-red);
+            letter-spacing: 0.1em;
+        }
+
+        .card-title {
+            color: var(--text-dark);
+            font-size: 1.8rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .sacred-text {
+            font-size: 1.25rem;
+            line-height: 1.7;
+            text-align: justify;
+            white-space: pre-line;
+            color: var(--text-dark);
+        }
+
+        .sacred-text::first-letter {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            float: left;
+            margin-right: 0.5rem;
+            line-height: 0.9;
+            color: var(--rubric-red);
+            font-weight: 700;
+        }
+
+        .liturgy-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            gap: 0.5rem;
+        }
+
+        .liturgy-tab-btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            border: none;
+            background: transparent;
+            padding: 0.75rem 1rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .liturgy-tab-btn:hover {
+            color: var(--rubric-red);
+        }
+
+        .liturgy-tab-btn.active {
+            color: var(--rubric-red);
+            border-bottom-color: var(--rubric-red);
+        }
+
+        /* ------------------ SECCIÓN 2: ORATORIO (DEVOCIONARIO) ------------------ */
+        .search-filter-bar {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        @media (min-width: 768px) {
+            .search-filter-bar {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.6rem 1rem 0.6rem 2.2rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-page);
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--rubric-red);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tag-btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: var(--bg-page);
+            border: 1px solid var(--border-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+        }
+
+        .filter-tag-btn:hover, .filter-tag-btn.active {
+            background-color: var(--rubric-red);
+            color: var(--bg-page);
+            border-color: var(--rubric-red);
+        }
+
+        .oraciones-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 600px) {
+            .oraciones-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .oracion-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 200px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .oracion-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-gold);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .oracion-meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--rubric-red);
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .oracion-title {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .oracion-snippet {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-align: justify;
+        }
+
+        .oracion-author {
+            margin-top: 1rem;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            border-top: 1px solid rgba(42, 32, 21, 0.08);
+            padding-top: 0.5rem;
+        }
+
+        /* ------------------ MODAL DE LECTURA (ORACIÓN COMPLETA) ------------------ */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(26, 20, 13, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--bg-page);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            max-width: 650px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 2.5rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.012'/%3E%3C/svg%3E");
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            border: none;
+            background: transparent;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.2s ease;
+        }
+
+        .modal-close-btn:hover {
+            color: var(--rubric-red);
+        }
+
+        .modal-meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--rubric-red);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .modal-body {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            text-align: justify;
+            white-space: pre-line;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            padding: 0 1rem;
+        }
+
+        .modal-author {
+            text-align: center;
+            font-style: italic;
+            font-size: 1.05rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+            color: var(--text-muted);
+        }
+
+        /* ------------------ SECCIÓN 3: CANCIONERO INTERACTIVO ------------------ */
+        .song-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 900px) {
+            .song-container {
+                grid-template-columns: 1fr 320px;
+            }
+        }
+
+        .song-controls-panel {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .instrument-selector {
+            display: flex;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            background: var(--bg-page);
+        }
+
+        .inst-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+        }
+
+        .inst-btn.active {
+            background-color: var(--rubric-red);
+            color: var(--bg-page);
+        }
+
+        .transpose-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .transpose-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-page);
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .transpose-btn:hover {
+            border-color: var(--rubric-red);
+            color: var(--rubric-red);
+        }
+
+        .transpose-value {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            width: 40px;
+            text-align: center;
+        }
+
+        .chord-tooltip-area {
+            background-color: var(--bg-page);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tooltip-chord-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--rubric-red);
+            margin-bottom: 0.5rem;
+        }
+
+        /* SVG del Diagrama del Teclado del Piano */
+        .piano-svg-diagram {
+            width: 180px;
+            height: 80px;
+        }
+
+        /* SVG del Diagrama de Guitarra */
+        .guitar-svg-diagram {
+            width: 100px;
+            height: 110px;
+        }
+
+        /* LA LETRA DE LA CANCIÓN Y LOS ACORDES */
+        .song-sheet-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .song-title-area {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .song-title {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .song-meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .song-body {
+            font-size: 1.2rem;
+            line-height: 2.2;
+            white-space: pre-wrap;
+            color: var(--text-dark);
+        }
+
+        /* Los acordes integrados en el texto */
+        .chord-line {
+            display: inline-block;
+            position: relative;
+            margin-right: 0.25rem;
+        }
+
+        .chord {
+            position: absolute;
+            top: -1.2rem;
+            left: 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--rubric-red);
+            cursor: pointer;
+            user-select: none;
+            background: transparent;
+            padding: 0 1px;
+            border-bottom: 1px dotted var(--rubric-red);
+        }
+
+        .chord:hover {
+            color: var(--accent-gold);
+            border-bottom-color: var(--accent-gold);
+        }
+
+        .youtube-box {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            height: 150px;
+            background-color: #000;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .youtube-box::before {
+            content: '▶';
+            font-size: 2.5rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .youtube-box-text {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            font-size: 0.75rem;
+            color: #ccc;
+        }
+
+        /* BOTÓN FLOTANTE O DE ORACIÓN RÁPIDA */
+        .footer-note {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Calendario Litúrgico */
+        .calendar-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .calendar-date-picker {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            background: var(--bg-page);
+            border: 1px solid var(--border-color);
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-date-picker:focus {
+            outline: none;
+            border-color: var(--rubric-red);
+            box-shadow: 0 0 5px rgba(140, 37, 37, 0.2);
+        }
+
+        .liturgical-season-info {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--accent-gold);
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+            display: inline-block;
+            border-bottom: 1px dashed var(--accent-gold);
+            padding-bottom: 2px;
+        }
+
+        /* Estilos de la Bitácora Emocional */
+        .calendar-day-cell {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 6px;
+            background-color: var(--bg-page);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .calendar-day-cell:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(42,32,21,0.08);
+        }
+
+        .calendar-day-number {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .calendar-day-mood-indicator {
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .calendar-day-cell.other-month {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .calendar-day-cell.selected {
+            border: 2px solid var(--rubric-red);
+            box-shadow: 0 0 8px rgba(140, 37, 37, 0.25);
+        }
+
+        .calendar-day-cell.today {
+            border: 2px solid var(--accent-gold);
+        }
+
+        /* Colores litúrgicos de los estados de la bitácora */
+        .mood-consolacion {
+            background-color: rgba(194, 155, 56, 0.15) !important;
+            border-color: rgba(194, 155, 56, 0.4) !important;
+        }
+        .mood-agradecimiento {
+            background-color: rgba(128, 0, 128, 0.1) !important;
+            border-color: rgba(128, 0, 128, 0.3) !important;
+        }
+        .mood-esperanza {
+            background-color: rgba(45, 106, 79, 0.12) !important;
+            border-color: rgba(45, 106, 79, 0.3) !important;
+        }
+        .mood-desolacion {
+            background-color: rgba(94, 76, 57, 0.12) !important;
+            border-color: rgba(94, 76, 57, 0.3) !important;
+        }
+        .mood-turbacion {
+            background-color: rgba(140, 37, 37, 0.12) !important;
+            border-color: rgba(140, 37, 37, 0.3) !important;
+        }
+
+        /* Diseño del Grid del calendario */
+        @media (min-width: 768px) {
+            #bitacora-grid-layout {
+                grid-template-columns: 1.4fr 1fr !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo-block">
+                <span class="logo-symbol">⚜</span>
+                <div class="logo-text">
+                    <span class="logo-title">SAIMAP ECCLESIA</span>
+                    <span class="logo-subtitle">Vida Práctica y Liturgia</span>
+                </div>
+            </a>
+            
+            <nav class="main-nav">
+                <button class="nav-btn active" onclick="switchTab('altar')">Altar Diario</button>
+                <button class="nav-btn" onclick="switchTab('oratorio')">Oratorio</button>
+                <button class="nav-btn" onclick="switchTab('cancionero')">Cancionero</button>
+                <button class="nav-btn" onclick="switchTab('estudios')">Estudios</button>
+                <button class="nav-btn" onclick="switchTab('bitacora')">Bitácora</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        
+        <!-- 1. SECCIÓN: EL ALTAR DIARIO -->
+        <section id="panel-altar" class="section-panel active">
+            <div class="altar-grid">
+                
+                <div class="card">
+                    <div class="card-header-liturgy">
+                        <span class="rubric-tag">Evangelio del Día</span>
+                        <div class="calendar-controls">
+                            <input type="date" id="liturgical-date" class="calendar-date-picker" onchange="loadEvangelioForDate(this.value)">
+                        </div>
+                    </div>
+                    <div class="liturgical-season-info" id="liturgical-season-info-el">Cargando temporada...</div>
+                    <h2 class="card-title" id="evangelio-cita-el" style="margin: 0.5rem 0 1rem 0; font-family: 'Playfair Display', serif;">Cargando...</h2>
+                    <div class="sacred-text" id="evangelio-texto-el">Cargando lectura del Evangelio...</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header-liturgy">
+                        <span class="rubric-tag">Liturgia de las Horas</span>
+                    </div>
+                    
+                    <div class="liturgy-tabs">
+                        <button class="liturgy-tab-btn active" onclick="switchLiturgy('laudes')">Laudes</button>
+                        <button class="liturgy-tab-btn" onclick="switchLiturgy('visperas')">Vísperas</button>
+                        <button class="liturgy-tab-btn" onclick="switchLiturgy('completas')">Completas</button>
+                    </div>
+
+                    <div id="liturgy-content">
+                        <!-- Carga dinámica por JS -->
+                        <h3 class="font-solemn" style="font-size: 1.1rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Himno de la Mañana</h3>
+                        <p style="font-style: italic; line-height: 1.6; margin-bottom: 1.2rem; white-space: pre-line;">
+                            Alegre la mañana que nos habla de ti,
+                            alegre la mañana.
+                            En el nombre del Padre, del Hijo y del Espíritu,
+                            salimos a la luz de la mañana.
+                        </p>
+                        <h3 class="font-solemn" style="font-size: 1.1rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Antífona</h3>
+                        <p style="font-size: 1.05rem; line-height: 1.5;">Señor, abre mis labios, y mi boca proclamará tu alabanza. ¡Aleluya!</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 2. SECCIÓN: ORATORIO -->
+        <section id="panel-oratorio" class="section-panel">
+            <div class="search-filter-bar">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-oraciones" class="search-input" placeholder="Buscar por oración, santo..." oninput="filterOraciones()">
+                </div>
+                
+                <div class="filter-tags">
+                    <button class="filter-tag-btn active" onclick="filterCategory('todos', this)">Todas</button>
+                    <button class="filter-tag-btn" onclick="filterCategory('diarias', this)">Diarias</button>
+                    <button class="filter-tag-btn" onclick="filterCategory('dificultad', this)">Dificultad y Paz</button>
+                    <button class="filter-tag-btn" onclick="filterCategory('marianas', this)">Marianas</button>
+                    <button class="filter-tag-btn" onclick="filterCategory('patres', this)">Santos Padres</button>
+                </div>
+            </div>
+
+            <div class="oraciones-grid" id="oraciones-grid-el">
+                <!-- Se rellena con JS -->
+            </div>
+        </section>
+
+        <!-- 3. SECCIÓN: CANCIONERO LITÚRGICO -->
+        <section id="panel-cancionero" class="section-panel">
+            <div class="search-filter-bar">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-canciones" class="search-input" placeholder="Buscar cantos por título, autor, letra..." oninput="filterCanciones()">
+                </div>
+                
+                <div class="filter-tags">
+                    <button class="filter-tag-btn active" onclick="filterSongCategory('todos', this)">Todos</button>
+                    <button class="filter-tag-btn" onclick="filterSongCategory('entrada', this)">Entrada</button>
+                    <button class="filter-tag-btn" onclick="filterSongCategory('comunion', this)">Comunión</button>
+                    <button class="filter-tag-btn" onclick="filterSongCategory('salida', this)">Salida / Misión</button>
+                </div>
+            </div>
+
+            <div class="oraciones-grid" id="canciones-grid-el">
+                <!-- Se rellena dinámicamente con JS -->
+            </div>
+        </section>
+
+        <!-- 5. SECCIÓN: ESTUDIOS (ACADEMIA) -->
+        <section id="panel-estudios" class="section-panel">
+            <div class="card" style="margin-bottom: 2rem;">
+                <div class="card-header-liturgy">
+                    <span class="rubric-tag">Academia Ecclesia</span>
+                </div>
+                <h2 class="card-title" style="margin: 0.5rem 0 1rem 0; font-family: 'Playfair Display', serif;">Aula de Estudios e Idiomas</h2>
+                <p style="font-size: 1.15rem; line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; color: var(--text-muted);">
+                    Bienvenido a la sección de estudios. Explora la teología patrística, familiarízate con los modos del canto gregoriano a través del piano litúrgico o aprende las lenguas sagradas e históricas que han dado forma a la liturgia.
+                </p>
+
+                <!-- Sub-pestañas de la Academia -->
+                <div class="liturgy-tabs" style="margin-bottom: 2rem;">
+                    <button class="liturgy-tab-btn active" id="subtab-teologia-btn" onclick="switchSubStudy('teologia')">Teología</button>
+                    <button class="liturgy-tab-btn" id="subtab-musica-btn" onclick="switchSubStudy('musica')">Música</button>
+                    <button class="liturgy-tab-btn" id="subtab-idiomas-btn" onclick="switchSubStudy('idiomas')">Idiomas Sagrados</button>
+                </div>
+
+                <!-- 5.1 SUB-SECCIÓN: TEOLOGÍA -->
+                <div id="subpanel-teologia" class="substudy-panel" style="display: block;">
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+                        <div style="background-color: var(--bg-page); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem;">
+                            <span class="rubric-tag" style="font-size: 0.7rem; color: var(--accent-gold);">Curso Demo</span>
+                            <h3 class="font-solemn" style="font-size: 1.25rem; color: var(--text-dark); margin: 0.3rem 0 0.75rem 0;">Introducción a la Patrística</h3>
+                            <p style="font-size: 1.1rem; line-height: 1.6; text-align: justify; color: var(--text-dark); margin-bottom: 1rem;">
+                                La Patrística es la rama de la teología que estudia la vida, obra y doctrina de los Padres de la Iglesia, los teólogos y pastores de los primeros siglos cuyos escritos estructuraron la Tradición apostólica. Se divide principalmente en Padres Griegos (como San Juan Crisóstomo y San Atanasio) y Padres Latinos (como San Agustín y San Jerónimo).
+                            </p>
+                            <div style="border-left: 2px solid var(--rubric-red); padding-left: 1rem; margin: 1.2rem 0; font-style: italic; display: none;" id="patristic-quote">
+                                "Nos hiciste, Señor, para ti, y nuestro corazón estará inquieto hasta que descanse en ti." <br/>
+                                <strong style="font-size: 0.85rem; font-style: normal; color: var(--rubric-red); font-family: 'Inter', sans-serif;">— San Agustín, Las Confesiones</strong>
+                                <br/><a href="oracion.html?id=tarde-te-ame" style="font-size: 0.85rem; color: var(--accent-gold); font-family: 'Inter', sans-serif; text-decoration: underline; display: inline-block; margin-top: 0.4rem;">Rezar la oración "Tarde te amé" de San Agustín 📖</a>
+                            </div>
+                            <button class="filter-tag-btn" style="padding: 0.5rem 1rem;" onclick="togglePatristicQuote()">Revelar Cita de Oración 📜</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5.2 SUB-SECCIÓN: MÚSICA LITÚRGICA -->
+                <div id="subpanel-musica" class="substudy-panel" style="display: none;">
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+                        <div style="background-color: var(--bg-page); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem;">
+                            <span class="rubric-tag" style="font-size: 0.7rem; color: var(--accent-gold);">Tonos Gregorianos</span>
+                            <h3 class="font-solemn" style="font-size: 1.25rem; color: var(--text-dark); margin: 0.3rem 0 0.75rem 0;">Modos Medievales y Canto Llano</h3>
+                            <p style="font-size: 1.1rem; line-height: 1.6; text-align: justify; color: var(--text-dark); margin-bottom: 1.5rem;">
+                                El Canto Gregoriano no se rige por las tonalidades modernas mayores o menores, sino por los 8 modos eclesiásticos medievales (Dórico, Frigio, Lidio, Mixolidio, etc.). Utiliza el teclado interactivo abajo para reproducir notas sencillas y afinar tu oído a estos tonos solemnes.
+                            </p>
+
+                            <!-- PIANO LITÚRGICO -->
+                            <div style="max-width: 450px; margin: 0 auto; background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-soft);">
+                                <h4 class="font-solemn" style="font-size: 0.95rem; color: var(--rubric-red); margin-bottom: 1rem;">Teclado de Canto Llano</h4>
+                                
+                                <div style="display: flex; justify-content: center; gap: 4px; background: #2a2015; padding: 12px 8px; border-radius: 8px; box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);">
+                                    <button class="piano-key" style="width: 45px; height: 140px; background: #fdfaf2; border: 1px solid #d1bf9a; border-radius: 0 0 4px 4px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 10px; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--text-muted);" onclick="playPianoTone(261.63, this)">DO<span>C4</span></button>
+                                    <button class="piano-key" style="width: 45px; height: 140px; background: #fdfaf2; border: 1px solid #d1bf9a; border-radius: 0 0 4px 4px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 10px; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--text-muted);" onclick="playPianoTone(293.66, this)">RE<span>D4</span></button>
+                                    <button class="piano-key" style="width: 45px; height: 140px; background: #fdfaf2; border: 1px solid #d1bf9a; border-radius: 0 0 4px 4px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 10px; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--text-muted);" onclick="playPianoTone(329.63, this)">MI<span>E4</span></button>
+                                    <button class="piano-key" style="width: 45px; height: 140px; background: #fdfaf2; border: 1px solid #d1bf9a; border-radius: 0 0 4px 4px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 10px; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--text-muted);" onclick="playPianoTone(349.23, this)">FA<span>F4</span></button>
+                                    <button class="piano-key" style="width: 45px; height: 140px; background: #fdfaf2; border: 1px solid #d1bf9a; border-radius: 0 0 4px 4px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 10px; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--text-muted);" onclick="playPianoTone(392.00, this)">SOL<span>G4</span></button>
+                                    <button class="piano-key" style="width: 45px; height: 140px; background: #fdfaf2; border: 1px solid #d1bf9a; border-radius: 0 0 4px 4px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 10px; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--text-muted);" onclick="playPianoTone(440.00, this)">LA<span>A4</span></button>
+                                    <button class="piano-key" style="width: 45px; height: 140px; background: #fdfaf2; border: 1px solid #d1bf9a; border-radius: 0 0 4px 4px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 10px; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--text-muted);" onclick="playPianoTone(493.88, this)">SI<span>B4</span></button>
+                                    <button class="piano-key" style="width: 45px; height: 140px; background: #fdfaf2; border: 1px solid #d1bf9a; border-radius: 0 0 4px 4px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 10px; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--text-muted);" onclick="playPianoTone(523.25, this)">DO<span>C5</span></button>
+                                </div>
+                                <p style="font-family: 'Inter', sans-serif; font-size: 0.7rem; color: var(--text-muted); margin-top: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Pulsa las teclas para reproducir los tonos de órgano litúrgico</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5.3 SUB-SECCIÓN: IDIOMAS SAGRADOS E HISTÓRICOS -->
+                <div id="subpanel-idiomas" class="substudy-panel" style="display: none;">
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+                        
+                        <!-- Pestañas de Selección de Idioma -->
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; background: rgba(42,32,21,0.05); padding: 0.3rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                            <button class="filter-tag-btn active" id="lang-latin-btn" onclick="switchLanguageTab('latin')">Latín</button>
+                            <button class="filter-tag-btn" id="lang-griego-btn" onclick="switchLanguageTab('griego')">Griego Antiguo</button>
+                            <button class="filter-tag-btn" id="lang-arameo-btn" onclick="switchLanguageTab('arameo')">Arameo</button>
+                            <button class="filter-tag-btn" id="lang-ingles-btn" onclick="switchLanguageTab('ingles')">Inglés Litúrgico</button>
+                        </div>
+
+                        <!-- Fichas de Contenido de Idiomas -->
+                        <!-- LATÍN -->
+                        <div id="langcontent-latin" class="language-content-box" style="display: block; background-color: var(--bg-page); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem;">
+                            <h3 class="font-solemn" style="font-size: 1.2rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Latín Eclesiástico: La Oración Dominical</h3>
+                            <p style="font-size: 1.05rem; line-height: 1.5; color: var(--text-muted); margin-bottom: 1rem;">
+                                El latín ha sido la lengua litúrgica y de comunión universal de la Iglesia occidental durante siglos. Estudia el Padre Nuestro en su traducción latina clásica.
+                            </p>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                                <div>
+                                    <strong class="font-solemn" style="font-size: 0.9rem; color: var(--rubric-red);">Pater Noster (Latín)</strong>
+                                    <p style="font-size: 1.15rem; font-style: italic; line-height: 1.6; margin-top: 0.5rem; white-space: pre-line;">
+                                        Pater noster, qui es in caelis,
+                                        sanctificetur nomen tuum.
+                                        Adveniat regnum tuum.
+                                        Fiat voluntas tua,
+                                        sicut in caelo et in terra.
+                                    </p>
+                                </div>
+                                <div>
+                                    <strong class="font-solemn" style="font-size: 0.9rem; color: var(--text-dark);">Padre Nuestro (Español)</strong>
+                                    <p style="font-size: 1.15rem; line-height: 1.6; margin-top: 0.5rem; white-space: pre-line;">
+                                        Padre nuestro, que estás en el cielo,
+                                        santificado sea tu nombre.
+                                        Venga a nosotros tu reino.
+                                        Hágase tu voluntad,
+                                        en la tierra como en el cielo.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- GRIEGO ANTIGUO -->
+                        <div id="langcontent-griego" class="language-content-box" style="display: none; background-color: var(--bg-page); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem;">
+                            <h3 class="font-solemn" style="font-size: 1.2rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Griego Koiné: El Prólogo de San Juan</h3>
+                            <p style="font-size: 1.05rem; line-height: 1.5; color: var(--text-muted); margin-bottom: 1rem;">
+                                El griego koiné (común) es la lengua original en la que se escribió el Nuevo Testamento.
+                            </p>
+                            
+                            <div style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                                <strong class="font-solemn" style="font-size: 0.9rem; color: var(--rubric-red);">Juan 1, 1 (Texto Original)</strong>
+                                <p style="font-size: 1.4rem; font-weight: 500; line-height: 1.6; margin: 0.5rem 0; font-family: 'EB Garamond', serif;">
+                                    Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν, καὶ θεὸς ἦν ὁ λόγος.
+                                </p>
+                                <strong class="font-solemn" style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 0.5rem;">Transliteración Fonética:</strong>
+                                <p style="font-size: 1.15rem; font-style: italic; color: var(--text-dark); margin-bottom: 0.5rem;">
+                                    "En archē ēn ho Lógos, kai ho Lógos ēn pros ton Theón, kai Theós ēn ho Lógos."
+                                </p>
+                                <strong class="font-solemn" style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 0.5rem;">Análisis Teológico:</strong>
+                                <p style="font-size: 1.05rem; line-height: 1.5; color: var(--text-dark);">
+                                    El término <strong>Lógos</strong> se traduce comúnmente como "Palabra" o "Verbo", pero en griego abarca también los significados de Razón, Sentido y Sabiduría Creadora.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- ARAMEO -->
+                        <div id="langcontent-arameo" class="language-content-box" style="display: none; background-color: var(--bg-page); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem;">
+                            <h3 class="font-solemn" style="font-size: 1.2rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Arameo: El Dialecto del Mesías</h3>
+                            <p style="font-size: 1.05rem; line-height: 1.5; color: var(--text-muted); margin-bottom: 1rem;">
+                                El arameo era el idioma hablado por Jesús y sus discípulos en Galilea y Judea.
+                            </p>
+                            
+                            <div style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                                <strong class="font-solemn" style="font-size: 0.9rem; color: var(--rubric-red);">El Vocativo de la Paternidad</strong>
+                                <p style="font-size: 1.4rem; font-weight: 500; line-height: 1.6; margin: 0.5rem 0; font-family: 'EB Garamond', serif; color: var(--rubric-red);">
+                                    ܐܒܐ <span style="font-size: 1.15rem; font-style: italic; color: var(--text-dark); font-family: 'Inter', sans-serif;">(Abba)</span>
+                                </p>
+                                <p style="font-size: 1.1rem; line-height: 1.5; color: var(--text-dark);">
+                                    Es la palabra aramea afectiva para dirigirse a un padre (comparable a "papá" o "padre querido"). Jesús revolucionó la piedad judía al invitar a sus discípulos a dirigirse a Dios Altísimo como <strong>Abba</strong> en su oración personal.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- INGLÉS -->
+                        <div id="langcontent-ingles" class="language-content-box" style="display: none; background-color: var(--bg-page); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem;">
+                            <h3 class="font-solemn" style="font-size: 1.2rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Inglés Litúrgico y Bíblico</h3>
+                            <p style="font-size: 1.05rem; line-height: 1.5; color: var(--text-muted); margin-bottom: 1rem;">
+                                Comparativa y traducción de los grandes conceptos teológicos e himnos al inglés eclesiástico clásico (de la Biblia King James o traducciones litúrgicas).
+                            </p>
+                            
+                            <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; font-family: 'Inter', sans-serif; font-size: 0.9rem;">
+                                <thead>
+                                    <tr style="border-bottom: 2px solid var(--border-color); text-align: left; color: var(--rubric-red);">
+                                        <th style="padding: 0.5rem;">Español</th>
+                                        <th style="padding: 0.5rem;">English (Traditional)</th>
+                                        <th style="padding: 0.5rem;">Uso Litúrgico</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid rgba(42,32,21,0.08);">
+                                        <td style="padding: 0.6rem 0.5rem; font-weight: 600;">Gracia</td>
+                                        <td style="padding: 0.6rem 0.5rem; font-style: italic;">Grace</td>
+                                        <td style="padding: 0.6rem 0.5rem;">"Amazing Grace" / Don inmerecido.</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid rgba(42,32,21,0.08);">
+                                        <td style="padding: 0.6rem 0.5rem; font-weight: 600;">Misericordia</td>
+                                        <td style="padding: 0.6rem 0.5rem; font-style: italic;">Mercy</td>
+                                        <td style="padding: 0.6rem 0.5rem;">"Lord, have mercy" / Kyrie eleison.</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid rgba(42,32,21,0.08);">
+                                        <td style="padding: 0.6rem 0.5rem; font-weight: 600;">Redención</td>
+                                        <td style="padding: 0.6rem 0.5rem; font-style: italic;">Redemption</td>
+                                        <td style="padding: 0.6rem 0.5rem;">Rescate y salvación obrada por Cristo.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+        </section>
+
+        <!-- 6. SECCIÓN: BITÁCORA EMOCIONAL Y ESPIRITUAL -->
+        <section id="panel-bitacora" class="section-panel">
+            <div style="display: grid; grid-template-columns: 1fr; gap: 2rem;">
+                
+                <!-- Cabecera explicativa -->
+                <div class="card" style="padding: 1.5rem 2rem;">
+                    <div class="card-header-liturgy">
+                        <span class="rubric-tag">Bitácora del Alma</span>
+                    </div>
+                    <h2 class="card-title" style="margin: 0.5rem 0 0.5rem 0; font-family: 'Playfair Display', serif;">Seguimiento Emocional y Discernimiento</h2>
+                    <p style="font-size: 1.1rem; line-height: 1.5; color: var(--text-muted); text-align: justify; margin: 0;">
+                        Examina tu corazón a través del registro diario de tus mociones espirituales o utiliza el asistente bíblico para discernir tus ideas y decisiones a la luz de las Sagradas Escrituras.
+                    </p>
+                </div>
+
+                <!-- Sub-pestañas de la Bitácora -->
+                <div class="liturgy-tabs" style="margin-bottom: 0.5rem;">
+                    <button class="liturgy-tab-btn active" id="subtab-mociones-btn" onclick="switchBitacoraSubTab('mociones')">Examen de Mociones</button>
+                    <button class="liturgy-tab-btn" id="subtab-discern-btn" onclick="switchBitacoraSubTab('discern')">Discernimiento de Ideas</button>
+                </div>
+
+                <!-- SUB-SECCIÓN 1: EXAMEN DE MOCIONES (CALENDARIO) -->
+                <div id="bitacora-mociones-content" style="display: block;">
+                    <!-- Rejilla Principal de la Bitácora -->
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 2rem;">
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 2rem;" id="bitacora-grid-layout">
+                            
+                            <!-- Lado Izquierdo: Calendario -->
+                            <div class="card" style="padding: 1.5rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+                                    <h3 class="font-solemn" style="font-size: 1.25rem; color: var(--text-dark);" id="calendar-month-year-title">Julio 2026</h3>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <button class="transpose-btn" onclick="changeBitacoraMonth(-1)">◀</button>
+                                        <button class="transpose-btn" onclick="changeBitacoraMonth(1)">▶</button>
+                                    </div>
+                                </div>
+
+                                <!-- Cabecera de días de la semana -->
+                                <div style="display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem;">
+                                    <div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
+                                </div>
+
+                                <!-- Celdas de días -->
+                                <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px;" id="calendar-days-grid">
+                                    <!-- Generado dinámicamente con JS -->
+                                </div>
+                            </div>
+
+                            <!-- Lado Derecho: Editor de día y Estadísticas -->
+                            <div style="display: flex; flex-direction: column; gap: 2rem;">
+                                
+                                <!-- Editor Diario -->
+                                <div class="card" id="bitacora-editor-panel" style="padding: 1.5rem; background-color: #faf6ee; border: 1.5px solid var(--border-color);">
+                                    <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem;" id="editor-day-title">Examen del Día</h3>
+                                    
+                                    <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+                                        
+                                        <!-- Selección de Estado -->
+                                        <div class="control-group">
+                                            <label class="control-label">Moción dominante en el alma:</label>
+                                            <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 0.4rem;">
+                                                <label style="display: flex; align-items: center; gap: 0.5rem; font-family: 'Inter', sans-serif; font-size: 0.85rem; cursor: pointer; padding: 0.4rem 0.6rem; border-radius: 6px; background: rgba(194,155,56,0.1); border-left: 3px solid var(--accent-gold);">
+                                                    <input type="radio" name="mood-radio" value="consolacion" onchange="updateSuggestedJaculatoria(this.value)"> ⚜ <strong>Consolación</strong> <span style="font-size: 0.75rem; color: var(--text-muted); margin-left: auto;">(Paz, Gozo, Fe)</span>
+                                                </label>
+                                                <label style="display: flex; align-items: center; gap: 0.5rem; font-family: 'Inter', sans-serif; font-size: 0.85rem; cursor: pointer; padding: 0.4rem 0.6rem; border-radius: 6px; background: rgba(128,0,128,0.06); border-left: 3px solid purple;">
+                                                    <input type="radio" name="mood-radio" value="agradecimiento" onchange="updateSuggestedJaculatoria(this.value)"> 🍇 <strong>Agradecimiento</strong> <span style="font-size: 0.75rem; color: var(--text-muted); margin-left: auto;">(Alabanza, Amor)</span>
+                                                </label>
+                                                <label style="display: flex; align-items: center; gap: 0.5rem; font-family: 'Inter', sans-serif; font-size: 0.85rem; cursor: pointer; padding: 0.4rem 0.6rem; border-radius: 6px; background: rgba(45,106,79,0.08); border-left: 3px solid #2d6a4f;">
+                                                    <input type="radio" name="mood-radio" value="esperanza" onchange="updateSuggestedJaculatoria(this.value)"> 🌿 <strong>Esperanza</strong> <span style="font-size: 0.75rem; color: var(--text-muted); margin-left: auto;">(Paciencia, Espera)</span>
+                                                </label>
+                                                <label style="display: flex; align-items: center; gap: 0.5rem; font-family: 'Inter', sans-serif; font-size: 0.85rem; cursor: pointer; padding: 0.4rem 0.6rem; border-radius: 6px; background: rgba(94,76,57,0.08); border-left: 3px solid var(--text-muted);">
+                                                    <input type="radio" name="mood-radio" value="desolacion" onchange="updateSuggestedJaculatoria(this.value)"> 🪨 <strong>Desolación</strong> <span style="font-size: 0.75rem; color: var(--text-muted); margin-left: auto;">(Tristeza, Vacío, Sequedad)</span>
+                                                </label>
+                                                <label style="display: flex; align-items: center; gap: 0.5rem; font-family: 'Inter', sans-serif; font-size: 0.85rem; cursor: pointer; padding: 0.4rem 0.6rem; border-radius: 6px; background: rgba(140,37,37,0.08); border-left: 3px solid var(--rubric-red);">
+                                                    <input type="radio" name="mood-radio" value="turbacion" onchange="updateSuggestedJaculatoria(this.value)"> ⚠ <strong>Turbación</strong> <span style="font-size: 0.75rem; color: var(--text-muted); margin-left: auto;">(Ansiedad, Agobio, Prisa)</span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Notas diarias -->
+                                        <div class="control-group">
+                                            <label class="control-label">Notas del Examen / Diario Espiritual:</label>
+                                            <textarea id="bitacora-day-note" class="search-input" style="height: 80px; font-family: 'EB Garamond', serif; font-size: 1.15rem; line-height: 1.4; padding: 0.6rem; resize: none; margin-top: 0.3rem;" placeholder="Escribe tus reflexiones, caídas o mociones vividas hoy..."></textarea>
+                                        </div>
+
+                                        <!-- Jaculatoria Dinámica -->
+                                        <div id="suggested-jaculatoria-area" style="background-color: var(--bg-page); border: 1px dashed var(--border-color); border-radius: 6px; padding: 0.75rem 1rem; font-size: 1.05rem; font-style: italic; text-align: center; color: var(--text-dark);">
+                                            "Señor Jesús, en ti confío."
+                                        </div>
+
+                                        <!-- Recomendaciones Cruzadas -->
+                                        <div id="bitacora-recommendations" style="background-color: var(--bg-page); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem 1rem; display: none;">
+                                            <span class="rubric-tag" style="font-size: 0.65rem; color: var(--rubric-red); display: block; margin-bottom: 0.4rem;">Sugerencias para tu Oración:</span>
+                                            <div id="bitacora-rec-links" style="display: flex; flex-direction: column; gap: 4px; font-family: 'Inter', sans-serif; font-size: 0.85rem;">
+                                                <!-- Inyectado por JS -->
+                                            </div>
+                                        </div>
+
+                                        <!-- Botones de Acción -->
+                                        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                                            <button class="nav-btn active" style="flex: 1; padding: 0.6rem;" onclick="saveCurrentDayLog()">Guardar Registro</button>
+                                            <button class="filter-tag-btn" style="padding: 0.6rem;" onclick="deleteCurrentDayLog()">Borrar</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!-- Estadísticas Mensuales -->
+                                <div class="card" style="padding: 1.5rem;">
+                                    <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--text-dark); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem;">Balance de Mociones del Mes</h3>
+                                    
+                                    <div style="display: flex; flex-direction: column; gap: 0.75rem;" id="bitacora-stats-container">
+                                        <!-- Inyectado dinámicamente -->
+                                    </div>
+                                    <div style="text-align: center; margin-top: 1rem;">
+                                        <button class="filter-tag-btn" style="font-size: 0.75rem; color: var(--rubric-red); border-color: rgba(140,37,37,0.3);" onclick="clearAllBitacoraLogs()">Limpiar Historial Completo 🗑</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB-SECCIÓN 2: DISCERNIMIENTO BÍBLICO (FORMULARIO) -->
+                <div id="bitacora-discern-content" style="display: none;">
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <div class="card-header-liturgy">
+                            <span class="rubric-tag">Discernimiento de Espíritus y Decisiones</span>
+                        </div>
+                        <h2 class="card-title" style="margin: 0.5rem 0 1rem 0; font-family: 'Playfair Display', serif;">Discernimiento Teológico y Bíblico</h2>
+                        <p style="font-size: 1.15rem; line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; color: var(--text-muted);">
+                            Escribe una idea, dilema o decisión que estés evaluando. Esta herramienta te guiará en un proceso de discernimiento clásico basado en la tradición de la Iglesia, los frutos del Espíritu y las Sagradas Escrituras para examinar la alineación evangélica de tus intenciones.
+                        </p>
+                        
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label class="control-label" style="margin-bottom: 0.5rem; display: block;">1. Describe tu dilema o idea a discernir:</label>
+                            <textarea id="discern-idea-text" class="search-input" style="height: 120px; font-family: 'EB Garamond', serif; font-size: 1.25rem; line-height: 1.5; padding: 1rem; resize: none;" placeholder="Ej: Quiero iniciar un nuevo proyecto para los jóvenes de la parroquia, pero me da miedo no tener tiempo suficiente y descuidar mis estudios..."></textarea>
+                        </div>
+
+                        <div id="discern-questions-area">
+                            <h3 class="font-solemn" style="font-size: 1.1rem; color: var(--rubric-red); margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.3rem;">2. Cuestionario de Examen de Mociones</h3>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                                <div class="control-group">
+                                    <label class="control-label">A. ¿De dónde nace esta idea principalmente?</label>
+                                    <select id="discern-q-origin" class="calendar-date-picker" style="width: 100%; height: 40px; padding: 0.5rem;">
+                                        <option value="amor">Del amor al prójimo y deseo de servir a Dios (Moción de Luz)</option>
+                                        <option value="impulso">De una inquietud repentina o presión externa (Agitación)</option>
+                                        <option value="ego">Del deseo de reconocimiento, éxito personal o vanidad (Amor Propio)</option>
+                                        <option value="miedo">De una reacción al miedo, evasión o huida de una dificultad (Temor)</option>
+                                    </select>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">B. Al imaginar esta decisión tomada, ¿qué experimenta tu alma?</label>
+                                    <select id="discern-q-peace" class="calendar-date-picker" style="width: 100%; height: 40px; padding: 0.5rem;">
+                                        <option value="paz">Paz interior profunda, alegría serena y sosiego (Consolación)</option>
+                                        <option value="agitacion">Entusiasmo eufórico inicial que luego da paso a la inquietud o desazón</option>
+                                        <option value="turbacion">Turbación constante, ansiedad, agobio o falta de descanso (Desolación)</option>
+                                        <option value="vacio">Vacío interior, sequedad persistente o arrepentimiento íntimo</option>
+                                    </select>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">C. ¿Fomenta esta decisión los frutos de Gálatas 5:22?</label>
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.5rem; margin-top: 0.5rem;">
+                                        <label style="display: flex; align-items: center; gap: 0.5rem; font-family: 'Inter', sans-serif; font-size: 0.85rem; cursor: pointer;">
+                                            <input type="checkbox" class="fruit-checkbox" value="amor" checked> Amor y Caridad
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 0.5rem; font-family: 'Inter', sans-serif; font-size: 0.85rem; cursor: pointer;">
+                                            <input type="checkbox" class="fruit-checkbox" value="gozo" checked> Gozo y Alegría
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 0.5rem; font-family: 'Inter', sans-serif; font-size: 0.85rem; cursor: pointer;">
+                                            <input type="checkbox" class="fruit-checkbox" value="paz" checked> Paz y Armonía
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 0.5rem; font-family: 'Inter', sans-serif; font-size: 0.85rem; cursor: pointer;">
+                                            <input type="checkbox" class="fruit-checkbox" value="paciencia"> Paciencia
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 0.5rem; font-family: 'Inter', sans-serif; font-size: 0.85rem; cursor: pointer;">
+                                            <input type="checkbox" class="fruit-checkbox" value="bondad"> Bondad / Mansedumbre
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 0.5rem; font-family: 'Inter', sans-serif; font-size: 0.85rem; cursor: pointer;">
+                                            <input type="checkbox" class="fruit-checkbox" value="fidelidad"> Fidelidad / Fe
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">D. ¿Has consultado la idea con consejeros sabios o directores espirituales?</label>
+                                    <select id="discern-q-counsel" class="calendar-date-picker" style="width: 100%; height: 40px; padding: 0.5rem;">
+                                        <option value="si">Sí, y respaldan la decisión o me invitan a ser prudente</option>
+                                        <option value="alguno">Solo con algunos amigos cercanos, con opiniones divididas</option>
+                                        <option value="no">No, lo he guardado en secreto por miedo a ser cuestionado</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 1rem;">
+                            <button class="nav-btn active" style="padding: 0.8rem 2.5rem; border-radius: 30px; font-size: 0.95rem;" onclick="processDiscernment()">Iniciar Examen Teológico</button>
+                        </div>
+                    </div>
+
+                    <!-- RESULTADO DEL EXAMEN -->
+                    <div id="discern-result-card" class="card" style="display: none; background-color: #faf6ee; border: 2px solid var(--accent-gold); margin-top: 2rem;">
+                        <div class="card-header-liturgy" style="border-bottom-color: var(--accent-gold);">
+                            <span class="rubric-tag" style="color: var(--accent-gold);">Diagnóstico de Discernimiento</span>
+                            <button class="liturgy-tab-btn" style="color: var(--rubric-red); border: none; background: transparent; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; font-weight: 700;" onclick="copyDiscernmentReport()">Copiar Reporte 📋</button>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                                <h3 class="font-solemn" style="font-size: 1.4rem; color: var(--text-dark);" id="discern-verdict-title">Veredicto</h3>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span class="control-label" style="font-size: 0.8rem;">Alineación Evangélica:</span>
+                                    <span id="discern-verdict-score" style="font-size: 1.6rem; font-weight: 900; color: var(--rubric-red); font-family: 'Cinzel', serif;">90%</span>
+                                </div>
+                            </div>
+
+                            <div style="width: 100%; height: 8px; background: rgba(42,32,21,0.08); border-radius: 4px; overflow: hidden;">
+                                <div id="discern-verdict-bar" style="width: 90%; height: 100%; background: var(--rubric-red); transition: width 0.5s ease;"></div>
+                            </div>
+
+                            <p class="sacred-text" id="discern-verdict-text" style="font-size: 1.15rem; font-style: italic; line-height: 1.6; padding-left: 0; margin: 0;">
+                                Cargando diagnóstico...
+                            </p>
+
+                            <!-- Rúbrica de 4 Reglas de Sabiduría -->
+                            <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                                <h4 class="font-solemn" style="font-size: 1.05rem; color: var(--rubric-red); margin-bottom: 1rem;">Rúbrica de Reglas Litúrgicas y Espirituales</h4>
+                                <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;" id="discern-rubric-rules">
+                                    <!-- Inyectado por JS -->
+                                </div>
+                            </div>
+
+                            <!-- Citas Bíblicas Iluminadoras -->
+                            <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem;" id="discern-bible-quotes-area">
+                                <h4 class="font-solemn" style="font-size: 1.05rem; color: var(--accent-gold); margin-bottom: 1rem;">Iluminación de la Sagrada Escritura</h4>
+                                <div id="discern-bible-quotes-list" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                                    <!-- Citas inyectadas -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+
+
+    <!-- TOAST NOTIFICATIONS -->
+    <div style="position: fixed; bottom: 2rem; right: 2rem; background: var(--bg-card); border-left: 4px solid var(--rubric-red); padding: 1rem 1.5rem; border-radius: 8px; box-shadow: var(--shadow-hover); border-top: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.75rem; z-index: 2000; transform: translateY(150%); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);" id="toast-el">
+        <span style="font-size: 1.2rem;" id="toast-icon">💡</span>
+        <span id="toast-message" style="font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 500;">Mensaje</span>
+    </div>
+
+    <div class="footer-note">
+        <p>⚜ Ad maiorem Dei gloriam ⚜</p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem;">SAIMAP Ecclesia • Portal Maqueta en Tonos Sepia</p>
+    </div>
+
+    <script>
+        // --- DATOS DE LA MAQUETA (DINÁMICOS) ---
+        let oracionesData = [];
+
+        const liturgiasData = {
+            laudes: `
+                <div style="border-left: 2px solid var(--rubric-red); padding-left: 1rem; margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.5;">
+                    <span class="rubric-tag" style="font-size: 0.65rem;">Introducción</span><br/>
+                    <strong>V.</strong> Señor, abre mis labios.<br/>
+                    <strong>R.</strong> Y mi boca proclamará tu alabanza.<br/>
+                    <strong>V.</strong> Gloria al Padre, y al Hijo, y al Espíritu Santo.<br/>
+                    <strong>R.</strong> Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén. Aleluya.
+                </div>
+
+                <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Himno: Alegre la mañana</h3>
+                <p style="font-style: italic; line-height: 1.6; margin-bottom: 1.5rem; white-space: pre-line; text-align: left;">
+                    Alegre la mañana que nos habla de ti,
+                    alegre la mañana.
+                    En el nombre del Padre, del Hijo y del Espíritu,
+                    salimos a la luz de la mañana.
+                    
+                    Tu mano restituye la promesa de vida,
+                    y el corazón se enciende con el fuego divino,
+                    regresa la esperanza con la luz bendecida,
+                    y camina tu pueblo por tu santo camino.
+                </p>
+
+                <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.3rem;">Salmodia</h3>
+                <p style="font-style: italic; color: var(--rubric-red); margin-bottom: 0.5rem; font-size: 0.9rem;">
+                    Antífona 1: Oh Dios, tú eres mi Dios, por ti madrugo; mi alma tiene sed de ti.
+                </p>
+                <h4 class="font-solemn" style="font-size: 0.95rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Salmo 62: Ansia de Dios</h4>
+                <p style="line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; font-size: 1.1rem; white-space: pre-line;">
+                    Oh Dios, tú eres mi Dios, por ti madrugo;
+                    mi alma tiene sed de ti,
+                    mi carne tiene ansia de ti,
+                    como tierra reseca, agostada, sin agua.
+                    
+                    ¡Cómo te contemplaba en el santuario
+                    viendo tu fuerza y tu gloria!
+                    Tu gracia vale más que la vida,
+                    te alabarán mis labios.
+                    
+                    Toda mi vida te bendeciré
+                    y alzaré las manos invocándote.
+                    Me saciaré de manjares exquisitos,
+                    y mis labios te alabarán jubilosos.
+                </p>
+
+                <p style="font-style: italic; color: var(--rubric-red); margin-bottom: 0.5rem; font-size: 0.9rem;">
+                    Antífona 2: Criaturas todas del Señor, bendecid al Señor. ¡Aleluya!
+                </p>
+                <h4 class="font-solemn" style="font-size: 0.95rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Cántico de Daniel (Dn 3, 57-88. 56)</h4>
+                <p style="line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; font-size: 1.1rem; white-space: pre-line;">
+                    Obras del Señor, bendecid al Señor,
+                    alabadlo y ensalzadlo sobre todo por los siglos.
+                    Ángeles del Señor, bendecid al Señor,
+                    cielos, bendecid al Señor.
+                    
+                    Aguas todas que estáis sobre los cielos, bendecid al Señor,
+                    ejércitos del Señor, bendecid al Señor.
+                    Sol y luna, bendecid al Señor,
+                    astros del cielo, bendecid al Señor.
+                    
+                    Lluvias y rocíos, bendecid al Señor,
+                    vientos todos, bendecid al Señor.
+                    Fuego y calor, bendecid al Señor,
+                    fríos y heladas, bendecid al Señor.
+                </p>
+
+                <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Lectura Breve (Rm 13, 11-12)</h3>
+                <p style="line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; font-size: 1.1rem;">
+                    Ya es hora de despertaros del sueño, porque ahora nuestra salvación está más cerca que cuando empezamos a creer. La noche está avanzada, el día se echa encima: dejemos las actividades de las tinieblas y pertrechémonos con las armas de la luz.
+                </p>
+
+                <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.3rem;">Cántico Evangélico</h3>
+                <p style="font-style: italic; color: var(--rubric-red); margin-bottom: 0.5rem; font-size: 0.9rem;">
+                    Antífona: Serviremos al Señor con santidad y justicia todos nuestros días.
+                </p>
+                <h4 class="font-solemn" style="font-size: 0.95rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Benedictus (Cántico de Zacarías)</h4>
+                <p style="line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; font-size: 1.1rem; white-space: pre-line;">
+                    Bendito sea el Señor, Dios de Israel,
+                    porque ha visitado y redimido a su pueblo,
+                    suscitándonos una fuerza de salvación
+                    en la casa de David, su siervo,
+                    según lo había predicho desde antiguo
+                    por boca de sus santos profetas.
+                    
+                    Es una salvación que nos libra de nuestros enemigos
+                    y de la mano de todos los que nos odian;
+                    realizando la misericordia que tuvo con nuestros padres,
+                    recordando su santa alianza.
+                </p>
+
+                <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Oración Conclusiva</h3>
+                <p style="line-height: 1.6; margin-bottom: 1rem; text-align: justify; font-size: 1.1rem;">
+                    Señor, Dios todopoderoso, que nos has hecho llegar al comienzo de este día: sálvanos hoy con tu poder, para que no caigamos en ningún pecado, sino que nuestros pensamientos, palabras y obras se dirijan a cumplir tu santa voluntad. Por nuestro Señor Jesucristo, tu Hijo. Amén.
+                </p>
+            `,
+            visperas: `
+                <div style="border-left: 2px solid var(--rubric-red); padding-left: 1rem; margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.5;">
+                    <span class="rubric-tag" style="font-size: 0.65rem;">Introducción</span><br/>
+                    <strong>V.</strong> Dios mío, ven en mi auxilio.<br/>
+                    <strong>R.</strong> Señor, date prisa en socorrerme.<br/>
+                    <strong>V.</strong> Gloria al Padre, y al Hijo, y al Espíritu Santo.<br/>
+                    <strong>R.</strong> Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén. Aleluya.
+                </div>
+
+                <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Himno: Cuando la luz del sol</h3>
+                <p style="font-style: italic; line-height: 1.6; margin-bottom: 1.5rem; white-space: pre-line; text-align: left;">
+                    Cuando la luz del sol se va ocultando,
+                    y el día llega a su declinar,
+                    a ti, Señor de todo, te cantamos,
+                    en ti, Señor, queremos descansar.
+                    
+                    Tu luz divina alumbre nuestras almas,
+                    disipe las tinieblas del temor,
+                    y al retornar la noche con sus calmas,
+                    nos guíe el fuego eterno de tu amor.
+                </p>
+
+                <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.3rem;">Salmodia</h3>
+                <p style="font-style: italic; color: var(--rubric-red); margin-bottom: 0.5rem; font-size: 0.9rem;">
+                    Antífona 1: Su poder es eterno, y su reino no tendrá fin.
+                </p>
+                <h4 class="font-solemn" style="font-size: 0.95rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Salmo 109: El sacerdocio del Mesías</h4>
+                <p style="line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; font-size: 1.1rem; white-space: pre-line;">
+                    Oráculo del Señor a mi Señor:
+                    «Siéntate a mi derecha,
+                    y haré de tus enemigos
+                    estrado de tus pies».
+                    
+                    Desde Sión extenderá el Señor
+                    el poder de tu cetro:
+                    somete en la batalla a tus enemigos.
+                    
+                    «Tú eres príncipe desde el día de tu nacimiento,
+                    entre esplendores sagrados;
+                    yo mismo te engendré como rocío,
+                    antes de la aurora».
+                </p>
+
+                <p style="font-style: italic; color: var(--rubric-red); margin-bottom: 0.5rem; font-size: 0.9rem;">
+                    Antífona 2: Grandes son las obras del Señor, admirables todos sus designios.
+                </p>
+                <h4 class="font-solemn" style="font-size: 0.95rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Salmo 110: Himno a las obras de Dios</h4>
+                <p style="line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; font-size: 1.1rem; white-space: pre-line;">
+                    Doy gracias al Señor de todo corazón,
+                    en compañía de los rectos, en la asamblea.
+                    Grandes son las obras del Señor,
+                    meditadas por los que las aman.
+                    
+                    Esplendor y belleza son su obra,
+                    su justicia permanece para siempre.
+                    Ha hecho memorables sus maravillas,
+                    el Señor es clemente y misericordioso.
+                </p>
+
+                <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Lectura Breve (1 Pe 5, 5-7)</h3>
+                <p style="line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; font-size: 1.1rem;">
+                    Sed sumisos unos a otros con humildad, porque Dios resiste a los soberbios y da su gracia a los humildes. Humillaos, pues, bajo la poderosa mano de Dios, para que él os ensalce cuando llegue el momento. Descargad en él vuestras preocupaciones, que él cuida de vosotros.
+                </p>
+
+                <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.3rem;">Cántico Evangélico</h3>
+                <p style="font-style: italic; color: var(--rubric-red); margin-bottom: 0.5rem; font-size: 0.9rem;">
+                    Antífona: Mi alma se alegra en Dios mi Salvador.
+                </p>
+                <h4 class="font-solemn" style="font-size: 0.95rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Magnificat (Cántico de María)</h4>
+                <p style="line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; font-size: 1.1rem; white-space: pre-line;">
+                    Proclama mi alma la grandeza del Señor,
+                    se alegra mi espíritu en Dios, mi salvador;
+                    porque ha mirado la humillación de su esclava.
+                    
+                    Desde ahora me felicitarán todas las generaciones,
+                    porque el Poderoso ha hecho obras grandes por mí:
+                    su nombre es santo,
+                    y su misericordia llega a sus fieles
+                    de generación en generación.
+                    
+                    Él hace proezas con su brazo:
+                    dispersa a los soberbios de corazón,
+                    derriba del trono a los poderosos
+                    y enaltece a los humildes.
+                </p>
+
+                <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Oración Conclusiva</h3>
+                <p style="line-height: 1.6; margin-bottom: 1rem; text-align: justify; font-size: 1.1rem;">
+                    Señor, mira complacido a tu pueblo y derrama sobre él la abundancia de tu gracia; para que, fortalecidos por ti en esta vida, lleguemos a poseer la patria de la luz y la felicidad eternas. Por nuestro Señor Jesucristo. Amén.
+                </p>
+            `,
+            completas: `
+                <div style="border-left: 2px solid var(--rubric-red); padding-left: 1rem; margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.5;">
+                    <span class="rubric-tag" style="font-size: 0.65rem;">Introducción</span><br/>
+                    <strong>V.</strong> Dios mío, ven en mi auxilio.<br/>
+                    <strong>R.</strong> Señor, date prisa en socorrerme.<br/>
+                    <strong>V.</strong> Gloria al Padre, y al Hijo, y al Espíritu Santo.<br/>
+                    <strong>R.</strong> Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén. Aleluya.
+                </div>
+
+                <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Examen de Conciencia</h3>
+                <p style="line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; font-size: 1.1rem;">
+                    Hermanos, al finalizar el día, pongámonos en presencia del Señor, reconozcamos humildemente nuestras faltas y pidamos perdón con sincero corazón.
+                    
+                    <em style="display: block; margin: 0.5rem 0; color: var(--rubric-red);">[Breve silencio para el examen de conciencia]</em>
+                    
+                    Yo confieso ante Dios todopoderoso y ante vosotros, hermanos, que he pecado mucho de pensamiento, palabra, obra y omisión. Por mi culpa, por mi culpa, por mi gran culpa. Por eso ruego a santa María, siempre Virgen, a los ángeles, a los santos y a vosotros, hermanos, que intercedáis por mí ante Dios, nuestro Señor. Amén.
+                </p>
+
+                <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Himno: Antes de que la luz decline</h3>
+                <p style="font-style: italic; line-height: 1.6; margin-bottom: 1.5rem; white-space: pre-line; text-align: left;">
+                    Antes de que la luz decline y muera,
+                    a ti, Creador de las cosas, te rogamos
+                    que, por tu gran piedad, nos custodies
+                    bajo tu amparo y sombra protectora.
+                    
+                    Aleja de nosotros las pesadillas
+                    y los vanos fantasmas de la noche;
+                    refrena a nuestro astuto adversario,
+                    para que nuestros cuerpos no se manchen.
+                </p>
+
+                <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.3rem;">Salmodia</h3>
+                <p style="font-style: italic; color: var(--rubric-red); margin-bottom: 0.5rem; font-size: 0.9rem;">
+                    Antífona: El Señor te cubrirá con sus plumas, bajo sus alas hallarás refugio.
+                </p>
+                <h4 class="font-solemn" style="font-size: 0.95rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Salmo 90: Refugio bajo las alas de Dios</h4>
+                <p style="line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; font-size: 1.1rem; white-space: pre-line;">
+                    Tú que habitas al amparo del Altísimo,
+                    que vives a la sombra del Omnipotente,
+                    di al Señor: «Refugio mío, alcázar mío,
+                    Dios mío, en quien confío».
+                    
+                    Él te librará de la red del cazador,
+                    de la peste funesta.
+                    Te cubrirá con sus plumas,
+                    bajo sus alas hallarás refugio.
+                    
+                    Su brazo es escudo y armadura.
+                    No temerás el espanto nocturno,
+                    ni la flecha que vuela de día,
+                    ni la peste que se desliza en las tinieblas,
+                    ni la epidemia que devasta a mediodía.
+                </p>
+
+                <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Lectura Breve (Ap 22, 4-5)</h3>
+                <p style="line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; font-size: 1.1rem;">
+                    Los siervos del Señor verán su rostro y llevarán su nombre en la frente. Ya no habrá más noche, ni necesitarán luz de lámpara o de sol, porque el Señor Dios los alumbrará, y reinarán por los siglos de los siglos.
+                </p>
+
+                <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.3rem;">Cántico Evangélico</h3>
+                <p style="font-style: italic; color: var(--rubric-red); margin-bottom: 0.5rem; font-size: 0.9rem;">
+                    Antífona: Sálvanos, Señor, despiertos, protégenos mientras dormimos, para que vigilemos con Cristo y descansemos en paz.
+                </p>
+                <h4 class="font-solemn" style="font-size: 0.95rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Cántico de Simeón (Lc 2, 29-32)</h4>
+                <p style="line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; font-size: 1.1rem; white-space: pre-line;">
+                    Ahora, Señor, según tu promesa,
+                    puedes dejar a tu siervo ir en paz.
+                    
+                    Porque mis ojos han visto a tu Salvador,
+                    a quien has presentado ante todos los pueblos:
+                    luz para alumbrar a las naciones
+                    y gloria de tu pueblo Israel.
+                </p>
+
+                <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Oración Conclusiva</h3>
+                <p style="line-height: 1.6; margin-bottom: 1rem; text-align: justify; font-size: 1.1rem;">
+                    Visita, Señor, esta habitación, aleja de ella todas las asechanzas del enemigo; que tus santos ángeles habiten en ella para guardarnos en paz, y que tu bendición permanezca siempre con nosotros. Por Jesucristo nuestro Señor. Amén.
+                    
+                    <span style="display: block; margin-top: 1rem; font-style: italic; color: var(--text-muted);">V. El Señor todopoderoso nos conceda una noche tranquila y una santa muerte. R. Amén.</span>
+                </p>
+            `
+        };
+
+        // --- BASE DE DATOS DE EVANGELIOS POR FECHA (CALENDARIO) ---
+        const evangeliosCalendario = {
+            "2026-07-01": {
+                cita: "Mateo 8, 28-34",
+                season: "Miércoles de la XII semana del Tiempo Ordinario",
+                texto: `En aquel tiempo, llegó Jesús a la otra orilla, a la región de los gadarenos, y salieron de entre los sepulcros dos endemoniados, tan furiosos que nadie podía transitar por aquel camino.
+                Y se pusieron a gritar:
+                «¿Qué tenemos nosotros contigo, Hijo de Dios? ¿Has venido aquí antes de tiempo para atormentarnos?».
+                A cierta distancia de ellos había una gran piara de cerdos hozando. Los demonios le rogaron:
+                «Si nos echas, mándanos a la piara de cerdos».
+                Él les dijo: «Id». Ellos salieron y se metieron en los cerdos. Y de pronto, toda la piara se lanzó acantilado abajo al mar y pereció en las aguas.
+                Los porquerizos huyeron, fueron a la ciudad y lo contaron todo, incluyendo lo de los endemoniados.
+                Entonces toda la ciudad salió al encuentro de Jesús y, al verlo, le rogaron que se marchara de su territorio.`
+            },
+            "2026-07-02": {
+                cita: "Mateo 9, 1-8",
+                season: "Jueves de la XII semana del Tiempo Ordinario",
+                texto: `En aquel tiempo, subió Jesús a una barca, cruzó a la otra orilla y fue a su ciudad.
+                En esto le presentaron un paralítico acostado en una camilla. Viendo Jesús la fe de ellos, dijo al paralítico:
+                «¡Ánimo, hijo!, tus pecados están perdonados».
+                Algunos de los escribas se dijeron: «Este blasfema».
+                Jesús, conociendo sus pensamientos, dijo:
+                «¿Por qué pensáis mal en vuestros corazones? ¿Qué es más fácil, decir: “Tus pecados están perdonados”, o decir: “Levántate y anda”?
+                Pues para que sepáis que el Hijo del hombre tiene potestad en la tierra para perdonar pecados —dijo entonces al paralítico—: Levántate, toma tu camilla y vete a tu casa».
+                Él se levantó y se fue a su casa. Al ver esto, la gente quedó sobrecogida y dio gloria a Dios, que había dado tal potestad a los hombres.`
+            },
+            "2026-07-03": {
+                cita: "Juan 20, 24-29",
+                season: "Festividad de Santo Tomás, Apóstol",
+                texto: `Tomás, uno de los Doce, llamado el Mellizo, no estaba con ellos cuando vino Jesús.
+                Y los otros discípulos le decían: «Hemos visto al Señor».
+                Pero él les contestó: «Si no veo en sus manos la señal de los clavos, si no meto el dedo en el agujero de los clavos y no meto la mano en su costado, no lo creo».
+                A los ocho días, estaban otra vez dentro los discípulos y Tomás con ellos. Llegó Jesús, estando las puertas cerradas, se puso en medio y dijo: «Paz a vosotros».
+                Luego dijo a Tomás: «Trae tu dedo, aquí tienes mis manos; trae tu mano y métela en mi costado; y no seas incrédulo, sino creyente».
+                Contestó Tomás: «¡Señor mío y Dios mío!».
+                Jesús le dijo: «¿Porque me has visto has creído? Bienaventurados los que crean sin haber visto».`
+            },
+            "2026-07-04": {
+                cita: "Mateo 9, 14-17",
+                season: "Sábado de la XII semana del Tiempo Ordinario",
+                texto: `En aquel tiempo, se acercaron los discípulos de Juan a Jesús, preguntándole:
+                «¿Por qué nosotros y los fariseos ayunamos a menudo y tus discípulos no ayunan?».
+                Jesús les dijo:
+                «¿Es que pueden guardar luto los amigos del esposo mientras el esposo está con ellos? Llegarán días en que se lleven al esposo y entonces ayunarán.
+                Nadie echa un remiendo de paño sin tundir en un manto viejo, porque el remiendo tira del manto y la rotura se hace mayor.
+                Ni se echa vino nuevo en odres viejos, porque revientan los odres, se vierte el vino y los odres se echan a perder; sino que se echa el vino nuevo en odres nuevos y así se conservan ambos».`
+            },
+            "2026-07-05": {
+                cita: "Mateo 9, 18-26",
+                season: "Domingo XIV del Tiempo Ordinario (Ciclo B)",
+                texto: `En aquel tiempo, mientras Jesús hablaba, se acercó un personaje que se arrodilló ante él y le dijo:
+                «Mi hija acaba de morir. Pero ven tú, ponle la mano en la cabeza y vivirá».
+                Jesús se levantó y lo siguió con sus discípulos.
+                Entre tanto, una mujer que sufría flujo de sangre desde hacía doce años se le acercó por detrás y le tocó el borde del manto, pensando: «Con solo tocar su manto me curaré».
+                Jesús se volvió y, al verla, le dijo: «¡Ánimo, hija! Tu fe te ha curado». Y en aquel momento quedó curada la mujer.
+                Jesús llegó a casa del personaje y, al ver a los flautistas y el alboroto de la gente, dijo: «¡Retiraos! La niña no está muerta, está dormida».
+                Y se burlaban de él. Cuando echaron a la gente, entró él, tomó a la niña de la mano, y ella se levantó. La noticia se divulgó por toda aquella comarca.`
+            },
+            "2026-07-06": {
+                cita: "Mateo 9, 32-38",
+                season: "Lunes de la XIII semana del Tiempo Ordinario",
+                texto: `En aquel tiempo, presentaron a Jesús un mudo endemoniado. Él echó al demonio, y el mudo habló.
+                La gente decía admirada: «Jamás se ha visto en Israel cosa igual».
+                En cambio los fariseos decían: «Este echa los demonios con el poder del jefe de los demonios».
+                Jesús recorría todas las ciudades y aldeas, enseñando en sus sinagogas, proclamando el Evangelio del reino y curando toda enfermedad y toda dolencia.
+                Al ver a las muchedumbres, se compadecía de ellas, porque estaban extenuadas y desamparadas, como ovejas sin pastor. Entonces dijo a sus discípulos:
+                «La mies es abundante, pero los trabajadores son pocos; rogad, pues, al Señor de la mies que mande trabajadores a su mies».`
+            },
+            "2026-07-07": {
+                cita: "Mateo 10, 1-7",
+                season: "Martes de la XIII semana del Tiempo Ordinario",
+                texto: `En aquel tiempo, Jesús, llamando a sus doce discípulos, les dio autoridad sobre los espíritus inmundos para expulsarlos y para curar toda enfermedad y toda dolencia.
+                Estos son los nombres de los doce apóstoles: el primero, Simón, llamado Pedro, y Andrés su hermano; Santiago el de Zebedeo, y Juan su hermano; Felipe y Bartolomé; Tomás y Mateo el publicano; Santiago el de Alfeo, y Tadeo; Simón el de Caná, y Judas Iscariote, el que lo entregó.
+                A estos doce los envió Jesús con estas instrucciones:
+                «No vayáis a tierra de paganos ni entréis en las ciudades de Samaría; sino id más bien a las ovejas descarriadas de la casa de Israel.
+                Id proclamando que el reino de los cielos está cerca.»`
+            }
+        };
+
+        let currentTranspose = 0;
+        // --- DATOS DE CANCIONES (DINÁMICOS) ---
+        let cancionesData = [];
+
+        // Inicialización
+        window.addEventListener('DOMContentLoaded', async () => {
+            await fetchOraciones();
+            await fetchCanciones();
+            renderOraciones();
+            renderCanciones();
+            
+            // Cargar el evangelio del día de hoy por defecto
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const formattedToday = `${yyyy}-${mm}-${dd}`;
+            
+            loadEvangelioForDate(formattedToday);
+            
+            // Inicializar la Bitácora
+            initBitacora();
+        });
+
+        // Cargar oraciones desde el archivo JSON de forma asíncrona
+        async function fetchOraciones() {
+            try {
+                const response = await fetch('data/oraciones.json');
+                if (!response.ok) throw new Error("Error al cargar la base de datos de oraciones.");
+                oracionesData = await response.json();
+            } catch (e) {
+                console.error(e);
+                showToast("⚠️ No se pudo cargar el oratorio.", "error");
+            }
+        }
+
+        // Cargar canciones desde el archivo JSON de forma asíncrona
+        async function fetchCanciones() {
+            try {
+                const response = await fetch('data/canciones.json');
+                if (!response.ok) throw new Error("Error al cargar la base de datos de canciones.");
+                cancionesData = await response.json();
+            } catch (e) {
+                console.error(e);
+                showToast("⚠️ No se pudo cargar el cancionero.", "error");
+            }
+        }
+
+        // Carga dinámica del evangelio según la fecha del calendario
+        function loadEvangelioForDate(dateStr) {
+            if (!dateStr) return;
+            
+            let data = evangeliosCalendario[dateStr];
+            
+            // Si la fecha no está en la base de datos de julio de 2026, usar lecturas deterministas hermosas
+            if (!data) {
+                const tempDate = new Date(dateStr);
+                const dayOfWeek = tempDate.getDay();
+                const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+                const dayOfMonth = tempDate.getDate();
+                const monthName = months[tempDate.getMonth()];
+                const year = tempDate.getFullYear();
+                
+                const backups = [
+                    {
+                        cita: "Lucas 15, 1-10",
+                        season: `Domingo - Ciclo Litúrgico (${dayOfMonth} de ${monthName} de ${year})`,
+                        texto: `En aquel tiempo, se acercaban a Jesús todos los publicanos y los pecadores para oírle. Y los fariseos y los escribas murmuraban, diciendo: «Este acoge a los pecadores y come con ellos».
+                        Jesús les dijo esta parábola:
+                        «¿Quién de vosotros, si tiene cien ovejas y se le pierde una de ellas, no deja las noventa y nueve en el desierto y va a buscar la que se le había perdido, hasta encontrarla? Y cuando la encuentra, se la carga sobre los hombros muy contento; y al llegar a casa, reúne a los amigos y a los vecinos, y les dice: “¡Alegraos conmigo!, porque he encontrado la oveja que se me había perdido”.
+                        Os digo que así también habrá más alegría en el cielo por un solo pecador que se convierta, que por noventa y nueve justos que no necesitan conversión».`
+                    },
+                    {
+                        cita: "Juan 1, 1-14",
+                        season: `Lunes - Ciclo Litúrgico (${dayOfMonth} de ${monthName} de ${year})`,
+                        texto: `En el principio existía el Verbo, y el Verbo estaba junto a Dios, y el Verbo era Dios. Él estaba en el principio junto a Dios. Por medio de él se hizo todo, y sin él no se hizo nada de lo que se ha hecho. En él estaba la vida, y la vida era la luz de los hombres. Y la luz brilla en la tiniebla, y la tiniebla no la recibió.
+                        Surgió un hombre enviado por Dios, que se llamaba Juan: este venía como testigo, para dar testimonio de la luz, para que todos creyeran por medio de él. No era él la luz, sino testigo de la luz.
+                        El Verbo era la luz verdadera, que alumbra a todo hombre, viniendo al mundo. Y el Verbo se hizo carne y habitó entre nosotros, y hemos contemplado su gloria, gloria como del Unigénito del Padre, lleno de gracia y de verdad.`
+                    },
+                    {
+                        cita: "Mateo 5, 1-12",
+                        season: `Martes - Ciclo Litúrgico (${dayOfMonth} de ${monthName} de ${year})`,
+                        texto: `En aquel tiempo, al ver Jesús el gentío, subió a la montaña, se sentó, y se acercaron sus discípulos; y abriendo la boca les enseñaba diciendo:
+                        «Bienaventurados los pobres en el espíritu, porque de ellos es el reino de los cielos.
+                        Bienaventurados los mansos, porque ellos heredarán la tierra.
+                        Bienaventurados los que lloran, porque ellos serán consolados.
+                        Bienaventurados los que tienen hambre y sed de la justicia, porque ellos serán saciados.
+                        Bienaventurados los misericordiosos, porque ellos alcanzarán misericordia.
+                        Bienaventurados los limpios de corazón, porque ellos verán a Dios.
+                        Bienaventurados los que trabajan por la paz, porque ellos serán llamados hijos de Dios.
+                        Bienaventurados los perseguidos por causa de la justicia, porque de ellos es el reino de los cielos.
+                        Bienaventurados vosotros cuando os insulten y os persigan y os calumnien de cualquier modo por mi causa. Alegraos y regocijaos, porque vuestra recompensa será grande en el cielo».`
+                    },
+                    {
+                        cita: "Marcos 4, 35-41",
+                        season: `Miércoles - Ciclo Litúrgico (${dayOfMonth} de ${monthName} de ${year})`,
+                        texto: `Aquel día, al atardecer, dijo Jesús a sus discípulos: «Vamos a la otra orilla». Dejando a la gente, se lo llevaron en la barca, tal como estaba; otras barcas lo acompañaban. Se levantó una fuerte tempestad y las olas rompían contra la barca, hasta casi llenarla de agua. Él estaba en la popa, dormido sobre un cabezal.
+                        Lo despertaron, diciendo: «Maestro, ¿no te importa que perezcamos?». Se levantó, increpó al viento y dijo al mar: «¡Silencio, cállate!». El viento cesó y vino una gran calma.
+                        Y les dijo: «¿Por qué tenéis miedo? ¿Aún no tenéis fe?». Se llenaron de un gran temor y se decían unos a otros: «¿Quién es este, que hasta el viento y el mar le obedecen?».`
+                    },
+                    {
+                        cita: "Juan 6, 35-40",
+                        season: `Jueves - Ciclo Litúrgico (${dayOfMonth} de ${monthName} de ${year})`,
+                        texto: `En aquel tiempo, Jesús dijo a la muchedumbre: «Yo soy el pan de vida. El que viene a mí no tendrá hambre, y el que cree en mí no tendrá sed jamás. Pero os he dicho que me habéis visto y no creéis. Todo lo que el Padre me da vendrá a mí, y al que viene a mí no lo echaré fuera.
+                        Porque he bajado del cielo, no para hacer mi voluntad, sino la voluntad del que me envió. Y esta es la voluntad del que me envió: que no pierda nada de lo que él me dio, sino que lo resucite en el último día. Porque esta es la voluntad de mi Padre: que todo el que ve al Hijo y cree en él tenga vida eterna; y yo lo resucitaré en el último día».`
+                    },
+                    {
+                        cita: "Juan 14, 1-6",
+                        season: `Viernes - Ciclo Litúrgico (${dayOfMonth} de ${monthName} de ${year})`,
+                        texto: `En aquel tiempo, dijo Jesús a sus discípulos: «No se turbe vuestro corazón, creed en Dios y creed también en mí. En la casa de mi Padre hay muchas moradas; si no, os lo habría dicho, porque me voy a prepararos un lugar. Cuando vaya y os prepare un lugar, volveré y os llevaré conmigo, para que donde estoy yo estéis también vosotros. Y adonde yo voy, ya sabéis el camino».
+                        Tomás le dice: «Señor, no sabemos adónde vas; ¿cómo podemos saber el camino?». Jesús le responde: «Yo soy el camino y la verdad y la vida. Nadie va al Padre sino por mí».`
+                    },
+                    {
+                        cita: "Mateo 11, 28-30",
+                        season: `Sábado - Ciclo Litúrgico (${dayOfMonth} de ${monthName} de ${year})`,
+                        texto: `En aquel tiempo, Jesús tomó la palabra y dijo: «Venid a mí todos los que estáis cansados y agobiados, y yo os aliviaré. Cargad con mi yugo y aprended de mí, que soy manso y humilde de corazón, y encontraréis descanso para vuestras almas. Porque mi yugo es llevadero y mi carga ligera».`
+                    }
+                ];
+                
+                data = backups[dayOfWeek];
+            }
+            
+            document.getElementById('evangelio-cita-el').innerText = data.cita;
+            document.getElementById('liturgical-season-info-el').innerText = data.season;
+            
+            // Inyectar el texto
+            let texto = data.texto.trim();
+            document.getElementById('evangelio-texto-el').innerHTML = texto;
+            
+            // Establecer el input a la fecha cargada
+            document.getElementById('liturgical-date').value = dateStr;
+        }
+
+        // --- SISTEMA DE PESTAÑAS (SPA) ---
+        function switchTab(tabId) {
+            document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(`panel-${tabId}`).classList.add('active');
+            
+            // Buscar el botón correspondiente
+            const btn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.innerText.toLowerCase().includes(tabId.substring(0,3)));
+            if (btn) btn.classList.add('active');
+        }
+
+        // --- INTERACTIVIDAD DEL ALTAR ---
+        function switchLiturgy(horario) {
+            document.querySelectorAll('.liturgy-tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            const btn = Array.from(document.querySelectorAll('.liturgy-tab-btn')).find(b => b.innerText.toLowerCase() === horario);
+            if (btn) btn.classList.add('active');
+
+            const contentEl = document.getElementById('liturgy-content');
+            contentEl.innerHTML = liturgiasData[horario];
+        }
+
+        // --- ORATORIO ---
+        let currentFilter = 'todos';
+        function renderOraciones() {
+            const grid = document.getElementById('oraciones-grid-el');
+            grid.innerHTML = '';
+            
+            const searchText = document.getElementById('search-oraciones').value.toLowerCase();
+
+            const filtered = oracionesData.filter(o => {
+                const matchesCategory = currentFilter === 'todos' || o.category === currentFilter;
+                const matchesSearch = o.title.toLowerCase().includes(searchText) || 
+                                     o.author.toLowerCase().includes(searchText) ||
+                                     o.snippet.toLowerCase().includes(searchText);
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--text-muted); font-style: italic;">No se encontraron oraciones...</div>`;
+                return;
+            }
+
+            filtered.forEach(o => {
+                const card = document.createElement('div');
+                card.className = 'oracion-card';
+                card.onclick = () => {
+                    window.location.href = `oracion.html?id=${o.id}`;
+                };
+                card.innerHTML = `
+                    <div>
+                        <div class="oracion-meta">${o.categoryLabel}</div>
+                        <h3 class="oracion-title">${o.title}</h3>
+                        <p class="oracion-snippet">${o.snippet}</p>
+                    </div>
+                    <div class="oracion-author">Autor: ${o.author}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCategory(category, button) {
+            document.querySelectorAll('.filter-tag-btn').forEach(b => b.classList.remove('active'));
+            button.classList.add('active');
+            currentFilter = category;
+            renderOraciones();
+        }
+
+        function filterOraciones() {
+            renderOraciones();
+        }
+
+        // --- CANCIONERO LITÚRGICO ---
+        let currentSongFilter = 'todos';
+        function renderCanciones() {
+            const grid = document.getElementById('canciones-grid-el');
+            grid.innerHTML = '';
+            
+            const searchText = document.getElementById('search-canciones').value.toLowerCase();
+
+            const filtered = cancionesData.filter(c => {
+                const matchesCategory = currentSongFilter === 'todos' || c.category === currentSongFilter;
+                const matchesSearch = c.title.toLowerCase().includes(searchText) || 
+                                     c.author.toLowerCase().includes(searchText) ||
+                                     c.lyricsTemplate.toLowerCase().includes(searchText);
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--text-muted); font-style: italic;">No se encontraron cantos...</div>`;
+                return;
+            }
+
+            filtered.forEach(c => {
+                const card = document.createElement('div');
+                card.className = 'oracion-card';
+                card.onclick = () => {
+                    window.location.href = `cancion.html?id=${c.id}`;
+                };
+                // Extraer la primera línea sin las etiquetas de acorde entre corchetes
+                let firstLineClean = c.lyricsTemplate.split('\n')[0].replace(/\[[^\]]+\]/g, '');
+                card.innerHTML = `
+                    <div>
+                        <div class="oracion-meta">${c.categoryLabel} • Tono: ${c.originalKey}</div>
+                        <h3 class="oracion-title">${c.title}</h3>
+                        <p class="oracion-snippet" style="font-style: italic;">"${firstLineClean}..."</p>
+                    </div>
+                    <div class="oracion-author">Autor: ${c.author}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterSongCategory(category, button) {
+            document.querySelectorAll('#panel-cancionero .filter-tag-btn').forEach(b => b.classList.remove('active'));
+            button.classList.add('active');
+            currentSongFilter = category;
+            renderCanciones();
+        }
+
+        function filterCanciones() {
+            renderCanciones();
+        }
+
+        // --- TOAST NOTIFICATIONS ---
+        function showToast(message, type = "info") {
+            const toast = document.getElementById('toast-el');
+            const messageEl = document.getElementById('toast-message');
+            const iconEl = document.getElementById('toast-icon');
+
+            messageEl.innerText = message;
+            
+            if (type === "success") {
+                iconEl.innerText = "✨";
+                toast.style.borderLeftColor = "var(--accent-gold)";
+            } else {
+                iconEl.innerText = "⚜";
+                toast.style.borderLeftColor = "var(--rubric-red)";
+            }
+
+            toast.style.transform = "translateY(0)";
+
+            setTimeout(() => {
+                toast.style.transform = "translateY(150%)";
+            }, 3000);
+        }
+
+        // --- MOTOR DE DISCERNIMIENTO BÍBLICO ---
+        const bibleQuotesDB = {
+            miedo: [
+                { cita: "Filipenses 4:6", texto: "No os inquietéis por cosa alguna; antes bien, en toda ocasión presentad a Dios vuestras peticiones con oraciones y súplicas, acompañadas de acción de gracias." },
+                { cita: "Isaías 41:10", texto: "No temas, que yo estoy contigo; no te asustes, que yo soy tu Dios. Yo te doy fuerzas, yo te auxilio, yo te sostengo con mi mano salvadora." }
+            ],
+            tiempo: [
+                { cita: "Eclesiastés 3:1", texto: "Todo tiene su momento, y cada cosa su tiempo bajo el cielo: tiempo de nacer y tiempo de morir, tiempo de plantar y tiempo de arrancar..." },
+                { cita: "Efesios 5:15-16", texto: "Mirad, pues, con diligencia cómo andéis, no como necios sino como sabios, aprovechando bien el tiempo, porque los días son malos." }
+            ],
+            servicio: [
+                { cita: "1 Pedro 4:10", texto: "Ponga cada cual al servicio de los demás la gracia que ha recibido, como buenos administradores de las diversas gracias de Dios." },
+                { cita: "Gálatas 5:13", texto: "Porque vosotros, hermanos, a libertad fuisteis llamados; solamente que no uséis la libertad como ocasión para la carne, sino servíos por amor los unos a los otros." }
+            ],
+            orgullo: [
+                { cita: "Proverbios 16:18", texto: "Antes del quebrantamiento es la soberbia, y antes de la caída la altivez de espíritu." },
+                { cita: "Santiago 4:6", texto: "Dios resiste a los soberbios, y da gracia a los humildes." }
+            ],
+            sabiduria: [
+                { cita: "Santiago 1:5", texto: "Si a alguno de vosotros le falta sabiduría, pídala a Dios, el cual da a todos abundantemente y sin reproche, y le será dada." },
+                { cita: "Proverbios 3:5-6", texto: "Confía en el Señor de todo corazón, y no te apoyes en tu propia prudencia. Reconócelo en todos tus caminos, y él enderezará tus veredas." }
+            ],
+            general: [
+                { cita: "Romanos 12:2", texto: "No os acomodéis al mundo presente, antes bien transformaos mediante la renovación de vuestra mente, de forma que podáis distinguir cuál es la voluntad de Dios: lo bueno, lo agradable, lo perfecto." }
+            ]
+        };
+
+        function processDiscernment() {
+            const text = document.getElementById('discern-idea-text').value.trim();
+            if (!text) {
+                showToast("Por favor, describe primero tu dilema o idea a discernir.", "error");
+                return;
+            }
+
+            const origin = document.getElementById('discern-q-origin').value;
+            const peace = document.getElementById('discern-q-peace').value;
+            const counsel = document.getElementById('discern-q-counsel').value;
+            const checkedFruits = document.querySelectorAll('.fruit-checkbox:checked').length;
+
+            // Análisis Teológico
+            let score = 100;
+            let verdictTitle = "";
+            let verdictText = "";
+            let rulesHTML = "";
+
+            // Eje 1: Origen de la Moción (Ignaciano)
+            let originRule = { status: "success", label: "Moción de Origen", desc: "La moción nace de un deseo noble de amar y servir a Dios." };
+            if (origin === "impulso") {
+                score -= 15;
+                originRule = { status: "warning", label: "Moción de Agitación", desc: "Atención: Nace de un impulso o agitación externa. Evita tomar decisiones precipitadas." };
+            } else if (origin === "ego") {
+                score -= 30;
+                originRule = { status: "danger", label: "Moción del Amor Propio", desc: "Advertencia: Se detectan indicios de búsqueda de vanagloria o reconocimiento. Purifica la intención." };
+            } else if (origin === "miedo") {
+                score -= 20;
+                originRule = { status: "warning", label: "Moción de Evasión", desc: "Atención: La idea podría ser una huata ante el temor o evasión de una dificultad. Examínala en oración profunda." };
+            }
+
+            // Eje 2: Estado del Alma (Ignaciano)
+            let peaceRule = { status: "success", label: "Paz e Consolación", desc: "Sientes una consolación espiritual profunda y sosiego duradero." };
+            if (peace === "agitacion") {
+                score -= 10;
+                peaceRule = { status: "warning", label: "Entusiasmo Superficial", desc: "La euforia inicial suele apagarse rápidamente. Espera a que el alma repose para tomar una determinación." };
+            } else if (peace === "turbacion") {
+                score -= 25;
+                peaceRule = { status: "danger", label: "Regla de la Turbación", desc: "Bajo desolación y turbación, San Ignacio aconseja firmemente no realizar cambios en tu vida. Mantén tus compromisos vigentes." };
+            } else if (peace === "vacio") {
+                score -= 20;
+                peaceRule = { status: "warning", label: "Sequedad y Vacío", desc: "El vacío posterior indica que la decisión podría alejarse de tu verdadera vocación." };
+            }
+
+            // Eje 3: Frutos del Espíritu (Gálatas 5:22)
+            let fruitsRule = { status: "success", label: "Frutos del Espíritu", desc: "La decisión muestra cultivar abundantemente los frutos del Espíritu Santo." };
+            if (checkedFruits <= 1) {
+                score -= 20;
+                fruitsRule = { status: "danger", label: "Falta de Frutos", desc: "Muy pocos frutos espirituales detectados. Una buena decisión en el Señor fructifica en paz y caridad." };
+            } else if (checkedFruits <= 3) {
+                score -= 10;
+                fruitsRule = { status: "warning", label: "Frutos Limitados", desc: "Los frutos del Espíritu son moderados. Revisa si hay cierta rigidez u obstinación bloqueando el gozo." };
+            }
+
+            // Eje 4: Consejo Sabio (Proverbios 11:14)
+            let counselRule = { status: "success", label: "Consejo Sabio", desc: "Has contrastado la idea con personas maduras en la fe. Excelente discernimiento en Iglesia." };
+            if (counsel === "alguno") {
+                score -= 5;
+                counselRule = { status: "warning", label: "Consejo Parcial", desc: "Busca opiniones de guías con madurez teológica y espiritual, no solo de amigos complacientes." };
+            } else if (counsel === "no") {
+                score -= 15;
+                counselRule = { status: "danger", label: "Aislamiento Espiritual", desc: "El espíritu de división prefiere el secreto. Habla abiertamente con un sacerdote o consejero espiritual." };
+            }
+
+            // Puntuación y Veredicto
+            score = Math.max(0, Math.min(100, score));
+            
+            if (score >= 80) {
+                verdictTitle = "⚜ Inspiración Alentada";
+                verdictText = "Tu dilema muestra una fuerte alineación evangélica y consolación interior. Los frutos son claros y tu moción se orienta al amor. Sigue adelante con prudencia, contrastando tus pasos en la oración diaria y el consejo de tu comunidad.";
+            } else if (score >= 50) {
+                verdictTitle = "⚖ Discernimiento en Espera";
+                verdictText = "Hay elementos positivos, pero se detectan mociones de agitación, prisa o falta de consejo maduro. Te recomendamos pausar la decisión, orar pidiendo claridad y esperar a que las aguas del espíritu vuelvan a la paz.";
+            } else {
+                verdictTitle = "⚠ Advertencia de Desolación";
+                verdictText = "Se observan indicios claros de desolación, turbación espiritual o intenciones desordenadas. Bajo estas mociones, la Iglesia aconseja firmemente no tomar decisiones permanentes ni cambiar de rumbo. Entrégate a la oración de súplica.";
+            }
+
+            // Renderizar Rúbrica
+            const rules = [originRule, peaceRule, fruitsRule, counselRule];
+            rules.forEach(r => {
+                const color = r.status === "success" ? "#2d6a4f" : r.status === "warning" ? "#d97706" : "var(--rubric-red)";
+                const bg = r.status === "success" ? "rgba(45, 106, 79, 0.08)" : r.status === "warning" ? "rgba(217, 119, 6, 0.08)" : "rgba(140, 37, 37, 0.08)";
+                rulesHTML += `
+                    <div style="border-left: 3px solid ${color}; background-color: ${bg}; padding: 0.75rem 1rem; border-radius: 4px; font-size: 0.95rem;">
+                        <strong style="color: ${color}; font-family: 'Inter', sans-serif; font-size: 0.8rem; text-transform: uppercase;">${r.label}</strong>
+                        <p style="margin-top: 0.2rem; line-height: 1.4;">${r.desc}</p>
+                    </div>
+                `;
+            });
+            document.getElementById('discern-rubric-rules').innerHTML = rulesHTML;
+
+            // Búsqueda de Citas de Soporte Dinámicas
+            const textLower = text.toLowerCase();
+            let matchedQuotes = [];
+
+            if (textLower.includes("miedo") || textLower.includes("temor") || textLower.includes("asuste") || textLower.includes("asustar") || textLower.includes("inquiet") || textLower.includes("angustia") || textLower.includes("asusta")) {
+                matchedQuotes = matchedQuotes.concat(bibleQuotesDB.miedo);
+            }
+            if (textLower.includes("tiempo") || textLower.includes("estud") || textLower.includes("clase") || textLower.includes("horario") || textLower.includes("agenda") || textLower.includes("prisa")) {
+                matchedQuotes = matchedQuotes.concat(bibleQuotesDB.tiempo);
+            }
+            if (textLower.includes("proyect") || textLower.includes("ayuda") || textLower.includes("servi") || textLower.includes("parroquia") || textLower.includes("joven") || textLower.includes("dar") || textLower.includes("iglesia") || textLower.includes("mision")) {
+                matchedQuotes = matchedQuotes.concat(bibleQuotesDB.servicio);
+            }
+            if (textLower.includes("riqueza") || textLower.includes("dinero") || textLower.includes("exito") || textLower.includes("éxito") || textLower.includes("ganar") || textLower.includes("negocio") || textLower.includes("orgullo") || textLower.includes("vanidad")) {
+                matchedQuotes = matchedQuotes.concat(bibleQuotesDB.orgullo);
+            }
+            if (textLower.includes("duda") || textLower.includes("decid") || textLower.includes("elec") || textLower.includes("sabio") || textLower.includes("camino") || textLower.includes("saber")) {
+                matchedQuotes = matchedQuotes.concat(bibleQuotesDB.sabiduria);
+            }
+
+            // Si no hay coincidencias, sugerir las generales
+            if (matchedQuotes.length === 0) {
+                matchedQuotes = matchedQuotes.concat(bibleQuotesDB.general);
+            }
+
+            let quotesHTML = "";
+            matchedQuotes.forEach(q => {
+                quotesHTML += `
+                    <div style="background-color: var(--bg-page); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; position: relative;">
+                        <span class="rubric-tag" style="font-size: 0.65rem; color: var(--accent-gold); display: block; margin-bottom: 0.5rem;">Cita de Oración: ${q.cita}</span>
+                        <p style="font-size: 1.15rem; font-style: italic; line-height: 1.6; text-align: justify; white-space: pre-line; color: var(--text-dark); margin: 0;">
+                            "${q.texto}"
+                        </p>
+                    </div>
+                `;
+            });
+            document.getElementById('discern-bible-quotes-list').innerHTML = quotesHTML;
+
+            // Actualizar interfaz del veredicto
+            document.getElementById('discern-verdict-title').innerText = verdictTitle;
+            document.getElementById('discern-verdict-score').innerText = `${score}%`;
+            document.getElementById('discern-verdict-bar').style.width = `${score}%`;
+            document.getElementById('discern-verdict-text').innerText = verdictText;
+
+            // Cambiar color de la barra según puntuación
+            if (score >= 80) {
+                document.getElementById('discern-verdict-bar').style.backgroundColor = "#2d6a4f";
+                document.getElementById('discern-verdict-score').style.color = "#2d6a4f";
+            } else if (score >= 50) {
+                document.getElementById('discern-verdict-bar').style.backgroundColor = "#d97706";
+                document.getElementById('discern-verdict-score').style.color = "#d97706";
+            } else {
+                document.getElementById('discern-verdict-bar').style.backgroundColor = "var(--rubric-red)";
+                document.getElementById('discern-verdict-score').style.color = "var(--rubric-red)";
+            }
+
+            // Mostrar resultado
+            document.getElementById('discern-result-card').style.display = "block";
+            // Auto scroll al resultado
+            document.getElementById('discern-result-card').scrollIntoView({ behavior: 'smooth' });
+            showToast("Examen de mociones completado.", "success");
+        }
+
+        function copyDiscernmentReport() {
+            const idea = document.getElementById('discern-idea-text').value;
+            const score = document.getElementById('discern-verdict-score').innerText;
+            const title = document.getElementById('discern-verdict-title').innerText;
+            const text = document.getElementById('discern-verdict-text').innerText;
+
+            const report = `⚜ REPORTE DE DISCERNIMIENTO TEOLÓGICO ⚜\n\n` +
+                           `Dilema Evaluado:\n"${idea}"\n\n` +
+                           `Resultado de la Alineación: ${score} (${title})\n\n` +
+                           `Diagnóstico:\n${text}\n\n` +
+                           `Generado en SAIMAP Ecclesia.`;
+
+            navigator.clipboard.writeText(report).then(() => {
+                showToast("Reporte copiado al portapapeles.", "success");
+            }).catch(() => {
+                showToast("No se pudo copiar el reporte.", "error");
+            });
+        }
+
+        // --- ACADEMIA DE ESTUDIOS ---
+        function switchSubStudy(studyTab) {
+            document.querySelectorAll('.substudy-panel').forEach(p => p.style.display = 'none');
+            document.querySelectorAll('#panel-estudios .liturgy-tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(`subpanel-${studyTab}`).style.display = 'block';
+            document.getElementById(`subtab-${studyTab}-btn`).classList.add('active');
+        }
+
+        function togglePatristicQuote() {
+            const quoteEl = document.getElementById('patristic-quote');
+            if (quoteEl.style.display === 'none') {
+                quoteEl.style.display = 'block';
+                quoteEl.style.animation = 'fadeIn 0.5s ease-out';
+            } else {
+                quoteEl.style.display = 'none';
+            }
+        }
+
+        function switchLanguageTab(lang) {
+            document.querySelectorAll('.language-content-box').forEach(b => b.style.display = 'none');
+            document.querySelectorAll('#subpanel-idiomas .filter-tag-btn').forEach(b => b.classList.remove('active'));
+
+            document.getElementById(`langcontent-${lang}`).style.display = 'block';
+            document.getElementById(`lang-${lang}-btn`).classList.add('active');
+        }
+
+        // Web Audio API sintetizador de órgano/piano litúrgico
+        let audioCtx = null;
+        function playPianoTone(freq, keyEl) {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+
+                // Asegurar que el contexto de audio esté activo (restricciones de navegadores modernos)
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+
+                osc.type = 'triangle'; // Tono de flauta/órgano litúrgico
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.8);
+
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.8);
+
+                // Efecto de tecla pulsada
+                keyEl.style.backgroundColor = '#e3d2aa';
+                setTimeout(() => {
+                    keyEl.style.backgroundColor = '#fdfaf2';
+                }, 150);
+
+            } catch (e) {
+                console.error("Error al reproducir audio:", e);
+            }
+        }
+
+        // --- SISTEMA DE BITÁCORA EMOCIONAL Y ESPIRITUAL ---
+        let bitacoraLogs = {};
+        let currentBitacoraDate = new Date();
+        let selectedBitacoraDateStr = "";
+
+        const suggestedJaculatorias = {
+            consolacion: "«El Señor es mi luz y mi salvación, ¿a quién temeré?» — Salmo 27, 1",
+            agradecimiento: "«Dad gracias al Señor porque es bueno, porque es eterna su misericordia.» — Salmo 136, 1",
+            esperanza: "«Los que esperan en el Señor renuevan sus fuerzas, vuelan como águilas.» — Isaías 40, 31",
+            desolacion: "«El Señor está cerca de los corazones rotos; salva a los espíritus abatidos.» — Salmo 34, 18",
+            turbacion: "«No se turbe vuestro corazón ni tenga miedo. Creed en Dios.» — Juan 14, 1"
+        };
+
+        function initBitacora() {
+            // Cargar datos
+            const stored = localStorage.getItem('bitacora_logs');
+            if (stored) {
+                try {
+                    bitacoraLogs = JSON.parse(stored);
+                } catch(e) {
+                    bitacoraLogs = {};
+                }
+            }
+
+            // Seleccionar hoy por defecto
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            selectedBitacoraDateStr = `${yyyy}-${mm}-${dd}`;
+
+            renderBitacoraCalendar();
+            selectBitacoraDay(selectedBitacoraDateStr);
+            renderBitacoraStats();
+        }
+
+        function renderBitacoraCalendar() {
+            const year = currentBitacoraDate.getFullYear();
+            const month = currentBitacoraDate.getMonth(); // 0-indexed
+
+            // Actualizar título
+            const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            document.getElementById('calendar-month-year-title').innerText = `${monthNames[month]} ${year}`;
+
+            const grid = document.getElementById('calendar-days-grid');
+            grid.innerHTML = '';
+
+            // Calcular primer día del mes y total de días
+            const firstDayIndex = new Date(year, month, 1).getDay(); // 0: Dom, 1: Lun...
+            // Convertir a indexación europea (0: Lun, 6: Dom)
+            const firstDayIndexEU = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
+
+            const totalDays = new Date(year, month + 1, 0).getDate();
+            const prevTotalDays = new Date(year, month, 0).getDate();
+
+            // Celdas del mes anterior (vacías o apagadas)
+            for (let i = firstDayIndexEU; i > 0; i--) {
+                const cell = document.createElement('div');
+                cell.className = 'calendar-day-cell other-month';
+                cell.innerHTML = `<span class="calendar-day-number">${prevTotalDays - i + 1}</span>`;
+                grid.appendChild(cell);
+            }
+
+            // Celdas del mes actual
+            const today = new Date();
+            const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
+            for (let d = 1; d <= totalDays; d++) {
+                const dayStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                const cell = document.createElement('div');
+                cell.className = 'calendar-day-cell';
+                if (dayStr === todayStr) cell.classList.add('today');
+                if (dayStr === selectedBitacoraDateStr) cell.classList.add('selected');
+
+                // Si tiene registro, aplicar clase de color y añadir emoji
+                const log = bitacoraLogs[dayStr];
+                let emoji = "";
+                if (log && log.mood) {
+                    cell.classList.add(`mood-${log.mood}`);
+                    if (log.mood === 'consolacion') emoji = "⚜";
+                    if (log.mood === 'agradecimiento') emoji = "🍇";
+                    if (log.mood === 'esperanza') emoji = "🌿";
+                    if (log.mood === 'desolacion') emoji = "🪨";
+                    if (log.mood === 'turbacion') emoji = "⚠";
+                }
+
+                cell.innerHTML = `
+                    <span class="calendar-day-number">${d}</span>
+                    <span class="calendar-day-mood-indicator">${emoji}</span>
+                `;
+
+                cell.onclick = () => {
+                    selectedBitacoraDateStr = dayStr;
+                    document.querySelectorAll('.calendar-day-cell').forEach(c => c.classList.remove('selected'));
+                    cell.classList.add('selected');
+                    selectBitacoraDay(dayStr);
+                };
+
+                grid.appendChild(cell);
+            }
+        }
+
+        function switchBitacoraSubTab(subTab) {
+            document.getElementById('bitacora-mociones-content').style.display = 'none';
+            document.getElementById('bitacora-discern-content').style.display = 'none';
+            
+            document.getElementById('subtab-mociones-btn').classList.remove('active');
+            document.getElementById('subtab-discern-btn').classList.remove('active');
+
+            if (subTab === 'mociones') {
+                document.getElementById('bitacora-mociones-content').style.display = 'block';
+                document.getElementById('subtab-mociones-btn').classList.add('active');
+            } else if (subTab === 'discern') {
+                document.getElementById('bitacora-discern-content').style.display = 'block';
+                document.getElementById('subtab-discern-btn').classList.add('active');
+            }
+        }
+
+        function changeBitacoraMonth(dir) {
+            currentBitacoraDate.setMonth(currentBitacoraDate.getMonth() + dir);
+            renderBitacoraCalendar();
+        }
+
+        function selectBitacoraDay(dayStr) {
+            // Actualizar título del editor
+            const parts = dayStr.split('-');
+            document.getElementById('editor-day-title').innerText = `Examen del día ${parts[2]}/${parts[1]}/${parts[0]}`;
+
+            // Cargar datos si existen
+            const log = bitacoraLogs[dayStr];
+            if (log) {
+                // Radio button
+                const radio = document.querySelector(`input[name="mood-radio"][value="${log.mood}"]`);
+                if (radio) radio.checked = true;
+                
+                document.getElementById('bitacora-day-note').value = log.note || "";
+                updateSuggestedJaculatoria(log.mood);
+            } else {
+                // Resetear
+                document.querySelectorAll('input[name="mood-radio"]').forEach(r => r.checked = false);
+                document.getElementById('bitacora-day-note').value = "";
+                document.getElementById('suggested-jaculatoria-area').innerText = "Selecciona un estado de ánimo para recibir una jaculatoria de oración.";
+            }
+        }
+
+        function updateSuggestedJaculatoria(mood) {
+            const area = document.getElementById('suggested-jaculatoria-area');
+            if (suggestedJaculatorias[mood]) {
+                area.innerHTML = `<strong style="font-family: 'Inter', sans-serif; font-size: 0.75rem; text-transform: uppercase; color: var(--accent-gold); display: block; margin-bottom: 2px;">Jaculatoria Recomendada</strong>${suggestedJaculatorias[mood]}`;
+            } else {
+                area.innerText = "Selecciona un estado de ánimo para recibir una jaculatoria de oración.";
+            }
+
+            // Actualizar recomendaciones cruzadas
+            updateSpiritualRecommendations(mood);
+        }
+
+        function updateSpiritualRecommendations(mood) {
+            const recBox = document.getElementById('bitacora-recommendations');
+            const linksArea = document.getElementById('bitacora-rec-links');
+
+            if (!recBox || !linksArea) return;
+
+            const recommendations = {
+                consolacion: {
+                    oraciones: [{ id: 3, title: "Gloria al Padre (Alabanza)" }, { id: 10, title: "Oración de Abandono (Confianza)" }],
+                    canciones: [{ id: "sencillamente-hakuna", title: "Sencillamente" }, { id: "vienen-con-alegria", title: "Vienen con Alegría" }]
+                },
+                agradecimiento: {
+                    oraciones: [{ id: 3, title: "Gloria al Padre (Alabanza)" }, { id: 10, title: "Oración de Abandono (Gratitud)" }],
+                    canciones: [{ id: "sencillamente-hakuna", title: "Sencillamente" }, { id: "vienen-con-alegria", title: "Vienen con Alegría" }]
+                },
+                esperanza: {
+                    oraciones: [{ id: 11, title: "Nada te turbe (Paz)" }, { id: 10, title: "Oración de Abandono (Esperanza)" }],
+                    canciones: [{ id: "sencillamente-hakuna", title: "Sencillamente" }, { id: "pescador-de-hombres", title: "Pescador de Hombres" }]
+                },
+                desolacion: {
+                    oraciones: [{ id: 6, title: "Alma de Cristo (Recogimiento)" }, { id: 11, title: "Nada te turbe (Fortaleza)" }],
+                    canciones: [{ id: "noche-hakuna", title: "Noche (Kyrie litúrgico)" }, { id: "cerca-de-ti-senor", title: "Cerca de Ti, Señor" }]
+                },
+                turbacion: {
+                    oraciones: [{ id: 7, title: "Hazme un Instrumento de tu Paz (Paz)" }, { id: 11, title: "Nada te turbe (Sosiego)" }],
+                    canciones: [{ id: "dime-padre-hakuna", title: "Dime Padre (Getsemaní)" }, { id: "cerca-de-ti-senor", title: "Cerca de Ti, Señor" }]
+                }
+            };
+
+            const rec = recommendations[mood];
+            if (rec) {
+                let html = "";
+                // Oraciones
+                html += `<div style="font-weight: 700; color: var(--text-dark); margin-bottom: 2px;">Lecturas de Oración:</div>`;
+                rec.oraciones.forEach(o => {
+                    html += `<a href="oracion.html?id=${o.id}" style="color: var(--accent-gold); text-decoration: underline; margin-bottom: 2px; display: inline-block;" target="_blank">🙏 ${o.title}</a>`;
+                });
+                
+                // Canciones
+                html += `<div style="font-weight: 700; color: var(--text-dark); margin-top: 6px; margin-bottom: 2px;">Cánticos Sugeridos:</div>`;
+                rec.canciones.forEach(c => {
+                    html += `<a href="cancion.html?id=${c.id}" style="color: var(--rubric-red); text-decoration: underline; margin-bottom: 2px; display: inline-block;" target="_blank">🎵 ${c.title}</a>`;
+                });
+
+                linksArea.innerHTML = html;
+                recBox.style.display = "block";
+            } else {
+                recBox.style.display = "none";
+            }
+        }
+
+        function saveCurrentDayLog() {
+            const checkedRadio = document.querySelector('input[name="mood-radio"]:checked');
+            if (!checkedRadio) {
+                showToast("Por favor, selecciona una moción dominante.", "error");
+                return;
+            }
+
+            const mood = checkedRadio.value;
+            const note = document.getElementById('bitacora-day-note').value.trim();
+
+            // Guardar
+            bitacoraLogs[selectedBitacoraDateStr] = { mood, note };
+            localStorage.setItem('bitacora_logs', JSON.stringify(bitacoraLogs));
+
+            renderBitacoraCalendar();
+            renderBitacoraStats();
+            showToast("Registro diario guardado.", "success");
+        }
+
+        function deleteCurrentDayLog() {
+            if (bitacoraLogs[selectedBitacoraDateStr]) {
+                delete bitacoraLogs[selectedBitacoraDateStr];
+                localStorage.setItem('bitacora_logs', JSON.stringify(bitacoraLogs));
+                
+                // Limpiar editor
+                document.querySelectorAll('input[name="mood-radio"]').forEach(r => r.checked = false);
+                document.getElementById('bitacora-day-note').value = "";
+                document.getElementById('suggested-jaculatoria-area').innerText = "Selecciona un estado de ánimo para recibir una jaculatoria de oración.";
+                
+                renderBitacoraCalendar();
+                renderBitacoraStats();
+                showToast("Registro diario eliminado.", "info");
+            } else {
+                showToast("No hay registros para este día.", "info");
+            }
+        }
+
+        function renderBitacoraStats() {
+            const year = currentBitacoraDate.getFullYear();
+            const month = String(currentBitacoraDate.getMonth() + 1).padStart(2, '0');
+            const prefix = `${year}-${month}`;
+
+            // Contar estados
+            const counts = { consolacion: 0, agradecimiento: 0, esperanza: 0, desolacion: 0, turbacion: 0 };
+            let total = 0;
+
+            for (const key in bitacoraLogs) {
+                if (key.startsWith(prefix)) {
+                    const log = bitacoraLogs[key];
+                    if (counts[log.mood] !== undefined) {
+                        counts[log.mood]++;
+                        total++;
+                    }
+                }
+            }
+
+            const container = document.getElementById('bitacora-stats-container');
+            container.innerHTML = '';
+
+            const moodsMeta = {
+                consolacion: { label: "Consolación ⚜", color: "var(--accent-gold)" },
+                agradecimiento: { label: "Agradecimiento 🍇", color: "purple" },
+                esperanza: { label: "Esperanza 🌿", color: "#2d6a4f" },
+                desolacion: { label: "Desolación 🪨", color: "var(--text-muted)" },
+                turbacion: { label: "Turbación ⚠", color: "var(--rubric-red)" }
+            };
+
+            if (total === 0) {
+                container.innerHTML = `<div style="text-align: center; padding: 1.5rem; color: var(--text-muted); font-style: italic; font-size: 0.95rem;">No hay registros este mes para elaborar estadísticas.</div>`;
+                return;
+            }
+
+            for (const key in counts) {
+                const val = counts[key];
+                const pct = total > 0 ? Math.round((val / total) * 100) : 0;
+                const meta = moodsMeta[key];
+
+                container.innerHTML += `
+                    <div style="font-family: 'Inter', sans-serif; font-size: 0.85rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                            <strong>${meta.label}</strong>
+                            <span>${val} días (${pct}%)</span>
+                        </div>
+                        <div style="width: 100%; height: 6px; background: rgba(42,32,21,0.06); border-radius: 3px; overflow: hidden;">
+                            <div style="width: ${pct}%; height: 100%; background: ${meta.color}; border-radius: 3px;"></div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function clearAllBitacoraLogs() {
+            if (confirm("¿Estás seguro de que deseas eliminar permanentemente todo tu historial de bitácora? Esta acción no se puede deshacer.")) {
+                bitacoraLogs = {};
+                localStorage.removeItem('bitacora_logs');
+                initBitacora();
+                showToast("Historial borrado por completo.", "info");
+            }
+        }
+    </script>
+</body>
+</html>
