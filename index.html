@@ -895,16 +895,41 @@
         <section id="panel-altar" class="section-panel active">
             <div class="altar-grid">
                 
-                <div class="card">
-                    <div class="card-header-liturgy">
-                        <span class="rubric-tag">Evangelio del Día</span>
+                <div class="card" style="max-height: 700px; overflow-y: auto;">
+                    <div class="card-header-liturgy" style="position: sticky; top: 0; background: var(--bg-card); z-index: 10; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem;">
+                        <span class="rubric-tag">Liturgia de la Palabra</span>
                         <div class="calendar-controls">
                             <input type="date" id="liturgical-date" class="calendar-date-picker" onchange="loadEvangelioForDate(this.value)">
                         </div>
                     </div>
-                    <div class="liturgical-season-info" id="liturgical-season-info-el">Cargando temporada...</div>
-                    <h2 class="card-title" id="evangelio-cita-el" style="margin: 0.5rem 0 1rem 0; font-family: 'Playfair Display', serif;">Cargando...</h2>
-                    <div class="sacred-text" id="evangelio-texto-el">Cargando lectura del Evangelio...</div>
+                    <div class="liturgical-season-info" id="liturgical-season-info-el" style="margin-bottom: 1.5rem;">Cargando temporada...</div>
+                    
+                    <!-- PRIMERA LECTURA -->
+                    <div id="lectura-seccion" style="margin-bottom: 1.5rem;">
+                        <span class="rubric-tag" style="font-size: 0.65rem; color: var(--rubric-red); display: block; margin-bottom: 0.2rem; letter-spacing: 0.05em;">Primera Lectura</span>
+                        <h3 class="font-solemn" id="lectura-cita-el" style="font-size: 1.15rem; color: var(--text-dark); margin: 0 0 0.5rem 0; font-family: 'Playfair Display', serif;">Cargando...</h3>
+                        <div class="sacred-text" id="lectura-texto-el" style="font-size: 1.1rem; line-height: 1.6; text-align: justify; font-family: 'EB Garamond', serif;">Cargando lectura...</div>
+                    </div>
+
+                    <!-- DIVISOR 1 -->
+                    <div id="divisor-lectura-salmo" style="border-top: 1px dashed var(--border-color); margin: 1.5rem 0; text-align: center; color: var(--accent-gold); font-size: 0.9rem;">⚜</div>
+
+                    <!-- SALMO RESPONSORIAL -->
+                    <div id="salmo-seccion" style="margin-bottom: 1.5rem;">
+                        <span class="rubric-tag" style="font-size: 0.65rem; color: var(--rubric-red); display: block; margin-bottom: 0.2rem; letter-spacing: 0.05em;">Salmo Responsorial</span>
+                        <h3 class="font-solemn" id="salmo-cita-el" style="font-size: 1.15rem; color: var(--text-dark); margin: 0 0 0.5rem 0; font-family: 'Playfair Display', serif;">Cargando...</h3>
+                        <div class="sacred-text" id="salmo-texto-el" style="font-size: 1.1rem; line-height: 1.6; text-align: justify; font-family: 'EB Garamond', serif; white-space: pre-line;">Cargando salmo...</div>
+                    </div>
+
+                    <!-- DIVISOR 2 -->
+                    <div id="divisor-salmo-evangelio" style="border-top: 1px dashed var(--border-color); margin: 1.5rem 0; text-align: center; color: var(--accent-gold); font-size: 0.9rem;">⚜</div>
+
+                    <!-- EVANGELIO -->
+                    <div id="evangelio-seccion">
+                        <span class="rubric-tag" style="font-size: 0.65rem; color: var(--rubric-red); display: block; margin-bottom: 0.2rem; letter-spacing: 0.05em;">Santo Evangelio</span>
+                        <h3 class="font-solemn" id="evangelio-cita-el" style="font-size: 1.15rem; color: var(--text-dark); margin: 0 0 0.5rem 0; font-family: 'Playfair Display', serif;">Cargando...</h3>
+                        <div class="sacred-text" id="evangelio-texto-el" style="font-size: 1.1rem; line-height: 1.6; text-align: justify; font-family: 'EB Garamond', serif;">Cargando evangelio...</div>
+                    </div>
                 </div>
 
                 <div class="card">
@@ -1701,19 +1726,33 @@
                 </p>
 
                 <h3 class="font-solemn" style="font-size: 1.15rem; color: var(--rubric-red); margin-bottom: 0.5rem;">Oración Conclusiva</h3>
-                <p style="line-height: 1.6; margin-bottom: 1rem; text-align: justify; font-size: 1.1rem;">
-                    Visita, Señor, esta habitación, aleja de ella todas las asechanzas del enemigo; que tus santos ángeles habiten en ella para guardarnos en paz, y que tu bendición permanezca siempre con nosotros. Por Jesucristo nuestro Señor. Amén.
-                    
-                    <span style="display: block; margin-top: 1rem; font-style: italic; color: var(--text-muted);">V. El Señor todopoderoso nos conceda una noche tranquila y una santa muerte. R. Amén.</span>
-                </p>
-            `
-        };
-
-        // --- BASE DE DATOS DE EVANGELIOS POR FECHA (CALENDARIO) ---
+                <p style="line-height: 1.6; margin-bottom: 1rem; text-align: ju        // --- BASE DE DATOS DE EVANGELIOS POR FECHA (CALENDARIO) ---
         const evangeliosCalendario = {
             "2026-07-01": {
-                cita: "Mateo 8, 28-34",
                 season: "Miércoles de la XII semana del Tiempo Ordinario",
+                lecturaCita: "Amós 5, 14-15. 21-24",
+                lecturaTexto: `Buscad el bien y no el mal, para que viváis, y así estará con vosotros el Señor, Dios del universo, como soléis decir. Odiad el mal, amad el bien, dad su derecho a la justicia en el tribunal; tal vez el Señor, Dios del universo, tenga piedad del resto de José.
+                Yo detesto y desprecio vuestras fiestas, no me agradan vuestras reuniones solemnes; por más que me ofrezcáis vuestros holocaustos y ofrendas de grano, no los aceptaré, ni miraré vuestros sacrificios de comunión de novillos cebados.
+                Aleja de mí el ruido de tus cantos, no quiero oír la música de tus arpas. Que fluya como agua el derecho y la justicia como un torrente inagotable.`,
+                salmoCita: "Salmo 49, 7. 8-9. 10-11. 12-13. 16bc-17",
+                salmoTexto: `R. Al que sigue buen camino le haré ver la salvación de Dios.
+                
+                «Escucha, pueblo mío, que voy a hablar;
+                Israel, voy a testificar contra ti;
+                yo, Dios, tu Dios.
+                No te acuso por tus sacrificios,
+                pues tus holocaustos están siempre ante mí». R.
+                
+                «No aceptaré un becerro de tu casa,
+                ni un cabrito de tus rebaños;
+                pues son mías todas las fieras del bosque,
+                los millares de animales de mis montes». R.
+                
+                «Conozco todas las aves del cielo,
+                tengo a mano lo que bulle en el campo.
+                Si tuviera hambre, no te lo diría,
+                pues el orbe y cuanto lo llena es mío». R.`,
+                cita: "Mateo 8, 28-34",
                 texto: `En aquel tiempo, llegó Jesús a la otra orilla, a la región de los gadarenos, y salieron de entre los sepulcros dos endemoniados, tan furiosos que nadie podía transitar por aquel camino.
                 Y se pusieron a gritar:
                 «¿Qué tenemos nosotros contigo, Hijo de Dios? ¿Has venido aquí antes de tiempo para atormentarnos?».
@@ -1724,20 +1763,53 @@
                 Entonces toda la ciudad salió al encuentro de Jesús y, al verlo, le rogaron que se marchara de su territorio.`
             },
             "2026-07-02": {
-                cita: "Mateo 9, 1-8",
                 season: "Jueves de la XII semana del Tiempo Ordinario",
+                lecturaCita: "Amós 7, 10-17",
+                lecturaTexto: `En aquellos días, Amasías, sacerdote de Betel, mandó decir a Jeroboán, rey de Israel: «Amós está conspirando contra ti en medio de la casa de Israel; el país no puede soportar todas sus palabras. Porque así anda diciendo Amós: “Jeroboán morirá a espada, e Israel saldrá de su tierra desterrado”».
+                Y Amasías dijo a Amós: «Vidente, vete; huye a la tierra de Judá; come allí tu pan y profetiza allí. Pero no vuelvas a profetizar en Betel, porque es el santuario del rey y el templo del reino».
+                Respondió Amós y dijo a Amasías: «Yo no soy profeta, ni hijo de profeta; soy pastor y cultivador de higueras silvestres. Pero el Señor me tomó de detrás del rebaño, y el Señor me dijo: “Ve, profetiza a mi pueblo Israel”».`,
+                salmoCita: "Salmo 18, 8. 9. 10. 11",
+                salmoTexto: `R. Los mandamientos del Señor son verdaderos y enteramente justos.
+                
+                La ley del Señor es perfecta
+                y es descanso del alma;
+                el precepto del Señor es fiel
+                e instruye al ignorante. R.
+                
+                Los mandatos del Señor son rectos
+                y alegran el corazón;
+                la norma del Señor es limpia
+                y da luz a los ojos. R.
+                
+                El temor del Señor es puro,
+                permanece por siempre;
+                los mandamientos del Señor son verdaderos
+                y enteramente justos. R.`,
+                cita: "Mateo 9, 1-8",
                 texto: `En aquel tiempo, subió Jesús a una barca, cruzó a la otra orilla y fue a su ciudad.
                 En esto le presentaron un paralítico acostado en una camilla. Viendo Jesús la fe de ellos, dijo al paralítico:
                 «¡Ánimo, hijo!, tus pecados están perdonados».
                 Algunos de los escribas se dijeron: «Este blasfema».
                 Jesús, conociendo sus pensamientos, dijo:
                 «¿Por qué pensáis mal en vuestros corazones? ¿Qué es más fácil, decir: “Tus pecados están perdonados”, o decir: “Levántate y anda”?
-                Pues para que sepáis que el Hijo del hombre tiene potestad en la tierra para perdonar pecados —dijo entonces al paralítico—: Levántate, toma tu camilla y vete a tu casa».
+                Pues para que sabáis que el Hijo del hombre tiene potestad en la tierra para perdonar pecados —dijo entonces al paralítico—: Levántate, toma tu camilla y vete a tu casa».
                 Él se levantó y se fue a su casa. Al ver esto, la gente quedó sobrecogida y dio gloria a Dios, que había dado tal potestad a los hombres.`
             },
             "2026-07-03": {
-                cita: "Juan 20, 24-29",
                 season: "Festividad de Santo Tomás, Apóstol",
+                lecturaCita: "Efesios 2, 19-22",
+                lecturaTexto: `Hermanos: Ya no sois extranjeros ni forasteros, sino conciudadanos de los santos y miembros de la familia de Dios.
+                Estáis edificados sobre el cimiento de los apóstoles y profetas, y el mismo Cristo Jesús es la piedra angular.
+                Por él todo el edificio queda ensamblado y va creciendo hasta ser un templo santo en el Señor. Por él también vosotros vais entrando en la edificación, para ser morada de Dios por el Espíritu.`,
+                salmoCita: "Salmo 116, 1bc. 2",
+                salmoTexto: `R. Id al mundo entero y proclamad el Evangelio.
+                
+                Alabad al Señor, todas las naciones,
+                aclamadlo, todos los pueblos. R.
+                
+                Porque es fuerte su misericordia con nosotros,
+                y la fidelidad del Señor dura por siempre. R.`,
+                cita: "Juan 20, 24-29",
                 texto: `Tomás, uno de los Doce, llamado el Mellizo, no estaba con ellos cuando vino Jesús.
                 Y los otros discípulos le decían: «Hemos visto al Señor».
                 Pero él les contestó: «Si no veo en sus manos la señal de los clavos, si no meto el dedo en el agujero de los clavos y no meto la mano en su costado, no lo creo».
@@ -1747,18 +1819,57 @@
                 Jesús le dijo: «¿Porque me has visto has creído? Bienaventurados los que crean sin haber visto».`
             },
             "2026-07-04": {
-                cita: "Mateo 9, 14-17",
                 season: "Sábado de la XII semana del Tiempo Ordinario",
+                lecturaCita: "Amós 9, 11-15",
+                lecturaTexto: `Así dice el Señor: «Aquel día levantaré la choza caída de David, repararé sus brechas, levantaré sus ruinas y la reconstruiré como en los días de antaño; para que posean lo que queda de Edom y a todas las naciones que llevan mi nombre.
+                He aquí que vienen días —oráculo del Señor— en que el que ara alcanzará al que siega, y el que pisa la uva al que siembra la semilla; los montes destilarán mosto y todas las colinas se derretirán.
+                Restauraré la suerte de mi pueblo Israel; reconstruirán las ciudades asoladas y las habitarán; plantarán viñas y beberán su vino; cultivarán huertos y comerán sus frutos. Los plantaré en su suelo, y nunca más serán arrancados de la tierra que yo les di», dice el Señor, tu Dios.`,
+                salmoCita: "Salmo 84, 9. 11-12. 13-14",
+                salmoTexto: `R. El Señor anuncia la paz a su pueblo.
+                
+                Voy a escuchar lo que dice el Señor:
+                «Dios anuncia la paz a su pueblo y a sus amigos,
+                y a los que se convierten de corazón». R.
+                
+                La misericordia y la fidelidad se encuentran,
+                la justicia y la paz se besan;
+                la fidelidad brota de la tierra,
+                y la justicia mira desde el cielo. R.
+                
+                El Señor nos dará la lluvia,
+                y nuestra tierra dará su cosecha.
+                La justicia marchará ante él,
+                y sus pasos señalarán el camino. R.`,
+                cita: "Mateo 9, 14-17",
                 texto: `En aquel tiempo, se acercaron los discípulos de Juan a Jesús, preguntándole:
                 «¿Por qué nosotros y los fariseos ayunamos a menudo y tus discípulos no ayunan?».
                 Jesús les dijo:
-                «¿Es que pueden guardar luto los amigos del esposo mientras el esposo está con ellos? Llegarán días en que se lleven al esposo y entonces ayunarán.
+                «¿Es que pueden guardar luto los amigos del esposo mientras el esposo está con ellos? Llegarán días en que se lleve al esposo y entonces ayunarán.
                 Nadie echa un remiendo de paño sin tundir en un manto viejo, porque el remiendo tira del manto y la rotura se hace mayor.
                 Ni se echa vino nuevo en odres viejos, porque revientan los odres, se vierte el vino y los odres se echan a perder; sino que se echa el vino nuevo en odres nuevos y así se conservan ambos».`
             },
             "2026-07-05": {
-                cita: "Mateo 9, 18-26",
                 season: "Domingo XIV del Tiempo Ordinario (Ciclo B)",
+                lecturaCita: "Ezequiel 2, 2-5",
+                lecturaTexto: `En aquellos días, el espíritu entró en mí, me puso en pie, y oí a uno que me hablaba y me decía: «Hijo de hombre, yo te envío a los hijos de Israel, a un pueblo rebelde que se ha rebelado contra mí; ellos y sus padres me han sido infieles hasta el día de hoy. Los hijos tienen una cara dura y un corazón obstinado; a ellos te envío para que les digas: “Esto dice el Señor Dios”. Y ellos, escuchen o dejen de escuchar, porque son una casa rebelde, sabrán que ha habido un profeta en medio de ellos».`,
+                salmoCita: "Salmo 122, 1-2a. 2bcd. 3-4",
+                salmoTexto: `R. Nuestros ojos están fijos en el Señor, esperando su misericordia.
+                
+                A ti levanto mis ojos,
+                a ti que habitas en el cielo.
+                Como están los ojos de los esclavos
+                fijos en las manos de sus señores. R.
+                
+                Como están los ojos de la esclava
+                fijos en las manos de su señora,
+                así están nuestros ojos en el Señor, Dios nuestro,
+                esperando su misericordia. R.
+                
+                Misericordia, Señor, misericordia,
+                que estamos saciados de desprecios;
+                nuestra alma está saciada del sarcasmo de los satisfechos,
+                del desprecio de los soberbios. R.`,
+                cita: "Mateo 9, 18-26",
                 texto: `En aquel tiempo, mientras Jesús hablaba, se acercó un personaje que se arrodilló ante él y le dijo:
                 «Mi hija acaba de morir. Pero ven tú, ponle la mano en la cabeza y vivirá».
                 Jesús se levantó y lo siguió con sus discípulos.
@@ -1768,8 +1879,29 @@
                 Y se burlaban de él. Cuando echaron a la gente, entró él, tomó a la niña de la mano, y ella se levantó. La noticia se divulgó por toda aquella comarca.`
             },
             "2026-07-06": {
-                cita: "Mateo 9, 32-38",
                 season: "Lunes de la XIII semana del Tiempo Ordinario",
+                lecturaCita: "Oseas 2, 16. 17-18. 21-22",
+                lecturaTexto: `Así dice el Señor: «He aquí que yo la atraeré y la llevaré al desierto, y hablaré a su corazón. Y de allí le daré sus viñas, y el valle de Acor como puerta de esperanza. Y allí cantará como en los días de su juventud, y como en el día de su subida de la tierra de Egipto.
+                Y sucederá aquel día —oráculo del Señor— que me llamarás: “Marido mío”, y no me llamarás más: “Baal mío”.
+                Te desposaré conmigo para siempre; te desposaré conmigo en justicia y en derecho, en misericordia y en entrañas de amor. Te desposaré conmigo en fidelidad, y conocerás al Señor».`,
+                salmoCita: "Salmo 144, 2-3. 4-5. 6-7. 8-9",
+                salmoTexto: `R. El Señor es clemente y misericordioso.
+                
+                Día tras día te bendeciré
+                y alabaré tu nombre por siempre jamás.
+                Grande es el Señor y digno de toda alabanza,
+                su grandeza es incalculable. R.
+                
+                Una generación pondera tus obras a la otra,
+                y proclama tus hazañas.
+                Difunden la gloria y majestad de tu brillo,
+                y yo medito tus maravillas. R.
+                
+                Alaban tu inmensa bondad
+                y cantan tu justicia.
+                El Señor es clemente y misericordioso,
+                lento a la ira y rico en piedad. R.`,
+                cita: "Mateo 9, 32-38",
                 texto: `En aquel tiempo, presentaron a Jesús un mudo endemoniado. Él echó al demonio, y el mudo habló.
                 La gente decía admirada: «Jamás se ha visto en Israel cosa igual».
                 En cambio los fariseos decían: «Este echa los demonios con el poder del jefe de los demonios».
@@ -1778,8 +1910,27 @@
                 «La mies es abundante, pero los trabajadores son pocos; rogad, pues, al Señor de la mies que mande trabajadores a su mies».`
             },
             "2026-07-07": {
-                cita: "Mateo 10, 1-7",
                 season: "Martes de la XIII semana del Tiempo Ordinario",
+                lecturaCita: "Oseas 8, 4-7. 11-13",
+                lecturaTexto: `Así dice el Señor: «Establecieron reyes, pero no de mi parte; nombraron príncipes, pero yo no lo supe; de su plata y de su oro se hicieron ídolos para su propia perdición. Tu becerro, Samaría, es rechazable; mi ira se enciende contra ellos. ¿Hasta cuándo serán incapaces de purificarse? Porque es obra de Israel: un artífice lo hizo, y no es Dios; se hará añicos el becerro de Samaría. Como siembran vientos, cosecharán tempestades; espiga que no tiene grano no dará harina; y si la diera, los extraños se la comerían».`,
+                salmoCita: "Salmo 113b, 3-4. 5-6. 7ab-8. 9-10",
+                salmoTexto: `R. Israel confía en el Señor.
+                
+                Nuestro Dios está en el cielo,
+                lo que quiere lo hace.
+                Sus ídolos son plata y oro,
+                hechura de manos humanas. R.
+                
+                Tienen boca y no hablan,
+                tienen ojos y no ven,
+                tienen orejas y no oyen,
+                tienen nariz y no huelen. R.
+                
+                Tienen manos y no tocan,
+                tienen pies y no caminan.
+                Quien los hace sea como ellos,
+                y cuantos en ellos confían. R.`,
+                cita: "Mateo 10, 1-7",
                 texto: `En aquel tiempo, Jesús, llamando a sus doce discípulos, les dio autoridad sobre los espíritus inmundos para expulsarlos y para curar toda enfermedad y toda dolencia.
                 Estos son los nombres de los doce apóstoles: el primero, Simón, llamado Pedro, y Andrés su hermano; Santiago el de Zebedeo, y Juan su hermano; Felipe y Bartolomé; Tomás y Mateo el publicano; Santiago el de Alfeo, y Tadeo; Simón el de Caná, y Judas Iscariote, el que lo entregó.
                 A estos doce los envió Jesús con estas instrucciones:
@@ -1836,7 +1987,7 @@
             }
         }
 
-        // Carga dinámica del evangelio según la fecha del calendario
+        // Carga dinámica del evangelio y las lecturas según la fecha del calendario
         function loadEvangelioForDate(dateStr) {
             if (!dateStr) return;
             
@@ -1853,23 +2004,73 @@
                 
                 const backups = [
                     {
-                        cita: "Lucas 15, 1-10",
                         season: `Domingo - Ciclo Litúrgico (${dayOfMonth} de ${monthName} de ${year})`,
+                        lecturaCita: "2 Timoteo 4, 1-5",
+                        lecturaTexto: `Querido hermano: Te conjuro delante de Dios y de Cristo Jesús, que ha de juzgar a vivos y muertos, por su manifestación y por su reino: proclama la Palabra, insiste a tiempo y a destiempo, arguye, reprocha, exhorta, con toda paciencia y doctrina.
+                        Porque vendrá un tiempo en que no soportarán la sana doctrina, sino que se rodearán de maestros a la medida de sus propios deseos para halagarse el oído; cerrarán los oídos a la verdad y se volverán a las fábulas. Pero tú sé sobrio en todo, soporta los sufrimientos, realiza la tarea de un evangelizador, cumple fielmente tu ministerio.`,
+                        salmoCita: "Salmo 22, 1-3a. 3b-4. 5. 6",
+                        salmoTexto: `R. El Señor es mi pastor, nada me falta.
+                        
+                        El Señor es mi pastor, nada me falta:
+                        en verdes praderas me hace recostar,
+                        me conduce hacia fuentes tranquilas
+                        y repara mis fuerzas. R.
+                        
+                        Me guía por el sendero justo,
+                        por el honor de su nombre.
+                        Aunque camine por cañadas oscuras,
+                        nada temo, porque tú vas conmigo:
+                        tu vara y tu cayado me sosiegan. R.
+                        
+                        Preparas una mesa ante mí,
+                        enfrente de mis enemigos;
+                        me unges la cabeza con perfume,
+                        y mi copa rebosa. R.`,
+                        cita: "Lucas 15, 1-10",
                         texto: `En aquel tiempo, se acercaban a Jesús todos los publicanos y los pecadores para oírle. Y los fariseos y los escribas murmuraban, diciendo: «Este acoge a los pecadores y come con ellos».
                         Jesús les dijo esta parábola:
                         «¿Quién de vosotros, si tiene cien ovejas y se le pierde una de ellas, no deja las noventa y nueve en el desierto y va a buscar la que se le había perdido, hasta encontrarla? Y cuando la encuentra, se la carga sobre los hombros muy contento; y al llegar a casa, reúne a los amigos y a los vecinos, y les dice: “¡Alegraos conmigo!, porque he encontrado la oveja que se me había perdido”.
                         Os digo que así también habrá más alegría en el cielo por un solo pecador que se convierta, que por noventa y nueve justos que no necesitan conversión».`
                     },
                     {
-                        cita: "Juan 1, 1-14",
                         season: `Lunes - Ciclo Litúrgico (${dayOfMonth} de ${monthName} de ${year})`,
+                        lecturaCita: "Génesis 1, 1-5",
+                        lecturaTexto: `Al principio creó Dios el cielo y la tierra. La tierra era caos y confusión, las tinieblas cubrían el abismo, y un viento de Dios aleteaba sobre las aguas.
+                        Y dijo Dios: «Que exista la luz». Y la luz existió. Vio Dios que la luz era buena, y separó Dios la luz de las tinieblas. Llamó Dios a la luz «Día», y a las tinieblas llamó «Noche». Pasó una tarde, pasó una mañana: el día primero.`,
+                        salmoCita: "Salmo 8, 4-5. 6-7. 8-9",
+                        salmoTexto: `R. ¡Señor, dueño nuestro, qué admirable es tu nombre en toda la tierra!
+                        
+                        Cuando contemplo el cielo, obra de tus dedos,
+                        la luna y las estrellas que has creado.
+                        ¿Qué es el hombre para que te acuerdes de él,
+                        el ser humano para darle poder? R.
+                        
+                        Lo hiciste poco inferior a los ángeles,
+                        lo coronaste de gloria y dignidad;
+                        le diste el mando sobre las obras de tus manos,
+                        todo lo sometiste bajo sus pies. R.`,
+                        cita: "Juan 1, 1-14",
                         texto: `En el principio existía el Verbo, y el Verbo estaba junto a Dios, y el Verbo era Dios. Él estaba en el principio junto a Dios. Por medio de él se hizo todo, y sin él no se hizo nada de lo que se ha hecho. En él estaba la vida, y la vida era la luz de los hombres. Y la luz brilla en la tiniebla, y la tiniebla no la recibió.
                         Surgió un hombre enviado por Dios, que se llamaba Juan: este venía como testigo, para dar testimonio de la luz, para que todos creyeran por medio de él. No era él la luz, sino testigo de la luz.
                         El Verbo era la luz verdadera, que alumbra a todo hombre, viniendo al mundo. Y el Verbo se hizo carne y habitó entre nosotros, y hemos contemplado su gloria, gloria como del Unigénito del Padre, lleno de gracia y de verdad.`
                     },
                     {
-                        cita: "Mateo 5, 1-12",
                         season: `Martes - Ciclo Litúrgico (${dayOfMonth} de ${monthName} de ${year})`,
+                        lecturaCita: "Isaías 61, 1-3",
+                        lecturaTexto: `El Espíritu del Señor Dios está sobre mí, porque el Señor me ha ungido. Me ha enviado para dar la buena noticia a los pobres, para curar los corazones quebrantados, para proclamar la liberación a los cautivos y la libertad a los prisioneros; para proclamar el año de gracia del Señor, el día de la venganza de nuestro Dios; para consolar a todos los que lloran, para dar a los afligidos de Sión una diadema en lugar de ceniza, perfume de fiesta en lugar de duelo, un vestido de alabanza en lugar de un espíritu abatido.`,
+                        salmoCita: "Salmo 23, 1-2. 3-4ab. 5-6",
+                        salmoTexto: `R. Este es el grupo que busca al Señor.
+                        
+                        Del Señor es la tierra y cuanto la llena,
+                        el orbe y todos sus habitantes:
+                        él la fundó sobre los mares,
+                        él la afianzó sobre los ríos. R.
+                        
+                        ¿Quién puede subir al monte del Señor?
+                        ¿Quién puede estar en el recinto sacro?
+                        El hombre de manos inocentes y puro corazón,
+                        que no confía en los ídolos. R.`,
+                        cita: "Mateo 5, 1-12",
                         texto: `En aquel tiempo, al ver Jesús el gentío, subió a la montaña, se sentó, y se acercaron sus discípulos; y abriendo la boca les enseñaba diciendo:
                         «Bienaventurados los pobres en el espíritu, porque de ellos es el reino de los cielos.
                         Bienaventurados los mansos, porque ellos heredarán la tierra.
@@ -1882,27 +2083,92 @@
                         Bienaventurados vosotros cuando os insulten y os persigan y os calumnien de cualquier modo por mi causa. Alegraos y regocijaos, porque vuestra recompensa será grande en el cielo».`
                     },
                     {
-                        cita: "Marcos 4, 35-41",
                         season: `Miércoles - Ciclo Litúrgico (${dayOfMonth} de ${monthName} de ${year})`,
+                        lecturaCita: "Job 38, 1. 8-11",
+                        lecturaTexto: `El Señor habló a Job desde el seno de la tempestad y le dijo:
+                        «¿Quién cerró el mar con una puerta cuando salía borbollando del seno materno; cuando le puse nubes por vestidura y densa niebla por pañales; cuando establecí límites para él y coloqué cerrojos y puertas, y le dije: “Hasta aquí llegarás y no pasarás, y aquí se romperá el orgullo de tus olas”?»`,
+                        salmoCita: "Salmo 106, 23-24. 25-26. 28-29. 30-31",
+                        salmoTexto: `R. Dad gracias al Señor, porque es eterna su misericordia.
+                        
+                        Entraron en naves por el mar,
+                        comerciando por las aguas inmensas;
+                        contemplaron las obras del Señor,
+                        sus maravillas en el océano. R.
+                        
+                        Habló él y levantó un viento borrascoso,
+                        que encrespaba las olas;
+                        subían al cielo, bajaban al abismo,
+                        se mareaban con el vaivén. R.
+                        
+                        Pero gritaron al Señor en su angustia,
+                        y los arrancó de la tribulación.
+                        Apaciguó la tormenta en suave brisa,
+                        y enmudecieron las olas del mar. R.`,
+                        cita: "Marcos 4, 35-41",
                         texto: `Aquel día, al atardecer, dijo Jesús a sus discípulos: «Vamos a la otra orilla». Dejando a la gente, se lo llevaron en la barca, tal como estaba; otras barcas lo acompañaban. Se levantó una fuerte tempestad y las olas rompían contra la barca, hasta casi llenarla de agua. Él estaba en la popa, dormido sobre un cabezal.
                         Lo despertaron, diciendo: «Maestro, ¿no te importa que perezcamos?». Se levantó, increpó al viento y dijo al mar: «¡Silencio, cállate!». El viento cesó y vino una gran calma.
                         Y les dijo: «¿Por qué tenéis miedo? ¿Aún no tenéis fe?». Se llenaron de un gran temor y se decían unos a otros: «¿Quién es este, que hasta el viento y el mar le obedecen?».`
                     },
                     {
-                        cita: "Juan 6, 35-40",
                         season: `Jueves - Ciclo Litúrgico (${dayOfMonth} de ${monthName} de ${year})`,
+                        lecturaCita: "Deuteronomio 8, 2-3. 14-16",
+                        lecturaTexto: `Moisés habló al pueblo, diciendo: «Recuerda todo el camino que el Señor, tu Dios, te ha hecho recorrer estos cuarenta años por el desierto, para afligirte, para probarte y conocer lo que había en tu corazón: si ibas a guardar sus mandamientos o no. Te afligió, te hizo pasar hambre y te alimentó con el maná, que tú no conocías ni tus padres habían conocido, para hacerte comprender que no solo de pan vive el hombre, sino de todo lo que sale de la boca del Señor.
+                        No te olvides del Señor, tu Dios, que te sacó de la tierra de Egipto, de la casa de la esclavitud; que te guió por aquel desierto grande y terrible, lleno de serpientes abrasadoras y escorpiones, tierra árida y sin agua; que hizo brotar para ti agua de una roca de pedernal; que te alimentó en el desierto con el maná que tus padres no conocían».`,
+                        salmoCita: "Salmo 147, 12-13. 14-15. 19-20",
+                        salmoTexto: `R. Glorifica al Señor, Jerusalén.
+                        
+                        Glorifica al Señor, Jerusalén;
+                        alaba a tu Dios, Sión.
+                        Que ha reforzado los cerrojos de tus puertas,
+                        y ha bendecido a tus hijos dentro de ti. R.
+                        
+                        Ha puesto paz en tus fronteras,
+                        te sacia con flor de harina.
+                        Él envía su mensaje a la tierra,
+                        y su palabra corre veloz. R.`,
+                        cita: "Juan 6, 35-40",
                         texto: `En aquel tiempo, Jesús dijo a la muchedumbre: «Yo soy el pan de vida. El que viene a mí no tendrá hambre, y el que cree en mí no tendrá sed jamás. Pero os he dicho que me habéis visto y no creéis. Todo lo que el Padre me da vendrá a mí, y al que viene a mí no lo echaré fuera.
                         Porque he bajado del cielo, no para hacer mi voluntad, sino la voluntad del que me envió. Y esta es la voluntad del que me envió: que no pierda nada de lo que él me dio, sino que lo resucite en el último día. Porque esta es la voluntad de mi Padre: que todo el que ve al Hijo y cree en él tenga vida eterna; y yo lo resucitaré en el último día».`
                     },
                     {
-                        cita: "Juan 14, 1-6",
                         season: `Viernes - Ciclo Litúrgico (${dayOfMonth} de ${monthName} de ${year})`,
+                        lecturaCita: "Isaías 43, 1-5",
+                        lecturaTexto: `Y ahora, así dice el Señor, el que te creó, Jacob, el que te formó, Israel: «No temas, que yo te he redimido, te he llamado por tu nombre, tú eres mío. Si cruzas por las aguas, yo estaré contigo; si por los ríos, no te anegarán; si pisas el fuego, no te quemarás, ni la llama te abrasará. Porque yo soy el Señor, tu Dios, el Santo de Israel, tu salvador.
+                        Porque eres precioso a mis ojos, de gran precio, y yo te amo, entrego hombres a cambio de ti y pueblos a cambio de tu vida. No temas, porque yo estoy contigo».`,
+                        salmoCita: "Salmo 26, 1. 4. 13-14",
+                        salmoTexto: `R. El Señor es mi luz y mi salvación.
+                        
+                        El Señor es mi luz y mi salvación,
+                        ¿a quién temeré?
+                        El Señor es la defensa de mi vida,
+                        ¿quién me hará temblar? R.
+                        
+                        Una sola cosa he pedido al Señor,
+                        eso buscaré:
+                        habitar en la casa del Señor
+                        todos los días de mi vida. R.`,
+                        cita: "Juan 14, 1-6",
                         texto: `En aquel tiempo, dijo Jesús a sus discípulos: «No se turbe vuestro corazón, creed en Dios y creed también en mí. En la casa de mi Padre hay muchas moradas; si no, os lo habría dicho, porque me voy a prepararos un lugar. Cuando vaya y os prepare un lugar, volveré y os llevaré conmigo, para que donde estoy yo estéis también vosotros. Y adonde yo voy, ya sabéis el camino».
                         Tomás le dice: «Señor, no sabemos adónde vas; ¿cómo podemos saber el camino?». Jesús le responde: «Yo soy el camino y la verdad y la vida. Nadie va al Padre sino por mí».`
                     },
                     {
-                        cita: "Mateo 11, 28-30",
                         season: `Sábado - Ciclo Litúrgico (${dayOfMonth} de ${monthName} de ${year})`,
+                        lecturaCita: "Jeremías 31, 31-34",
+                        lecturaTexto: `«Mirad que llegan días —oráculo del Señor— en que estableceré con la casa de Israel y con la casa de Judá una nueva alianza. No como la alianza que establecí con sus padres el día que los tomé de la mano para sacarlos de la tierra de Egipto.
+                        Sino que esta será la alianza que estableceré con la casa de Israel después de aquellos días: meteré mi ley en su pecho, la escribiré en su corazón; yo seré su Dios, y ellos serán mi pueblo. Ya no tendrá que enseñar uno a su prójimo, sino que todos me conocerán, desde el pequeño al grande, porque perdonaré su culpa y no me acordaré más de sus pecados».`,
+                        salmoCita: "Salmo 50, 3-4. 12-13. 14-15",
+                        salmoTexto: `R. Misericordia, Dios mío, por tu bondad.
+                        
+                        Misericordia, Dios mío, por tu bondad,
+                        por tu inmensa compasión borra mi culpa;
+                        lávame del todo de mi delito,
+                        limpia mi pecado. R.
+                        
+                        Oh Dios, crea en mí un corazón puro,
+                        renuévame por dentro con espíritu firme;
+                        no me arrojes lejos de tu rostro,
+                        no me quites tu santo espíritu. R.`,
+                        cita: "Mateo 11, 28-30",
                         texto: `En aquel tiempo, Jesús tomó la palabra y dijo: «Venid a mí todos los que estáis cansados y agobiados, y yo os aliviaré. Cargad con mi yugo y aprended de mí, que soy manso y humilde de corazón, y encontraréis descanso para vuestras almas. Porque mi yugo es llevadero y mi carga ligera».`
                     }
                 ];
@@ -1910,12 +2176,34 @@
                 data = backups[dayOfWeek];
             }
             
-            document.getElementById('evangelio-cita-el').innerText = data.cita;
+            // Renderizar Temporada Litúrgica
             document.getElementById('liturgical-season-info-el').innerText = data.season;
-            
-            // Inyectar el texto
-            let texto = data.texto.trim();
-            document.getElementById('evangelio-texto-el').innerHTML = texto;
+
+            // Inyectar Primera Lectura si existe
+            if (data.lecturaCita) {
+                document.getElementById('lectura-cita-el').innerText = data.lecturaCita;
+                document.getElementById('lectura-texto-el').innerHTML = data.lecturaTexto.trim();
+                document.getElementById('lectura-seccion').style.display = 'block';
+                document.getElementById('divisor-lectura-salmo').style.display = 'block';
+            } else {
+                document.getElementById('lectura-seccion').style.display = 'none';
+                document.getElementById('divisor-lectura-salmo').style.display = 'none';
+            }
+
+            // Inyectar Salmo si existe
+            if (data.salmoCita) {
+                document.getElementById('salmo-cita-el').innerText = data.salmoCita;
+                document.getElementById('salmo-texto-el').innerHTML = data.salmoTexto.trim();
+                document.getElementById('salmo-seccion').style.display = 'block';
+                document.getElementById('divisor-salmo-evangelio').style.display = 'block';
+            } else {
+                document.getElementById('salmo-seccion').style.display = 'none';
+                document.getElementById('divisor-salmo-evangelio').style.display = 'none';
+            }
+
+            // Inyectar Santo Evangelio
+            document.getElementById('evangelio-cita-el').innerText = data.cita;
+            document.getElementById('evangelio-texto-el').innerHTML = data.texto.trim();
             
             // Establecer el input a la fecha cargada
             document.getElementById('liturgical-date').value = dateStr;
