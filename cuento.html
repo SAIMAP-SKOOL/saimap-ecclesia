@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Génesis: Los Orígenes del Mundo • Cuento Ilustrado</title>
+    
+    <!-- Fuentes Académicas y Clásicas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Cinzel:400,700|EB+Garamond:400,400i,600,700|Inter:400,600,700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #1a1510;
+            --paper-color: #fcf9f2;
+            --paper-shadow: #ebdcb9;
+            --border-color: #d1bf9a;
+            --accent-gold: #c29b38;
+            --rubric-red: #8c2525;
+            --text-dark: #2e261e;
+            --text-muted: #736254;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle, #2c2117 0%, #120e0a 100%);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: #eae3d2;
+            overflow-x: hidden;
+        }
+
+        /* Cabecera superior */
+        header {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-bottom: 1px dashed rgba(209, 191, 154, 0.2);
+            padding-bottom: 1.2rem;
+        }
+
+        .title-area {
+            text-align: left;
+        }
+
+        .rubric-tag {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+            color: var(--rubric-red);
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            color: #fbf9f5;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Navegación y Audio */
+        .controls-area {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-btn-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(0,0,0,0.3);
+            padding: 0.4rem 0.8rem;
+            border-radius: 30px;
+            border: 1px solid rgba(209, 191, 154, 0.15);
+        }
+
+        .nav-arrow {
+            background: none;
+            border: none;
+            color: #eae3d2;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(209, 191, 154, 0.15);
+            color: var(--accent-gold);
+        }
+
+        .page-indicator {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            min-width: 65px;
+            text-align: center;
+            letter-spacing: 0.05em;
+        }
+
+        /* Botón de Audio Dividido */
+        .audio-split-btn {
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .main-audio-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.2rem;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 6px 0 0 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .main-audio-btn:hover {
+            background-color: #2563eb;
+        }
+
+        .menu-audio-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.7rem 0.8rem;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 0 6px 6px 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-left: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .menu-audio-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Dropdown de Voz */
+        .audio-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            width: 240px;
+            background-color: var(--paper-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 1000;
+            text-align: left;
+            overflow: hidden;
+            padding: 0.5rem 0;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 0.6rem 1rem;
+            border: none;
+            background: none;
+            color: var(--text-dark);
+            text-align: left;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(194, 155, 56, 0.08);
+        }
+
+        .check-mark {
+            margin-right: 0.5rem;
+            color: var(--accent-gold);
+            font-weight: bold;
+            width: 12px;
+            display: inline-block;
+        }
+
+        .fullscreen-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.6rem 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            border-top: 1px solid rgba(42,32,21,0.1);
+            margin-top: 0.4rem;
+        }
+
+        /* Contenedor del Libro Físico Abierto */
+        .book-container {
+            display: flex;
+            width: 100%;
+            max-width: 1000px;
+            background-color: var(--paper-color);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        /* Página Izquierda (Ilustración) */
+        .left-page {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #eae3d2;
+            border-right: 1.5px solid rgba(42,32,21,0.15);
+            position: relative;
+            overflow: hidden;
+            min-height: 520px;
+            box-shadow: inset -15px 0 25px rgba(0,0,0,0.08);
+        }
+
+        .left-page img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Pliegue del medio */
+        .left-page::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 15px;
+            background: linear-gradient(to right, rgba(0,0,0,0.06), transparent);
+            pointer-events: none;
+        }
+
+        /* Página Derecha (Texto del Cuento) */
+        .right-page {
+            flex: 1;
+            padding: 3.5rem 3rem;
+            text-align: left;
+            background-color: #fcf9f2;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-shadow: inset 15px 0 25px rgba(0,0,0,0.05);
+            min-height: 520px;
+        }
+
+        .right-page::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 15px;
+            background: linear-gradient(to left, rgba(0,0,0,0.06), transparent);
+            pointer-events: none;
+        }
+
+        .author-tag {
+            text-align: right;
+            opacity: 0.6;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .text-wrapper {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .story-text {
+            font-family: 'EB Garamond', serif;
+            font-size: 1.35rem;
+            line-height: 1.75;
+            color: #2e261e;
+            text-align: justify;
+            margin: 0;
+            width: 100%;
+        }
+
+        /* Letra capitular */
+        .story-text::first-letter {
+            float: left;
+            font-size: 3.5rem;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            line-height: 0.8;
+            margin: 0.15em 0.15em 0 0;
+            color: var(--rubric-red);
+            text-transform: uppercase;
+        }
+
+        .page-num {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-family: 'EB Garamond', serif;
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--text-muted);
+            border-top: 1px dashed rgba(42,32,21,0.08);
+            padding-top: 0.8rem;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            opacity: 0.5;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.05em;
+        }
+
+        /* Soporte de Pantalla Completa */
+        .book-container:fullscreen {
+            width: 100vw !important;
+            height: 100vh !important;
+            max-width: none !important;
+            border-radius: 0 !important;
+            border: none !important;
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 4rem !important;
+            background-color: #120e0a !important;
+            box-sizing: border-box !important;
+        }
+
+        .book-container:fullscreen .left-page,
+        .book-container:fullscreen .right-page {
+            height: 82vh !important;
+            min-height: auto !important;
+        }
+
+        .book-container:fullscreen .left-page {
+            border-radius: 8px 0 0 8px !important;
+        }
+
+        .book-container:fullscreen .right-page {
+            border-radius: 0 8px 8px 0 !important;
+            background-color: #fcf9f2 !important;
+        }
+
+        /* Responsive Móvil */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            header {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .title-area {
+                text-align: center;
+            }
+            .controls-area {
+                justify-content: space-between;
+                width: 100%;
+            }
+            .book-container {
+                flex-direction: column;
+            }
+            .left-page {
+                min-height: 280px;
+                border-right: none;
+                border-bottom: 1.5px solid rgba(42,32,21,0.15);
+                box-shadow: inset 0 -15px 25px rgba(0,0,0,0.08);
+            }
+            .left-page::after {
+                display: none;
+            }
+            .right-page {
+                min-height: auto;
+                padding: 2.2rem 1.8rem;
+                box-shadow: inset 0 15px 25px rgba(0,0,0,0.05);
+            }
+            .right-page::before {
+                display: none;
+            }
+            .story-text {
+                font-size: 1.2rem;
+                line-height: 1.6;
+            }
+            .story-text::first-letter {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="title-area">
+            <span class="rubric-tag">Cuento Ilustrado SAIMAP</span>
+            <h1>El Génesis: Los Orígenes</h1>
+        </div>
+        
+        <div class="controls-area">
+            <!-- Navegador -->
+            <div class="nav-btn-group">
+                <button onclick="prevPage()" class="nav-arrow" title="Página Anterior">◀</button>
+                <span id="indicator" class="page-indicator">1 / 13</span>
+                <button onclick="nextPage()" class="nav-arrow" title="Siguiente Página">▶</button>
+            </div>
+
+            <!-- Audio -->
+            <div class="audio-split-btn">
+                <button id="play-pause-btn" onclick="handlePlayPauseClick(event)" class="main-audio-btn">
+                    🔊 Escuchar
+                </button>
+                <button id="cuento-audio-menu-btn" onclick="toggleAudioMenu(event)" class="menu-audio-btn" title="Opciones de Voz">
+                    ▼
+                </button>
+                
+                <!-- Menú Dropdown -->
+                <div id="audio-dropdown" class="audio-dropdown">
+                    <button class="dropdown-item" onclick="setPitch('aguda', event)">
+                        <span id="check-aguda" class="check-mark"></span> Voz más aguda
+                    </button>
+                    <button class="dropdown-item" onclick="setPitch('grave', event)">
+                        <span id="check-grave" class="check-mark"></span> Voz más grave
+                    </button>
+                    <button class="dropdown-item" onclick="setPitch('normal', event)">
+                        <span id="check-normal" class="check-mark">✔</span> Voz normal
+                    </button>
+                    <div style="border-top: 1px solid rgba(0,0,0,0.1); margin: 0.4rem 0;"></div>
+                    <button class="dropdown-item" onclick="restartSpeech(event)">
+                        ⏮ Empezar de nuevo
+                    </button>
+                    <div class="fullscreen-row">
+                        <span>Pantalla completa</span>
+                        <input type="checkbox" id="fullscreen-chk" style="cursor: pointer;" onchange="toggleFullscreen()">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- El Libro Abierto -->
+    <div id="storybook" class="book-container">
+        <!-- Página Izquierda (Ilustración) -->
+        <div class="left-page">
+            <img id="page-image" src="" alt="Cargando ilustración...">
+        </div>
+
+        <!-- Página Derecha (Texto del relato) -->
+        <div class="right-page">
+            <div class="author-tag">SAIMAP</div>
+            
+            <div class="text-wrapper">
+                <p id="story-text" class="story-text">
+                    <!-- Se inyecta con JS -->
+                </p>
+            </div>
+            
+            <div id="page-num" class="page-num">1</div>
+        </div>
+    </div>
+
+    <footer>
+        ⚜ Ad maiorem Dei gloriam ⚜
+    </footer>
+
+    <script>
+        let currentPage = 0; // 0 a 12
+        let voicePitch = 1.0;
+        let isSpeaking = false;
+        let speechUtterance = null;
+
+        const cuento = [
+            {
+                text: "Al principio, no había nada de lo que conocemos hoy. No existían las flores, ni las montañas, ni el cielo azul. Todo era oscuridad y silencio sobre un océano sin fin. Pero en medio de esa paz silenciosa, el aliento de Dios se movía suavemente sobre las aguas, preparando el gran comienzo de la vida.",
+                image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000&auto=format&fit=crop"
+            },
+            {
+                text: "Entonces, Dios pronunció su primera palabra en la inmensidad: «Que exista la luz». Y al instante, un destello radiante y cálido rompió la noche eterna, separando la claridad de la oscuridad. Dios vio que la luz era hermosa y la llamó Día, mientras que a la oscuridad la llamó Noche.",
+                image: "https://images.unsplash.com/photo-1464802686167-b939a6910659?q=80&w=1000&auto=format&fit=crop"
+            },
+            {
+                text: "En el segundo día, Dios creó un hermoso espacio azul para separar las aguas que estaban arriba de las que estaban abajo. A este inmenso techo de aire y nubes lo llamó Cielo. El mundo empezaba a tomar forma y el aire se llenaba de frescura.",
+                image: "https://images.unsplash.com/photo-1534088568595-a066f410bcda?q=80&w=1000&auto=format&fit=crop"
+            },
+            {
+                text: "El tercer día, Dios ordenó que las aguas de la tierra se reunieran en un solo lugar para que apareciera el suelo seco. Al suelo lo llamó Tierra, y al agua, Mar. De inmediato, la Tierra se vistió de un manto verde: crecieron árboles frutales y plantas de todos los colores, listas para dar fruto.",
+                image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1000&auto=format&fit=crop"
+            },
+            {
+                text: "Para organizar el tiempo y los años, Dios colocó grandes luces en el cielo en el cuarto día. Creó el Sol, un gigante dorado para gobernar el día con su calor, y la Luna y las estrellas, pequeños faros plateados para guiar la noche y marcar las estaciones del año.",
+                image: "https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=1000&auto=format&fit=crop"
+            },
+            {
+                text: "En el quinto día, el mar y el aire cobraron vida. Dios llenó los océanos con delfines, ballenas y peces de mil formas, y pobló el cielo con aves cantoras que volaban de rama en rama. Los bendijo diciendo que llenaran el mundo con su alegría.",
+                image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1000&auto=format&fit=crop"
+            },
+            {
+                text: "Llegó el sexto día y Dios creó a los animales de la tierra firme. Desde los pequeños insectos que caminan por el suelo hasta los grandes leones y elefantes que recorren los bosques. El mundo estaba lleno de movimiento, pero aún faltaba la creación más especial.",
+                image: "https://images.unsplash.com/photo-1507608869274-d3177c8bb4c7?q=80&w=1000&auto=format&fit=crop"
+            },
+            {
+                text: "Para cuidar y amar toda la creación, Dios hizo al hombre y a la mujer a su propia imagen. Los llamó Adán y Eva, y los llenó de inteligencia y amor. Les entregó la tierra como un jardín precioso para que lo cultivaran y vivieran en armonía con todos los seres vivos.",
+                image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1000&auto=format&fit=crop"
+            },
+            {
+                text: "Dios colocó a Adán y Eva en el Jardín del Edén, un lugar perfecto donde no existía el dolor ni la tristeza. En medio del jardín crecía el Árbol de la Vida. Dios les dio total libertad para disfrutar de todo, excepto de un árbol que representaba el límite de sus decisiones.",
+                image: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=1000&auto=format&fit=crop"
+            },
+            {
+                text: "Al ver que todo lo que había hecho era sumamente bueno y perfecto, Dios bendijo el séptimo día y descansó de todo su trabajo. Nos enseñó que después del esfuerzo, siempre es necesario detenerse para contemplar con gratitud las cosas bellas de la vida.",
+                image: "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?q=80&w=1000&auto=format&fit=crop"
+            },
+            {
+                text: "Pero la paz del jardín se enfrentó a un gran desafío. Una voz astuta y engañosa se acercó a Eva y la convenció de desconfiar de las palabras de Dios. Eva tomó del fruto prohibido y se lo dio también a Adán, rompiendo la promesa que los unía a su Creador.",
+                image: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=1000&auto=format&fit=crop"
+            },
+            {
+                text: "Al desobedecer, el miedo y la vergüenza entraron en sus corazones por primera vez, haciéndoles ver que sus actos tenían consecuencias dolorosas. Tuvieron que abandonar el jardín del Edén para trabajar la tierra, pero Dios no los abandonó; les prometió que un día la armonía volvería a reinar.",
+                image: "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=1000&auto=format&fit=crop"
+            },
+            {
+                text: "A partir de ese día, la humanidad comenzó su gran viaje por la historia. Con aciertos y errores, Adán, Eva y sus descendientes caminaron bajo la mirada atenta del Señor, sabiendo que el amor de Dios es más fuerte que cualquier fallo y que la promesa de salvación los acompañaría siempre.",
+                image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1000&auto=format&fit=crop"
+            }
+        ];
+
+        // Inicializar
+        function init() {
+            updatePage();
+            
+            // Cerrar menú si pulsa fuera
+            window.addEventListener('click', function(e) {
+                const menu = document.getElementById('audio-dropdown');
+                const btn = document.getElementById('play-pause-btn');
+                const menuBtn = document.getElementById('cuento-audio-menu-btn');
+                if (menu && !menu.contains(e.target) && e.target !== btn && e.target !== menuBtn) {
+                    menu.style.display = 'none';
+                }
+            });
+
+            // Sincronizar checkbox de pantalla completa
+            document.addEventListener('fullscreenchange', () => {
+                const chk = document.getElementById('fullscreen-chk');
+                if (chk) chk.checked = !!document.fullscreenElement;
+            });
+        }
+
+        function updatePage() {
+            const page = cuento[currentPage];
+            if (!page) return;
+
+            // Transición suave de imagen
+            const img = document.getElementById('page-image');
+            img.style.opacity = 0;
+            setTimeout(() => {
+                img.src = page.image;
+                img.style.opacity = 1;
+            }, 100);
+
+            // Texto
+            document.getElementById('story-text').innerText = page.text;
+            
+            // Paginación
+            document.getElementById('indicator').innerText = `${currentPage + 1} / ${cuento.length}`;
+            document.getElementById('page-num').innerText = currentPage + 1;
+
+            // Si ya estaba leyendo, reiniciar en la nueva página
+            if (isSpeaking) {
+                speakText();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                updatePage();
+            }
+        }
+
+        function nextPage() {
+            if (currentPage < cuento.length - 1) {
+                currentPage++;
+                updatePage();
+            }
+        }
+
+        // --- SISTEMA DE AUDIO ---
+        function toggleAudioMenu(e) {
+            e.stopPropagation();
+            const menu = document.getElementById('audio-dropdown');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function handlePlayPauseClick(e) {
+            e.stopPropagation();
+            if (isSpeaking) {
+                stopSpeech();
+            } else {
+                speakText();
+            }
+        }
+
+        function setPitch(type, e) {
+            e.stopPropagation();
+            document.getElementById('check-aguda').innerText = '';
+            document.getElementById('check-grave').innerText = '';
+            document.getElementById('check-normal').innerText = '';
+
+            if (type === 'aguda') {
+                voicePitch = 1.3;
+                document.getElementById('check-aguda').innerText = '✔';
+            } else if (type === 'grave') {
+                voicePitch = 0.7;
+                document.getElementById('check-grave').innerText = '✔';
+            } else {
+                voicePitch = 1.0;
+                document.getElementById('check-normal').innerText = '✔';
+            }
+
+            if (isSpeaking) {
+                speakText();
+            }
+            document.getElementById('audio-dropdown').style.display = 'none';
+        }
+
+        function speakText() {
+            stopSpeech();
+            const text = cuento[currentPage].text;
+            if (!text) return;
+
+            speechUtterance = new SpeechSynthesisUtterance(text);
+            speechUtterance.lang = 'es-ES';
+            speechUtterance.pitch = voicePitch;
+            speechUtterance.rate = 0.95;
+
+            // Intentar buscar una voz española
+            const voices = window.speechSynthesis.getVoices();
+            const spanishVoice = voices.find(v => v.lang.startsWith('es-') || v.lang.startsWith('es_'));
+            if (spanishVoice) {
+                speechUtterance.voice = spanishVoice;
+            }
+
+            speechUtterance.onstart = () => {
+                isSpeaking = true;
+                const btn = document.getElementById('play-pause-btn');
+                btn.innerHTML = '⏸ Pausar';
+                btn.style.backgroundColor = '#f59e0b'; // Naranja en reproducción
+            };
+
+            speechUtterance.onend = () => {
+                isSpeaking = false;
+                resetPlayBtnUI();
+            };
+
+            speechUtterance.onerror = () => {
+                isSpeaking = false;
+                resetPlayBtnUI();
+            };
+
+            window.speechSynthesis.speak(speechUtterance);
+        }
+
+        function stopSpeech() {
+            if (window.speechSynthesis) {
+                window.speechSynthesis.cancel();
+            }
+            isSpeaking = false;
+            resetPlayBtnUI();
+        }
+
+        function resetPlayBtnUI() {
+            const btn = document.getElementById('play-pause-btn');
+            btn.innerHTML = '🔊 Escuchar';
+            btn.style.backgroundColor = '#3b82f6';
+        }
+
+        function restartSpeech(e) {
+            e.stopPropagation();
+            currentPage = 0;
+            updatePage();
+            speakText();
+            document.getElementById('audio-dropdown').style.display = 'none';
+        }
+
+        // --- PANTALLA COMPLETA ---
+        function toggleFullscreen() {
+            const story = document.getElementById('storybook');
+            const chk = document.getElementById('fullscreen-chk');
+
+            if (!document.fullscreenElement) {
+                story.requestFullscreen().then(() => {
+                    chk.checked = true;
+                }).catch(err => {
+                    console.error("Error al entrar a pantalla completa:", err);
+                });
+            } else {
+                document.exitFullscreen().then(() => {
+                    chk.checked = false;
+                });
+            }
+            document.getElementById('audio-dropdown').style.display = 'none';
+        }
+
+        // Cargar voces en background para Chrome/Safari
+        window.speechSynthesis.onvoiceschanged = function() {
+            // Asegura que las voces carguen
+        };
+
+        // Ejecutar inicialización
+        init();
+    </script>
+</body>
+</html>
