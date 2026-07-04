@@ -970,6 +970,23 @@
                 display: block;
                 font-size: 0.9rem !important;
             }
+            /* Optimizar celdas del calendario para mostrar santoral sin desbordamientos */
+            .calendar-day-cell {
+                aspect-ratio: auto !important;
+                min-height: 55px;
+                padding: 4px !important;
+                justify-content: flex-start !important;
+            }
+            .calendar-day-santo {
+                font-size: 0.52rem !important;
+                margin-top: 0.1rem !important;
+            }
+            .calendar-day-mood-indicator {
+                font-size: 0.7rem !important;
+                position: absolute;
+                top: 2px;
+                right: 4px;
+            }
         }
     </style>
 </head>
@@ -1017,7 +1034,11 @@
                     </div>
                     
                     <div class="liturgical-scroll-content" style="flex: 1; overflow-y: auto; padding-right: 0.5rem;">
-                        <div class="liturgical-season-info" id="liturgical-season-info-el" style="margin-bottom: 1.5rem;">Cargando temporada...</div>
+                        <div class="liturgical-season-info" id="liturgical-season-info-el" style="margin-bottom: 0.3rem;">Cargando temporada...</div>
+                        <div id="santo-dia-container" style="margin-bottom: 1.5rem; display: none;">
+                            <span class="rubric-tag" style="font-size: 0.65rem; color: var(--rubric-red); display: inline-block; margin-right: 0.3rem; letter-spacing: 0.05em; text-transform: uppercase;">Santoral:</span>
+                            <span id="santo-dia-info-el" style="font-style: italic; font-size: 0.95rem; color: var(--text-dark); font-family: 'Cinzel', serif; font-weight: 500;">San...</span>
+                        </div>
                         
                         <!-- PRIMERA LECTURA -->
                         <div id="lectura-seccion" style="margin-bottom: 1.5rem;">
@@ -2100,6 +2121,16 @@
             // Renderizar Temporada Litúrgica
             document.getElementById('liturgical-season-info-el').innerText = data.season;
 
+            // Renderizar Santoral si existe
+            const santoContainer = document.getElementById('santo-dia-container');
+            const santoInfo = document.getElementById('santo-dia-info-el');
+            if (data.santo) {
+                santoInfo.innerText = data.santo;
+                santoContainer.style.display = 'block';
+            } else {
+                santoContainer.style.display = 'none';
+            }
+
             // Inyectar Primera Lectura si existe
             if (data.lecturaCita) {
                 document.getElementById('lectura-cita-el').innerText = data.lecturaCita;
@@ -2650,9 +2681,17 @@
                     if (log.mood === 'turbacion') emoji = "⚠";
                 }
 
+                // Buscar si hay santo asignado en el calendario
+                const lecturaData = evangeliosCalendario[dayStr];
+                let santoText = "";
+                if (lecturaData && lecturaData.santo) {
+                    santoText = lecturaData.santo;
+                }
+
                 cell.innerHTML = `
                     <span class="calendar-day-number">${d}</span>
                     <span class="calendar-day-mood-indicator">${emoji}</span>
+                    <span class="calendar-day-santo" style="display: block; font-size: 0.62rem; color: var(--rubric-red); opacity: 0.85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; margin-top: 0.2rem; font-family: 'Cinzel', serif; font-weight: 500;" title="${santoText}">${santoText}</span>
                 `;
 
                 cell.onclick = () => {
