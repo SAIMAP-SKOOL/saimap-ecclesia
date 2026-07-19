@@ -1180,12 +1180,13 @@
                 </div>
 
                 <p style="font-size: 1.15rem; line-height: 1.6; margin-bottom: 1.5rem; text-align: justify; color: var(--text-muted);">
-                    Bienvenido a la sección de estudios. Explora la teología patrística, familiarízate con los modos del canto gregoriano a través del piano litúrgico o aprende las lenguas sagradas e históricas que han dado forma a la liturgia.
+                    Bienvenido a la sección de estudios. Explora la teología patrística, recorre la Sagrada Escritura tomo a tomo, familiarízate con los modos del canto gregoriano a través del piano litúrgico o aprende las lenguas sagradas e históricas que han dado forma a la liturgia.
                 </p>
 
                 <!-- Sub-pestañas de la Academia -->
                 <div class="liturgy-tabs" style="margin-bottom: 2rem;">
                     <button class="liturgy-tab-btn active" id="subtab-teologia-btn" onclick="switchSubStudy('teologia')">Teología</button>
+                    <button class="liturgy-tab-btn" id="subtab-escritura-btn" onclick="switchSubStudy('escritura')">Sagrada Escritura</button>
                     <button class="liturgy-tab-btn" id="subtab-musica-btn" onclick="switchSubStudy('musica')">Música</button>
                     <button class="liturgy-tab-btn" id="subtab-idiomas-btn" onclick="switchSubStudy('idiomas')">Idiomas Sagrados</button>
                 </div>
@@ -1205,6 +1206,81 @@
                                 <br/><a href="oracion.html?id=tarde-te-ame" style="font-size: 0.85rem; color: var(--accent-gold); font-family: 'Inter', sans-serif; text-decoration: underline; display: inline-block; margin-top: 0.4rem;">Rezar la oración "Tarde te amé" de San Agustín 📖</a>
                             </div>
                             <button class="filter-tag-btn" style="padding: 0.5rem 1rem;" onclick="togglePatristicQuote()">Revelar Cita de Oración 📜</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5.1b SUB-SECCIÓN: SAGRADA ESCRITURA (LA BIBLIA POR TOMOS) -->
+                <div id="subpanel-escritura" class="substudy-panel" style="display: none;">
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+                        <div style="background-color: var(--bg-page); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem;">
+                            <span class="rubric-tag" style="font-size: 0.7rem; color: var(--accent-gold);">Canon y Apócrifos</span>
+                            <h3 class="font-solemn" style="font-size: 1.25rem; color: var(--text-dark); margin: 0.3rem 0 0.75rem 0;">La Biblia por Tomos</h3>
+                            <p style="font-size: 1.1rem; line-height: 1.6; text-align: justify; color: var(--text-dark); margin-bottom: 1.25rem;">
+                                Recorre la Sagrada Escritura bloque a bloque, en el mismo orden que la academia: del Pentateuco al Apocalipsis, con los textos apócrifos como tomo final. Cada tomo se estudia en la plataforma interactiva de SAIMAP, con ejercicios por módulos, repaso continuo y racha diaria.
+                            </p>
+
+                            <!-- TOMO I: EL PENTATEUCO (disponible) -->
+                            <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; background-color: var(--bg-card, #fff); border: 1px solid var(--rubric-red); border-left: 4px solid var(--rubric-red); border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1.25rem;">
+                                <div style="flex: 1; min-width: 220px;">
+                                    <strong class="font-solemn" style="color: var(--rubric-red); font-size: 1.05rem;">📖 Tomo I · El Pentateuco</strong>
+                                    <p style="margin: 0.25rem 0 0 0; font-size: 0.95rem; color: var(--text-muted);">
+                                        De la Creación a la alianza del Sinaí: Génesis, Éxodo, Levítico, Números y Deuteronomio. Génesis y Éxodo ya están disponibles con ejercicios interactivos módulo a módulo.
+                                    </p>
+                                </div>
+                                <a href="https://saimap-skool.github.io/saimap-idiomas/biblia/" target="_blank" rel="noopener"
+                                   style="display: inline-block; background-color: var(--rubric-red); color: #fff; font-weight: 700; padding: 0.6rem 1.2rem; border-radius: 6px; text-decoration: none; white-space: nowrap;">
+                                    Empezar el tomo →
+                                </a>
+                            </div>
+
+                            <!-- TOMOS EN PREPARACIÓN -->
+                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.75rem;">
+                                <div style="border: 1px dashed var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; opacity: 0.75;">
+                                    <strong class="font-solemn" style="font-size: 0.95rem; color: var(--text-dark);">Tomo II · Libros Históricos</strong>
+                                    <p style="margin: 0.2rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">De Josué a los Macabeos — en preparación</p>
+                                </div>
+                                <div style="border: 1px dashed var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; opacity: 0.75;">
+                                    <strong class="font-solemn" style="font-size: 0.95rem; color: var(--text-dark);">Tomo III · Sapienciales y Poéticos</strong>
+                                    <p style="margin: 0.2rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">Job, Salmos, Proverbios… — en preparación</p>
+                                </div>
+                                <div style="border: 1px dashed var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; opacity: 0.75;">
+                                    <strong class="font-solemn" style="font-size: 0.95rem; color: var(--text-dark);">Tomo IV · Libros Proféticos</strong>
+                                    <p style="margin: 0.2rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">De Isaías a Malaquías — en preparación</p>
+                                </div>
+                                <div style="border: 1px dashed var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; opacity: 0.75;">
+                                    <strong class="font-solemn" style="font-size: 0.95rem; color: var(--text-dark);">Tomo V · Evangelios</strong>
+                                    <p style="margin: 0.2rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">Mateo, Marcos, Lucas y Juan — en preparación</p>
+                                </div>
+                                <div style="border: 1px dashed var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; opacity: 0.75;">
+                                    <strong class="font-solemn" style="font-size: 0.95rem; color: var(--text-dark);">Tomo VI · Hechos de los Apóstoles</strong>
+                                    <p style="margin: 0.2rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">La Iglesia naciente — en preparación</p>
+                                </div>
+                                <div style="border: 1px dashed var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; opacity: 0.75;">
+                                    <strong class="font-solemn" style="font-size: 0.95rem; color: var(--text-dark);">Tomo VII · Corpus Paulino</strong>
+                                    <p style="margin: 0.2rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">Las cartas de san Pablo — en preparación</p>
+                                </div>
+                                <div style="border: 1px dashed var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; opacity: 0.75;">
+                                    <strong class="font-solemn" style="font-size: 0.95rem; color: var(--text-dark);">Tomo VIII · Cartas Católicas</strong>
+                                    <p style="margin: 0.2rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">Santiago y las cartas de Pedro — en preparación</p>
+                                </div>
+                                <div style="border: 1px dashed var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; opacity: 0.75;">
+                                    <strong class="font-solemn" style="font-size: 0.95rem; color: var(--text-dark);">Tomo IX · Cartas de San Juan</strong>
+                                    <p style="margin: 0.2rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">Las tres cartas del discípulo amado — en preparación</p>
+                                </div>
+                                <div style="border: 1px dashed var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; opacity: 0.75;">
+                                    <strong class="font-solemn" style="font-size: 0.95rem; color: var(--text-dark);">Tomo X · Judas</strong>
+                                    <p style="margin: 0.2rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">La carta de Judas — en preparación</p>
+                                </div>
+                                <div style="border: 1px dashed var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; opacity: 0.75;">
+                                    <strong class="font-solemn" style="font-size: 0.95rem; color: var(--text-dark);">Tomo XI · Apocalipsis</strong>
+                                    <p style="margin: 0.2rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">La revelación de san Juan — en preparación</p>
+                                </div>
+                                <div style="border: 1px dashed var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; opacity: 0.75;">
+                                    <strong class="font-solemn" style="font-size: 0.95rem; color: var(--text-dark);">Tomo XII · Textos Apócrifos</strong>
+                                    <p style="margin: 0.2rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">Fuera del canon — en preparación</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
